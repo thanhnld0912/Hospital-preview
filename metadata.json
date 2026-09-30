@@ -1,0 +1,6 @@
+{
+  "name": "Trạm Y Tế Phường An Hải - TP. Đà Nẵng",
+  "description": "Cổng thông tin điện tử và dịch vụ chăm sóc sức khỏe cộng đồng Trạm Y tế phường An Hải, quận Sơn Trà, TP. Đà Nẵng.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
