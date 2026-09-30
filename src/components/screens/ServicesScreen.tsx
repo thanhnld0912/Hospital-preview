@@ -16,16 +16,16 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
   const [selectedService, setSelectedService] = useState<MedicalService>(MEDICAL_SERVICES[0]);
 
   return (
-    <div className="w-full bg-[#f8f9ff] py-8 sm:py-12">
+    <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 space-y-10">
         {/* Header Breadcrumb */}
         <div>
           <div className="flex items-center gap-2 text-xs text-[#414755] mb-2">
-            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#0057c2]">Trang chủ</button>
+            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#1c7a42]">Trang chủ</button>
             <span>/</span>
-            <span className="text-[#0057c2] font-semibold">Dịch vụ y tế</span>
+            <span className="text-[#1c7a42] font-semibold">Dịch vụ y tế</span>
           </div>
-          <span className="text-xs uppercase font-bold tracking-wider text-[#0057c2] bg-blue-50 px-2.5 py-1 rounded-full">
+          <span className="text-xs uppercase font-bold tracking-wider text-[#1c7a42] bg-green-50 px-2.5 py-1 rounded-full">
             Chăm sóc ban đầu & Khám BHYT
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#121c2a] mt-2">
@@ -37,9 +37,9 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
         </div>
 
         {/* BHYT Digital Procedure Callout Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-xs border border-blue-200 bg-gradient-to-r from-blue-50/60 to-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+        <div className="bg-white rounded-2xl p-6 shadow-xs border border-green-200 bg-gradient-to-r from-green-50/60 to-white flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-[#0057c2]">
+            <div className="flex items-center gap-2 text-[#1c7a42]">
               <span className="material-symbols-outlined text-2xl">badge</span>
               <h3 className="text-base font-bold">Khám chữa bệnh BHYT qua CCCD gắn chip & VNeID</h3>
             </div>
@@ -49,7 +49,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           </div>
           <button
             onClick={() => onOpenBooking(selectedService.title)}
-            className="px-5 py-2.5 bg-[#0057c2] hover:bg-[#004398] text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 flex items-center gap-1.5"
+            className="px-5 py-2.5 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 flex items-center gap-1.5"
           >
             <span className="material-symbols-outlined text-base">event_available</span>
             <span>Đặt lịch khám online</span>
@@ -71,17 +71,17 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
                   onClick={() => setSelectedService(s)}
                   className={`p-4 rounded-xl cursor-pointer transition-all border flex items-start gap-3 ${
                     isSelected
-                      ? 'bg-white border-[#0057c2] shadow-md ring-2 ring-[#0057c2]/10'
+                      ? 'bg-white border-[#1c7a42] shadow-md ring-2 ring-[#1c7a42]/10'
                       : 'bg-white/80 hover:bg-white border-gray-200 text-[#414755]'
                   }`}
                 >
                   <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${
-                    isSelected ? 'bg-[#0057c2] text-white' : 'bg-gray-100 text-[#414755]'
+                    isSelected ? 'bg-[#1c7a42] text-white' : 'bg-gray-100 text-[#414755]'
                   }`}>
                     <span className="material-symbols-outlined text-xl">{s.icon}</span>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h4 className={`text-sm font-bold ${isSelected ? 'text-[#0057c2]' : 'text-[#121c2a]'}`}>
+                    <h4 className={`text-sm font-bold ${isSelected ? 'text-[#1c7a42]' : 'text-[#121c2a]'}`}>
                       {s.title}
                     </h4>
                     <p className="text-xs text-[#414755] line-clamp-1 mt-0.5">{s.shortDesc}</p>
@@ -99,11 +99,11 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl shadow-xs border border-gray-200 space-y-6">
             <div className="flex items-start justify-between gap-4 pb-4 border-b border-gray-100">
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-blue-100 text-[#0057c2] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-green-100 text-[#1c7a42] flex items-center justify-center">
                   <span className="material-symbols-outlined text-2xl">{selectedService.icon}</span>
                 </div>
                 <div>
-                  <span className="text-xs font-semibold text-[#0057c2]">{selectedService.feeInfo}</span>
+                  <span className="text-xs font-semibold text-[#1c7a42]">{selectedService.feeInfo}</span>
                   <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">{selectedService.title}</h2>
                 </div>
               </div>
@@ -126,11 +126,11 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
 
             {/* Target & Schedule */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-3.5 bg-[#f8f9ff] rounded-xl border border-gray-100">
-                <span className="text-xs font-bold text-[#0057c2] block">Thời gian phục vụ:</span>
+              <div className="p-3.5 bg-[#f7faf8] rounded-xl border border-gray-100">
+                <span className="text-xs font-bold text-[#1c7a42] block">Thời gian phục vụ:</span>
                 <span className="text-xs text-[#121c2a] mt-1 block">{selectedService.schedule}</span>
               </div>
-              <div className="p-3.5 bg-[#f8f9ff] rounded-xl border border-gray-100">
+              <div className="p-3.5 bg-[#f7faf8] rounded-xl border border-gray-100">
                 <span className="text-xs font-bold text-[#006c4e] block">Đối tượng áp dụng:</span>
                 <span className="text-xs text-[#121c2a] mt-1 block">{selectedService.targetAudience}</span>
               </div>
@@ -144,7 +144,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
               <div className="space-y-2.5">
                 {selectedService.procedure.map((step, idx) => (
                   <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-[#121c2a]">
-                    <span className="w-6 h-6 rounded-full bg-blue-100 text-[#0057c2] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 font-mono">
+                    <span className="w-6 h-6 rounded-full bg-green-100 text-[#1c7a42] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 font-mono">
                       {idx + 1}
                     </span>
                     <span className="leading-relaxed">{step}</span>

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { MEDICAL_SERVICES, ANNOUNCEMENTS, NEWS_ARTICLES, HEALTH_GUIDES, VACCINE_CATALOG } from '../data/healthStationData';
+import { MEDICAL_SERVICES, ANNOUNCEMENTS, NEWS_ARTICLES, HEALTH_GUIDES, VACCINE_CATALOG, STATION_INFO } from '../data/healthStationData';
 import { NavTab } from '../types';
 
 interface SearchModalProps {
@@ -37,12 +37,12 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
       <div 
-        className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-blue-100 max-h-[80vh] flex flex-col animate-in zoom-in-95 duration-200"
+        className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-green-100 max-h-[80vh] flex flex-col animate-in zoom-in-95 duration-200"
         role="dialog"
       >
         {/* Search Input Bar */}
-        <div className="p-4 border-b border-gray-100 flex items-center gap-3 bg-[#f8f9ff]">
-          <span className="material-symbols-outlined text-[#0057c2] text-2xl">search</span>
+        <div className="p-4 border-b border-gray-100 flex items-center gap-3 bg-[#f7faf8]">
+          <span className="material-symbols-outlined text-[#1c7a42] text-2xl">search</span>
           <input
             type="text"
             autoFocus
@@ -71,7 +71,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
         <div className="p-4 overflow-y-auto flex-1 space-y-4">
           {!query.trim() ? (
             <div className="text-center py-8 text-[#414755]">
-              <span className="material-symbols-outlined text-4xl text-blue-200 mb-2">manage_search</span>
+              <span className="material-symbols-outlined text-4xl text-green-200 mb-2">manage_search</span>
               <p className="text-sm font-semibold text-[#121c2a]">Tra cứu nhanh cổng thông tin y tế</p>
               <p className="text-xs text-gray-400 mt-1">Gợi ý: "tiêm chủng", "sốt xuất huyết", "người cao tuổi", "vắc xin 5 trong 1", "BHYT"</p>
               <div className="mt-4 flex flex-wrap justify-center gap-2">
@@ -79,7 +79,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                   <button
                     key={tag}
                     onClick={() => setQuery(tag)}
-                    className="text-xs px-2.5 py-1 rounded-full bg-blue-50 text-[#0057c2] hover:bg-blue-100 transition-colors"
+                    className="text-xs px-2.5 py-1 rounded-full bg-green-50 text-[#1c7a42] hover:bg-green-100 transition-colors"
                   >
                     {tag}
                   </button>
@@ -89,14 +89,14 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           ) : totalResults === 0 ? (
             <div className="text-center py-8 text-[#414755]">
               <p className="text-sm font-semibold">Không tìm thấy nội dung phù hợp cho "{query}"</p>
-              <p className="text-xs text-gray-400 mt-1">Vui lòng thử từ khóa khác hoặc gọi trực tiếp đến số (0236) 3844 567.</p>
+              <p className="text-xs text-gray-400 mt-1">Vui lòng thử từ khóa khác hoặc gọi trực tiếp đến số {STATION_INFO.hotline}.</p>
             </div>
           ) : (
             <div className="space-y-4">
               {/* Services matches */}
               {results.services.length > 0 && (
                 <div>
-                  <h4 className="text-xs uppercase font-bold text-[#0057c2] tracking-wider mb-2 flex items-center gap-1">
+                  <h4 className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider mb-2 flex items-center gap-1">
                     <span className="material-symbols-outlined text-sm">medical_services</span>
                     <span>Dịch vụ y tế ({results.services.length})</span>
                   </h4>
@@ -108,13 +108,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                           onClose();
                           onNavigate('dich-vu-y-te');
                         }}
-                        className="p-2.5 rounded-lg hover:bg-blue-50 cursor-pointer border border-transparent hover:border-blue-100 transition-all flex items-center justify-between"
+                        className="p-2.5 rounded-lg hover:bg-green-50 cursor-pointer border border-transparent hover:border-green-100 transition-all flex items-center justify-between"
                       >
                         <div>
                           <p className="text-sm font-bold text-[#121c2a]">{s.title}</p>
                           <p className="text-xs text-[#414755] line-clamp-1">{s.shortDesc}</p>
                         </div>
-                        <span className="material-symbols-outlined text-blue-500 text-sm">arrow_forward</span>
+                        <span className="material-symbols-outlined text-green-600 text-sm">arrow_forward</span>
                       </div>
                     ))}
                   </div>
@@ -197,13 +197,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
                           if (onSelectArticle) onSelectArticle('guide', g);
                           else onNavigate('huong-dan-suc-khoe');
                         }}
-                        className="p-2.5 rounded-lg hover:bg-blue-50 cursor-pointer border border-transparent hover:border-blue-100 transition-all flex items-center justify-between"
+                        className="p-2.5 rounded-lg hover:bg-green-50 cursor-pointer border border-transparent hover:border-green-100 transition-all flex items-center justify-between"
                       >
                         <div>
                           <p className="text-sm font-bold text-[#121c2a]">{g.title}</p>
                           <p className="text-xs text-[#414755] line-clamp-1">{g.summary}</p>
                         </div>
-                        <span className="material-symbols-outlined text-blue-500 text-sm">arrow_forward</span>
+                        <span className="material-symbols-outlined text-green-600 text-sm">arrow_forward</span>
                       </div>
                     ))}
                   </div>

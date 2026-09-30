@@ -61,7 +61,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#f8f9ff] text-[#121c2a] font-scale-${fontScale}`}>
+    <div className={`min-h-screen flex flex-col bg-[#f7faf8] text-[#121c2a] font-scale-${fontScale}`}>
       {/* Top Navbar */}
       <Navbar
         currentTab={currentTab}

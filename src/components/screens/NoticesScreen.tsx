@@ -23,12 +23,12 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
   });
 
   return (
-    <div className="w-full bg-[#f8f9ff] py-8 sm:py-12">
+    <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 space-y-10">
         {/* Header Breadcrumb */}
         <div>
           <div className="flex items-center gap-2 text-xs text-[#414755] mb-2">
-            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#0057c2]">Trang chủ</button>
+            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#1c7a42]">Trang chủ</button>
             <span>/</span>
             <span className="text-[#bb0112] font-semibold">Thông báo & Lịch trực</span>
           </div>
@@ -64,7 +64,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left">
-              <thead className="bg-[#f8f9ff] text-[#414755] uppercase border-y border-gray-100">
+              <thead className="bg-[#f7faf8] text-[#414755] uppercase border-y border-gray-100">
                 <tr>
                   <th className="py-3 px-4">Thứ / Ngày</th>
                   <th className="py-3 px-4">Bác sĩ trực chính</th>
@@ -80,7 +80,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
                       <span className="block font-bold">{shift.day}</span>
                       <span className="text-[11px] text-gray-500">{shift.date}</span>
                     </td>
-                    <td className="py-3 px-4 text-[#0057c2]">{shift.leaderOnDuty}</td>
+                    <td className="py-3 px-4 text-[#1c7a42]">{shift.leaderOnDuty}</td>
                     <td className="py-3 px-4 text-[#414755]">{shift.assistantOnDuty}</td>
                     <td className="py-3 px-4 text-[#414755]">{shift.nurseOnDuty}</td>
                     <td className="py-3 px-4">
@@ -110,7 +110,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
               <button
                 onClick={() => setFilterType('all')}
                 className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
-                  filterType === 'all' ? 'bg-[#0057c2] text-white' : 'bg-white text-gray-600 border'
+                  filterType === 'all' ? 'bg-[#1c7a42] text-white' : 'bg-white text-gray-600 border'
                 }`}
               >
                 Tất cả
@@ -148,7 +148,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
                         ? 'bg-red-100 text-[#bb0112]'
                         : n.tagColor === 'secondary'
                         ? 'bg-emerald-100 text-[#006c4e]'
-                        : 'bg-blue-100 text-[#0057c2]'
+                        : 'bg-green-100 text-[#1c7a42]'
                     }`}>
                       {n.tag}
                     </span>
@@ -161,7 +161,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
                     <span className="text-xs text-gray-400 hidden md:inline">• Đơn vị: {n.issuedBy}</span>
                   </div>
 
-                  <h3 className="text-base font-bold text-[#121c2a] hover:text-[#0057c2] transition-colors">
+                  <h3 className="text-base font-bold text-[#121c2a] hover:text-[#1c7a42] transition-colors">
                     {n.title}
                   </h3>
                   <p className="text-xs text-[#414755] line-clamp-2">
@@ -171,7 +171,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
 
                 <button
                   type="button"
-                  className="px-4 py-2 bg-[#f8f9ff] text-[#0057c2] font-bold text-xs rounded-xl border border-blue-100 hover:bg-blue-50 transition-colors shrink-0 flex items-center gap-1"
+                  className="px-4 py-2 bg-[#f7faf8] text-[#1c7a42] font-bold text-xs rounded-xl border border-green-100 hover:bg-green-50 transition-colors shrink-0 flex items-center gap-1"
                 >
                   <span>Xem toàn văn</span>
                   <span className="material-symbols-outlined text-sm">arrow_forward</span>

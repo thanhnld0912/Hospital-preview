@@ -18,7 +18,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   return (
     <div className="flex flex-col w-full">
       {/* SECTION 1: HERO & EMERGENCY CALLOUT */}
-      <section className="w-full bg-[#eff4ff] py-6 sm:py-10 border-b border-[#dee9fc]">
+      <section className="w-full bg-[#eef6f0] py-6 sm:py-10 border-b border-[#d9eadd]">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           {/* High Priority Emergency Alert Pill */}
           <div className="mb-6 bg-[#bb0112] text-white p-3 sm:px-5 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-3 shadow-xs">
@@ -45,13 +45,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Hero Text Column */}
             <div className="lg:col-span-6 flex flex-col gap-4">
-              <div className="inline-flex items-center gap-1.5 self-start px-3 py-1 bg-[#d9e2ff] text-[#004398] rounded-full text-xs font-bold uppercase tracking-wide">
+              <div className="inline-flex items-center gap-1.5 self-start px-3 py-1 bg-[#d4ecdb] text-[#155f33] rounded-full text-xs font-bold uppercase tracking-wide">
                 <span className="material-symbols-outlined text-sm">verified_user</span>
                 <span>Y tế cơ sở phục vụ nhân dân</span>
               </div>
 
               <div>
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl text-[#0057c2] tracking-tight font-extrabold leading-tight">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl text-[#1c7a42] tracking-tight font-extrabold leading-tight">
                   {STATION_INFO.name}
                 </h1>
                 <p className="text-base sm:text-lg text-[#006c4e] font-semibold mt-1">
@@ -68,7 +68,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <button
                   type="button"
                   onClick={() => onNavigate('dich-vu-y-te')}
-                  className="h-11 px-5 bg-[#0057c2] hover:bg-[#004398] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs"
+                  className="h-11 px-5 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs"
                 >
                   <span className="material-symbols-outlined text-lg">medical_services</span>
                   <span>Xem dịch vụ y tế</span>
@@ -86,7 +86,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <button
                   type="button"
                   onClick={() => onNavigate('lien-he')}
-                  className="h-11 px-4 bg-white hover:bg-gray-100 text-[#0057c2] rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all border border-[#afc6ff] shadow-2xs"
+                  className="h-11 px-4 bg-white hover:bg-gray-100 text-[#1c7a42] rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all border border-[#a6d3b4] shadow-2xs"
                 >
                   <span className="material-symbols-outlined text-lg">pin_drop</span>
                   <span>Vị trí trạm</span>
@@ -112,7 +112,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
             {/* Hero Photo Visual (Image 1) */}
             <div className="lg:col-span-6 relative">
-              <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#c1c6d7]/50 bg-white">
+              <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#c3cbc5]/50 bg-white">
                 <img
                   src={STATION_INFO.images.hero}
                   alt="Cán bộ nhân viên y tế Trạm Y tế phường An Hải khám và tư vấn sức khỏe"
@@ -126,7 +126,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                       Cơ sở An Hải
                     </span>
                     <span className="text-xs text-gray-200">
-                      Tuyến y tế phường Sơn Trà, TP. Đà Nẵng
+                      Tuyến y tế phường An Hải, TP. Đà Nẵng
                     </span>
                   </div>
                   <p className="text-sm sm:text-base font-bold text-white drop-shadow-xs">
@@ -155,20 +155,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         <div className="max-w-7xl mx-auto px-4 lg:px-6 py-5">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Block 1: Địa chỉ */}
-            <div className="bg-[#eff4ff] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e6eeff] transition-colors border border-blue-50">
+            <div className="bg-[#eef6f0] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e3f0e6] transition-colors border border-green-50">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-100 text-[#0057c2] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-green-100 text-[#1c7a42] flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-xl">location_on</span>
                 </div>
                 <div>
                   <span className="text-[11px] text-[#414755] uppercase font-bold tracking-wider">Địa chỉ Trạm</span>
-                  <p className="text-sm text-[#121c2a] font-bold mt-0.5">Số 12 Trần Khát Chân</p>
-                  <p className="text-xs text-[#414755]">Phường An Hải, Q. Sơn Trà, TP. Đà Nẵng</p>
+                  <p className="text-sm text-[#121c2a] font-bold mt-0.5">Số 127 Nguyễn Trung Trực</p>
+                  <p className="text-xs text-[#414755]">Phường An Hải, TP. Đà Nẵng</p>
                 </div>
               </div>
               <button
                 onClick={() => onNavigate('lien-he')}
-                className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#0057c2] hover:underline"
+                className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#1c7a42] hover:underline"
               >
                 <span>Chỉ đường đến trạm</span>
                 <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -176,7 +176,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
 
             {/* Block 2: Liên hệ */}
-            <div className="bg-[#eff4ff] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e6eeff] transition-colors border border-blue-50">
+            <div className="bg-[#eef6f0] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e3f0e6] transition-colors border border-green-50">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-100 text-[#006c4e] flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-xl">call</span>
@@ -197,9 +197,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
 
             {/* Block 3: Giờ làm việc */}
-            <div className="bg-[#eff4ff] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e6eeff] transition-colors border border-blue-50">
+            <div className="bg-[#eef6f0] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e3f0e6] transition-colors border border-green-50">
               <div className="flex items-start gap-3">
-                <div className="w-10 h-10 rounded-xl bg-blue-200 text-[#0057c2] flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-green-200 text-[#1c7a42] flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-xl">schedule</span>
                 </div>
                 <div>
@@ -215,7 +215,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
 
             {/* Block 4: Lịch hoạt động */}
-            <div className="bg-[#eff4ff] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e6eeff] transition-colors border border-blue-50">
+            <div className="bg-[#eef6f0] p-4 rounded-xl flex flex-col justify-between hover:bg-[#e3f0e6] transition-colors border border-green-50">
               <div className="flex items-start gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-200 text-[#006c4e] flex items-center justify-center shrink-0">
                   <span className="material-symbols-outlined text-xl">calendar_month</span>
@@ -228,7 +228,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
               <button
                 onClick={() => onNavigate('thong-bao')}
-                className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#0057c2] hover:underline"
+                className="mt-3 inline-flex items-center gap-1 text-xs font-bold text-[#1c7a42] hover:underline"
               >
                 <span>Xem lịch chi tiết</span>
                 <span className="material-symbols-outlined text-sm">event_note</span>
@@ -239,11 +239,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       </section>
 
       {/* SECTION 3: QUICK ACCESS (Thông tin dành cho người dân) */}
-      <section className="w-full py-10 bg-[#f8f9ff]">
+      <section className="w-full py-10 bg-[#f7faf8]">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-2">
             <div>
-              <span className="text-xs text-[#0057c2] uppercase font-bold tracking-wider">Tiện ích phục vụ</span>
+              <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">Tiện ích phục vụ</span>
               <h2 className="text-xl sm:text-2xl text-[#121c2a] font-bold mt-0.5">Thông tin dành cho người dân</h2>
               <p className="text-xs sm:text-sm text-[#414755]">Truy cập nhanh các mục thông tin và thủ tục y tế thường ngày tại phường</p>
             </div>
@@ -257,15 +257,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               className="group bg-white p-5 rounded-2xl shadow-xs hover:shadow-md transition-all cursor-pointer border border-gray-100 flex flex-col justify-between"
             >
               <div>
-                <div className="w-12 h-12 rounded-xl bg-[#d9e2ff] flex items-center justify-center text-[#0057c2] group-hover:bg-[#0057c2] group-hover:text-white transition-colors mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[#d4ecdb] flex items-center justify-center text-[#1c7a42] group-hover:bg-[#1c7a42] group-hover:text-white transition-colors mb-4">
                   <span className="material-symbols-outlined text-2xl">stethoscope</span>
                 </div>
-                <h3 className="text-base text-[#121c2a] font-bold group-hover:text-[#0057c2] transition-colors">Dịch vụ y tế</h3>
+                <h3 className="text-base text-[#121c2a] font-bold group-hover:text-[#1c7a42] transition-colors">Dịch vụ y tế</h3>
                 <p className="text-xs text-[#414755] mt-1.5 leading-relaxed">
                   Thông tin các dịch vụ khám chữa bệnh sơ cấp cứu, khám bảo hiểm y tế cơ sở và chăm sóc phục hồi.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[#0057c2] text-xs font-bold">
+              <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[#1c7a42] text-xs font-bold">
                 <span>Tra cứu dịch vụ</span>
                 <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">chevron_right</span>
               </div>
@@ -302,7 +302,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <h3 className="text-base text-[#121c2a] font-bold group-hover:text-[#bb0112] transition-colors">Thông báo y tế</h3>
                 <p className="text-xs text-[#414755] mt-1.5 leading-relaxed">
-                  Thông báo mới nhất từ Sở Y tế TP. Đà Nẵng, UBND quận Sơn Trà và điều phối của trạm.
+                  Thông báo mới nhất từ Sở Y tế TP. Đà Nẵng, UBND phường An Hải và điều phối của trạm.
                 </p>
               </div>
               <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[#bb0112] text-xs font-bold">
@@ -317,15 +317,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               className="group bg-white p-5 rounded-2xl shadow-xs hover:shadow-md transition-all cursor-pointer border border-gray-100 flex flex-col justify-between"
             >
               <div>
-                <div className="w-12 h-12 rounded-xl bg-[#dee9fc] flex items-center justify-center text-[#0057c2] group-hover:bg-[#0057c2] group-hover:text-white transition-colors mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[#d9eadd] flex items-center justify-center text-[#1c7a42] group-hover:bg-[#1c7a42] group-hover:text-white transition-colors mb-4">
                   <span className="material-symbols-outlined text-2xl">newspaper</span>
                 </div>
-                <h3 className="text-base text-[#121c2a] font-bold group-hover:text-[#0057c2] transition-colors">Tin tức & Hoạt động</h3>
+                <h3 className="text-base text-[#121c2a] font-bold group-hover:text-[#1c7a42] transition-colors">Tin tức & Hoạt động</h3>
                 <p className="text-xs text-[#414755] mt-1.5 leading-relaxed">
                   Hoạt động truyền thông phòng dịch, y tế học đường, an toàn thực phẩm và vệ sinh môi trường khu dân cư.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[#0057c2] text-xs font-bold">
+              <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[#1c7a42] text-xs font-bold">
                 <span>Đọc tin tức</span>
                 <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">chevron_right</span>
               </div>
@@ -357,15 +357,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               className="group bg-white p-5 rounded-2xl shadow-xs hover:shadow-md transition-all cursor-pointer border border-gray-100 flex flex-col justify-between"
             >
               <div>
-                <div className="w-12 h-12 rounded-xl bg-[#d9e3f6] flex items-center justify-center text-[#0057c2] group-hover:bg-[#0057c2] group-hover:text-white transition-colors mb-4">
+                <div className="w-12 h-12 rounded-xl bg-[#d8e8dc] flex items-center justify-center text-[#1c7a42] group-hover:bg-[#1c7a42] group-hover:text-white transition-colors mb-4">
                   <span className="material-symbols-outlined text-2xl">alt_route</span>
                 </div>
-                <h3 className="text-base text-[#121c2a] font-bold group-hover:text-[#0057c2] transition-colors">Đường đi & Chỉ dẫn</h3>
+                <h3 className="text-base text-[#121c2a] font-bold group-hover:text-[#1c7a42] transition-colors">Đường đi & Chỉ dẫn</h3>
                 <p className="text-xs text-[#414755] mt-1.5 leading-relaxed">
                   Sơ đồ định vị, lộ trình phương tiện giao thông và hướng dẫn tiếp đón công dân tại trạm.
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[#0057c2] text-xs font-bold">
+              <div className="mt-4 pt-3 border-t border-gray-50 flex items-center justify-between text-[#1c7a42] text-xs font-bold">
                 <span>Xem sơ đồ</span>
                 <span className="material-symbols-outlined text-base group-hover:translate-x-1 transition-transform">chevron_right</span>
               </div>
@@ -375,7 +375,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       </section>
 
       {/* SECTION 4: ABOUT AN HẢI HEALTH STATION (Giới thiệu 2 cột) */}
-      <section className="w-full py-12 bg-[#eff4ff] border-t border-b border-[#dee9fc]">
+      <section className="w-full py-12 bg-[#eef6f0] border-t border-b border-[#d9eadd]">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
             {/* Left: Accreditation & Visual Overview */}
@@ -384,21 +384,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <span className="text-xs text-[#006c4e] uppercase font-bold tracking-wider">Tổ chức đơn vị</span>
                 <h3 className="text-lg text-[#121c2a] font-bold mt-1">Cơ cấu & Đội ngũ chuyên môn</h3>
                 <p className="text-xs text-[#414755] mt-2 leading-relaxed">
-                  Trạm Y tế phường An Hải hoạt động trực thuộc Trung tâm Y tế quận Sơn Trà, thực hiện quy chế chuyên môn ngành Y tế theo đúng chỉ đạo của Sở Y tế TP. Đà Nẵng.
+                  Trạm Y tế phường An Hải hoạt động trực thuộc Ủy ban Nhân dân phường An Hải, thực hiện quy chế chuyên môn ngành Y tế theo đúng chỉ đạo của Sở Y tế TP. Đà Nẵng.
                 </p>
 
                 <div className="mt-4 space-y-2">
-                  <div className="p-2.5 bg-[#eff4ff] rounded-xl flex items-center justify-between text-xs">
+                  <div className="p-2.5 bg-[#eef6f0] rounded-xl flex items-center justify-between text-xs">
                     <span className="text-[#414755]">Trưởng Trạm Y tế:</span>
-                    <span className="font-bold text-[#0057c2]">Bs.CKI. Tuấn Thọ Sinh</span>
+                    <span className="font-bold text-[#1c7a42]">Bs.CKI. Tuấn Thọ Sinh</span>
                   </div>
-                  <div className="p-2.5 bg-[#eff4ff] rounded-xl flex items-center justify-between text-xs">
+                  <div className="p-2.5 bg-[#eef6f0] rounded-xl flex items-center justify-between text-xs">
                     <span className="text-[#414755]">Phụ trách Tiêm chủng & Dịch vụ:</span>
-                    <span className="font-bold text-[#0057c2]">Ys. Nguyễn Thị Lan</span>
+                    <span className="font-bold text-[#1c7a42]">Ys. Nguyễn Thị Lan</span>
                   </div>
-                  <div className="p-2.5 bg-[#eff4ff] rounded-xl flex items-center justify-between text-xs">
+                  <div className="p-2.5 bg-[#eef6f0] rounded-xl flex items-center justify-between text-xs">
                     <span className="text-[#414755]">Bộ phận Hành chính & BHYT:</span>
-                    <span className="font-bold text-[#0057c2]">NHS. Trần Thị Thu Thảo</span>
+                    <span className="font-bold text-[#1c7a42]">NHS. Trần Thị Thu Thảo</span>
                   </div>
                 </div>
 
@@ -408,11 +408,11 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
               </div>
 
-              <div className="p-5 bg-[#0057c2] text-white rounded-2xl flex items-center gap-4 shadow-xs">
+              <div className="p-5 bg-[#1c7a42] text-white rounded-2xl flex items-center gap-4 shadow-xs">
                 <span className="material-symbols-outlined text-4xl shrink-0">diversity_1</span>
                 <div>
                   <p className="text-sm font-bold">Gắn kết cộng đồng địa phương</p>
-                  <p className="text-xs text-blue-100 mt-0.5 leading-relaxed">
+                  <p className="text-xs text-green-100 mt-0.5 leading-relaxed">
                     Phối hợp chặt chẽ với Tổ dân phố, Hội Phụ nữ và Đoàn Thanh niên phường trong công tác chăm sóc sức khỏe ban đầu.
                   </p>
                 </div>
@@ -422,7 +422,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             {/* Right: Official Roles & Directives */}
             <div className="lg:col-span-7 flex flex-col justify-between gap-4">
               <div>
-                <span className="text-xs text-[#0057c2] uppercase font-bold tracking-wider">Giới thiệu tổng quan</span>
+                <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">Giới thiệu tổng quan</span>
                 <h2 className="text-xl sm:text-2xl text-[#121c2a] font-bold mt-1">
                   Chức năng & Nhiệm vụ của Trạm Y tế
                 </h2>
@@ -431,7 +431,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <div className="space-y-3.5">
                 {/* Chức năng */}
                 <div className="bg-white p-4 sm:p-5 rounded-2xl shadow-xs border border-gray-100">
-                  <div className="flex items-center gap-2 mb-1.5 text-[#0057c2]">
+                  <div className="flex items-center gap-2 mb-1.5 text-[#1c7a42]">
                     <span className="material-symbols-outlined text-lg">assignment</span>
                     <h3 className="text-sm sm:text-base font-bold text-[#121c2a]">Chức năng</h3>
                   </div>
@@ -467,7 +467,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <button
                   type="button"
                   onClick={() => onNavigate('gioi-thieu')}
-                  className="h-11 px-6 bg-[#dee9fc] hover:bg-[#d0dbed] text-[#121c2a] rounded-xl text-xs font-bold flex items-center gap-2 transition-colors"
+                  className="h-11 px-6 bg-[#d9eadd] hover:bg-[#cbe0d1] text-[#121c2a] rounded-xl text-xs font-bold flex items-center gap-2 transition-colors"
                 >
                   <span className="material-symbols-outlined text-base">info</span>
                   <span>Xem thông tin đầy đủ về Trạm & Cơ cấu tổ chức</span>
@@ -482,7 +482,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       <section className="w-full py-12 bg-white" id="dich-vu">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs text-[#0057c2] uppercase font-bold tracking-wider">Phục vụ nhân dân</span>
+            <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">Phục vụ nhân dân</span>
             <h2 className="text-xl sm:text-2xl text-[#121c2a] font-bold mt-1">Danh mục dịch vụ y tế tại Trạm</h2>
             <p className="text-xs sm:text-sm text-[#414755] mt-1.5">
               Các dịch vụ được thực hiện bởi cán bộ chuyên môn theo đúng danh mục phân tuyến kỹ thuật của Bộ Y tế
@@ -493,7 +493,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             {MEDICAL_SERVICES.map((service) => (
               <div
                 key={service.id}
-                className="bg-[#f8f9ff] p-6 rounded-2xl border border-gray-100 hover:border-blue-200 hover:shadow-md transition-all flex flex-col justify-between"
+                className="bg-[#f7faf8] p-6 rounded-2xl border border-gray-100 hover:border-green-200 hover:shadow-md transition-all flex flex-col justify-between"
               >
                 <div>
                   <div
@@ -502,7 +502,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         ? 'bg-[#77fac7] text-[#006c4e]'
                         : service.colorScheme === 'tertiary'
                         ? 'bg-[#ffdad6] text-[#bb0112]'
-                        : 'bg-[#d9e2ff] text-[#0057c2]'
+                        : 'bg-[#d4ecdb] text-[#1c7a42]'
                     }`}
                   >
                     <span className="material-symbols-outlined text-2xl">{service.icon}</span>
@@ -520,7 +520,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                       ? 'text-[#006c4e]'
                       : service.colorScheme === 'tertiary'
                       ? 'text-[#bb0112]'
-                      : 'text-[#0057c2]'
+                      : 'text-[#1c7a42]'
                   }`}>
                     {service.feeInfo}
                   </span>
@@ -532,7 +532,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           <div className="text-center mt-8">
             <button
               onClick={() => onNavigate('dich-vu-y-te')}
-              className="px-6 py-2.5 bg-[#eff4ff] hover:bg-[#d9e2ff] text-[#0057c2] border border-[#afc6ff] rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5"
+              className="px-6 py-2.5 bg-[#eef6f0] hover:bg-[#d4ecdb] text-[#1c7a42] border border-[#a6d3b4] rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5"
             >
               <span>Xem chi tiết quy trình khám BHYT & kỹ thuật chuyên môn</span>
               <span className="material-symbols-outlined text-sm">arrow_forward</span>
@@ -542,24 +542,24 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       </section>
 
       {/* SECTION 6: VACCINATION SPOTLIGHT (Tiêm chủng) */}
-      <section className="w-full py-12 bg-[#eff4ff] border-t border-b border-[#dee9fc]" id="tiem-chung">
+      <section className="w-full py-12 bg-[#eef6f0] border-t border-b border-[#d9eadd]" id="tiem-chung">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           {/* Headline banner */}
-          <div className="bg-[#0057c2] text-white p-6 sm:p-8 rounded-2xl mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-sm">
+          <div className="bg-[#1c7a42] text-white p-6 sm:p-8 rounded-2xl mb-8 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 shadow-sm">
             <div className="max-w-3xl">
               <div className="inline-flex items-center gap-1 bg-white/20 px-2.5 py-0.5 rounded text-xs font-bold uppercase mb-2">
                 <span className="material-symbols-outlined text-sm">shield</span>
                 <span>Chương trình Tiêm chủng Quốc gia</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-bold">Chủ động phòng bệnh – Bảo vệ sức khỏe cộng đồng</h2>
-              <p className="text-xs sm:text-sm text-blue-100 mt-1.5 leading-relaxed">
+              <p className="text-xs sm:text-sm text-green-100 mt-1.5 leading-relaxed">
                 Trạm Y tế phường An Hải tổ chức các buổi tiêm chủng đảm bảo an toàn tuyệt đối, tuân thủ nghiêm ngặt quy trình tiếp đón - khám sàng lọc - tiêm và theo dõi sau tiêm.
               </p>
             </div>
             <button
               type="button"
               onClick={() => onNavigate('tiem-chung')}
-              className="h-11 px-5 bg-white text-[#0057c2] hover:bg-blue-50 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors shrink-0 shadow-xs"
+              className="h-11 px-5 bg-white text-[#1c7a42] hover:bg-green-50 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-colors shrink-0 shadow-xs"
             >
               <span className="material-symbols-outlined text-lg">search</span>
               <span>Tra cứu lịch tiêm chủng chi tiết</span>
@@ -571,15 +571,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             {/* Pillar 1 */}
             <div className="bg-white p-6 rounded-2xl shadow-xs border border-gray-100 flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2 mb-3 text-[#0057c2]">
+                <div className="flex items-center gap-2 mb-3 text-[#1c7a42]">
                   <span className="material-symbols-outlined text-2xl">event_available</span>
                   <span className="text-xs uppercase font-bold tracking-wider">Lịch định kỳ</span>
                 </div>
                 <h3 className="text-base text-[#121c2a] font-bold">Lịch tiêm mở rộng định kỳ</h3>
                 <p className="text-xs text-[#414755] mt-1.5">
-                  Thực hiện vào các ngày cố định hàng tháng do Trung tâm Y tế quận và Trạm công bố.
+                  Thực hiện vào các ngày cố định hàng tháng do Trạm Y tế công bố.
                 </p>
-                <div className="mt-4 p-3 bg-[#eff4ff] rounded-xl space-y-1.5 text-xs text-[#121c2a]">
+                <div className="mt-4 p-3 bg-[#eef6f0] rounded-xl space-y-1.5 text-xs text-[#121c2a]">
                   <p><strong>Thời gian:</strong> Ngày 05 & 20 hàng tháng</p>
                   <p><strong>Buổi sáng:</strong> 07:30 - 11:00</p>
                   <p><strong>Địa điểm:</strong> Phòng tiêm chủng Trạm Y tế</p>
@@ -617,7 +617,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   </li>
                 </ul>
               </div>
-              <div className="mt-4 pt-3 border-t border-gray-100 text-xs text-[#0057c2] font-semibold flex items-center gap-1.5">
+              <div className="mt-4 pt-3 border-t border-gray-100 text-xs text-[#1c7a42] font-semibold flex items-center gap-1.5">
                 <span className="material-symbols-outlined text-base">info</span>
                 <span>Vui lòng mang theo Sổ tiêm chủng</span>
               </div>
@@ -636,15 +636,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </p>
                 <div className="mt-4 space-y-2 text-xs">
                   <div className="flex items-center gap-2 text-[#121c2a]">
-                    <span className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center font-bold text-[11px] text-[#0057c2] shrink-0">1</span>
+                    <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center font-bold text-[11px] text-[#1c7a42] shrink-0">1</span>
                     <span>Tiếp đón, kiểm tra sổ & hồ sơ tiêm</span>
                   </div>
                   <div className="flex items-center gap-2 text-[#121c2a]">
-                    <span className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center font-bold text-[11px] text-[#0057c2] shrink-0">2</span>
+                    <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center font-bold text-[11px] text-[#1c7a42] shrink-0">2</span>
                     <span>Bác sĩ khám sàng lọc & tư vấn chỉ định</span>
                   </div>
                   <div className="flex items-center gap-2 text-[#121c2a]">
-                    <span className="w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center font-bold text-[11px] text-[#0057c2] shrink-0">3</span>
+                    <span className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center font-bold text-[11px] text-[#1c7a42] shrink-0">3</span>
                     <span>Thực hiện tiêm đúng kỹ thuật chuyên môn</span>
                   </div>
                   <div className="flex items-center gap-2 text-[#bb0112] font-bold">
@@ -674,7 +674,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <button
                   onClick={() => onNavigate('thong-bao')}
-                  className="text-xs text-[#0057c2] font-bold hover:underline"
+                  className="text-xs text-[#1c7a42] font-bold hover:underline"
                 >
                   Xem tất cả
                 </button>
@@ -685,7 +685,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <div
                     key={announcement.id}
                     onClick={() => onOpenArticle('announcement', announcement)}
-                    className="bg-[#f8f9ff] p-4 rounded-xl border border-gray-100 hover:border-red-200 hover:shadow-xs transition-all cursor-pointer"
+                    className="bg-[#f7faf8] p-4 rounded-xl border border-gray-100 hover:border-red-200 hover:shadow-xs transition-all cursor-pointer"
                   >
                     <div className="flex items-center justify-between mb-1.5">
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
@@ -693,7 +693,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                           ? 'bg-red-100 text-[#bb0112]'
                           : announcement.tagColor === 'secondary'
                           ? 'bg-emerald-100 text-[#006c4e]'
-                          : 'bg-blue-100 text-[#0057c2]'
+                          : 'bg-green-100 text-[#1c7a42]'
                       }`}>
                         {announcement.tag}
                       </span>
@@ -702,7 +702,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         {announcement.date}
                       </span>
                     </div>
-                    <h3 className="text-sm font-bold text-[#121c2a] hover:text-[#0057c2] transition-colors line-clamp-2">
+                    <h3 className="text-sm font-bold text-[#121c2a] hover:text-[#1c7a42] transition-colors line-clamp-2">
                       {announcement.title}
                     </h3>
                     <p className="text-xs text-[#414755] mt-1 line-clamp-2">
@@ -717,12 +717,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <div className="lg:col-span-7 flex flex-col gap-4" id="tin-tuc">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-xs text-[#0057c2] uppercase font-bold tracking-wider">Đời sống y tế địa phương</span>
+                  <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">Đời sống y tế địa phương</span>
                   <h2 className="text-lg sm:text-xl text-[#121c2a] font-bold">Tin tức & Hoạt động</h2>
                 </div>
                 <button
                   onClick={() => onNavigate('tin-tuc-va-hoat-dong')}
-                  className="text-xs text-[#0057c2] font-bold hover:underline"
+                  className="text-xs text-[#1c7a42] font-bold hover:underline"
                 >
                   Chuyên mục tin tức
                 </button>
@@ -733,7 +733,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <article
                     key={article.id}
                     onClick={() => onOpenArticle('news', article)}
-                    className="group bg-[#f8f9ff] rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow flex flex-col cursor-pointer"
+                    className="group bg-[#f7faf8] rounded-xl overflow-hidden border border-gray-100 hover:shadow-md transition-shadow flex flex-col cursor-pointer"
                   >
                     <div className="h-32 bg-gray-200 overflow-hidden">
                       <img
@@ -750,20 +750,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                               ? 'text-[#006c4e]'
                               : article.categoryColor === 'tertiary'
                               ? 'text-[#bb0112]'
-                              : 'text-[#0057c2]'
+                              : 'text-[#1c7a42]'
                           }`}>
                             {article.category}
                           </span>
                           <span>{article.date}</span>
                         </div>
-                        <h3 className="text-xs font-bold text-[#121c2a] line-clamp-2 group-hover:text-[#0057c2] transition-colors">
+                        <h3 className="text-xs font-bold text-[#121c2a] line-clamp-2 group-hover:text-[#1c7a42] transition-colors">
                           {article.title}
                         </h3>
                         <p className="text-[11px] text-[#414755] line-clamp-2 mt-1">
                           {article.summary}
                         </p>
                       </div>
-                      <div className="mt-3 pt-2 border-t border-gray-200/60 text-[11px] text-[#0057c2] font-bold flex items-center gap-0.5">
+                      <div className="mt-3 pt-2 border-t border-gray-200/60 text-[11px] text-[#1c7a42] font-bold flex items-center gap-0.5">
                         <span>Đọc tiếp</span>
                         <span>→</span>
                       </div>
@@ -777,7 +777,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       </section>
 
       {/* SECTION 8: HEALTH EDUCATION & ADVICE */}
-      <section className="w-full py-12 bg-[#eff4ff] border-t border-b border-[#dee9fc]" id="goc-suc-khoe">
+      <section className="w-full py-12 bg-[#eef6f0] border-t border-b border-[#d9eadd]" id="goc-suc-khoe">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           <div className="text-center max-w-2xl mx-auto mb-8">
             <span className="text-xs text-[#006c4e] uppercase font-bold tracking-wider">Cẩm nang hướng dẫn</span>
@@ -805,7 +805,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                         ? 'bg-[#bb0112] text-white'
                         : guide.colorScheme === 'secondary'
                         ? 'bg-emerald-100 text-[#006c4e]'
-                        : 'bg-blue-100 text-[#0057c2]'
+                        : 'bg-green-100 text-[#1c7a42]'
                     }`}
                   >
                     <span className="material-symbols-outlined">{guide.icon}</span>
@@ -817,7 +817,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
 
                 <div className="mt-4 pt-2 border-t border-gray-100 flex items-center gap-1 text-xs font-bold">
-                  <span className={guide.colorScheme === 'tertiary' ? 'text-[#bb0112]' : 'text-[#0057c2]'}>
+                  <span className={guide.colorScheme === 'tertiary' ? 'text-[#bb0112]' : 'text-[#1c7a42]'}>
                     Đọc hướng dẫn chi tiết
                   </span>
                   <span className="material-symbols-outlined text-xs">arrow_forward</span>
@@ -832,7 +832,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       <section className="w-full py-12 bg-white" id="lien-he">
         <div className="max-w-7xl mx-auto px-4 lg:px-6">
           <div className="text-center max-w-2xl mx-auto mb-8">
-            <span className="text-xs text-[#0057c2] uppercase font-bold tracking-wider">Thông tin liên lạc</span>
+            <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">Thông tin liên lạc</span>
             <h2 className="text-xl sm:text-2xl text-[#121c2a] font-bold mt-1">Tìm Trạm Y tế phường An Hải</h2>
             <p className="text-xs sm:text-sm text-[#414755] mt-1.5">
               Địa chỉ cơ sở hành chính, số điện thoại trực ban và bản đồ định vị phục vụ người dân đến thăm khám
@@ -841,22 +841,28 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
             {/* Left Panel: Direct Contact Details */}
-            <div className="lg:col-span-5 bg-[#f8f9ff] p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
+            <div className="lg:col-span-5 bg-[#f7faf8] p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
               <div className="space-y-4">
                 <div>
-                  <span className="text-xs text-[#0057c2] font-bold uppercase tracking-wider">{STATION_INFO.district}</span>
+                  <span className="text-xs text-[#1c7a42] font-bold uppercase tracking-wider">{STATION_INFO.district}</span>
                   <h3 className="text-lg text-[#121c2a] font-bold">{STATION_INFO.name}</h3>
                   <p className="text-xs text-[#414755]">{STATION_INFO.city}</p>
                 </div>
 
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-white rounded-xl border border-gray-100">
-                    <span className="text-[#414755] block">Địa chỉ chính thức:</span>
-                    <span className="font-semibold text-[#121c2a] mt-0.5 block">{STATION_INFO.fullAddress}</span>
+                    <span className="text-[#414755] block">Địa chỉ các cơ sở:</span>
+                    <ul className="mt-0.5 space-y-1">
+                      {STATION_INFO.locations.map((location) => (
+                        <li key={location.name} className="text-[#121c2a]">
+                          <span className="font-semibold">{location.name}:</span> {location.address}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-gray-100">
                     <span className="text-[#414755] block">Đường dây nóng / Trực ban:</span>
-                    <span className="font-bold text-[#0057c2] text-sm mt-0.5 block">{STATION_INFO.hotline}</span>
+                    <span className="font-bold text-[#1c7a42] text-sm mt-0.5 block">{STATION_INFO.hotline}</span>
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-gray-100">
                     <span className="text-[#414755] block">Giờ khám bệnh hành chính:</span>
@@ -873,7 +879,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 <button
                   type="button"
                   onClick={onOpenEmergency}
-                  className="flex-1 h-11 bg-[#0057c2] hover:bg-[#004398] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
+                  className="flex-1 h-11 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors shadow-xs"
                 >
                   <span className="material-symbols-outlined text-base">call</span>
                   <span>Gọi điện cho trạm</span>
@@ -891,19 +897,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             </div>
 
             {/* Right Panel: Map View (using map image) */}
-            <div className="lg:col-span-7 bg-[#f8f9ff] p-2 rounded-2xl border border-gray-100 flex flex-col">
+            <div className="lg:col-span-7 bg-[#f7faf8] p-2 rounded-2xl border border-gray-100 flex flex-col">
               <div 
                 className="w-full h-80 lg:h-full min-h-[360px] bg-cover bg-center rounded-xl relative overflow-hidden"
                 style={{ backgroundImage: `url('${STATION_INFO.images.map}')` }}
               >
                 {/* Map Card Overlay */}
                 <div className="absolute bottom-4 left-4 right-4 sm:right-auto bg-white/95 backdrop-blur-xs p-4 rounded-xl shadow-lg border border-gray-200 max-w-sm">
-                  <div className="flex items-center gap-1.5 text-[#0057c2] text-xs font-bold">
+                  <div className="flex items-center gap-1.5 text-[#1c7a42] text-xs font-bold">
                     <span className="material-symbols-outlined text-base">pin_drop</span>
                     <span>Vị trí Trạm Y tế phường An Hải</span>
                   </div>
                   <p className="text-xs text-[#414755] mt-1 leading-relaxed">
-                    Tuyến giao thông thuận tiện kết nối các trục đường chính tại quận Sơn Trà, gần cầu Rồng và sông Hàn, TP. Đà Nẵng.
+                    Tuyến giao thông thuận tiện kết nối các trục đường chính tại phường An Hải, gần cầu Rồng và sông Hàn, TP. Đà Nẵng.
                   </p>
                   <div className="mt-2 flex items-center gap-3 text-[11px] text-[#006c4e] font-semibold">
                     <span>✓ Có bãi đỗ xe người dân</span>

@@ -22,14 +22,14 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
   ];
 
   return (
-    <div className="w-full bg-[#f8f9ff] py-8 sm:py-12">
+    <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 space-y-10">
         {/* Breadcrumb & Title */}
         <div>
           <div className="flex items-center gap-2 text-xs text-[#414755] mb-2">
-            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#0057c2]">Trang chủ</button>
+            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#1c7a42]">Trang chủ</button>
             <span>/</span>
-            <span className="text-[#0057c2] font-semibold">Giới thiệu trạm</span>
+            <span className="text-[#1c7a42] font-semibold">Giới thiệu trạm</span>
           </div>
           <span className="text-xs uppercase font-bold tracking-wider text-[#006c4e] bg-emerald-50 px-2.5 py-1 rounded-full">
             Cơ quan y tế cơ sở
@@ -38,22 +38,22 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
             Giới thiệu chung về Trạm Y tế phường An Hải
           </h1>
           <p className="text-sm text-[#414755] mt-1 max-w-3xl leading-relaxed">
-            Đơn vị y tế công lập tuyến đầu trực thuộc Trung tâm Y tế quận Sơn Trà, phục vụ chăm sóc và bảo vệ sức khỏe cho nhân dân địa phương.
+            Đơn vị y tế công lập tuyến đầu trực thuộc Ủy ban Nhân dân phường An Hải, phục vụ chăm sóc và bảo vệ sức khỏe cho nhân dân địa phương.
           </p>
         </div>
 
         {/* Hero Banner with Doctor Consultation Photo */}
         <div className="bg-white rounded-2xl p-6 shadow-xs border border-gray-200 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-7 space-y-4">
-            <h2 className="text-xl font-bold text-[#0057c2]">
+            <h2 className="text-xl font-bold text-[#1c7a42]">
               Sứ mệnh đồng hành vì sức khỏe cộng đồng
             </h2>
             <p className="text-sm text-[#414755] leading-relaxed">
-              Trạm Y tế phường An Hải nằm tại vị trí trung tâm quận Sơn Trà, TP. Đà Nẵng. Với nhiệm vụ là "người gác cổng" của hệ thống y tế, trạm đảm nhiệm vai trò tiếp nhận khám chữa bệnh ban đầu, quản lý bệnh không lây nhiễm, tiêm chủng mở rộng và phòng chống dịch bệnh tại địa bàn dân cư.
+              Trạm Y tế phường An Hải nằm trên địa bàn phường An Hải, TP. Đà Nẵng. Với nhiệm vụ là "người gác cổng" của hệ thống y tế, trạm đảm nhiệm vai trò tiếp nhận khám chữa bệnh ban đầu, quản lý bệnh không lây nhiễm, tiêm chủng mở rộng và phòng chống dịch bệnh tại địa bàn dân cư.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 pt-2">
-              <div className="p-3 bg-[#eff4ff] rounded-xl text-center">
-                <span className="text-2xl font-bold text-[#0057c2] block font-mono">100%</span>
+              <div className="p-3 bg-[#eef6f0] rounded-xl text-center">
+                <span className="text-2xl font-bold text-[#1c7a42] block font-mono">100%</span>
                 <span className="text-xs text-[#414755]">Tổ dân phố phủ sóng</span>
               </div>
               <div className="p-3 bg-emerald-50 rounded-xl text-center">
@@ -78,7 +78,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
         {/* Section: Medical Staff & Leadership */}
         <div className="space-y-4">
           <div>
-            <span className="text-xs uppercase font-bold text-[#0057c2] tracking-wider">Nhân sự chuyên môn</span>
+            <span className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider">Nhân sự chuyên môn</span>
             <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">Đội ngũ y bác sĩ & Nhân viên y tế</h2>
             <p className="text-xs text-[#414755]">Cán bộ tận tâm, y đức trong sáng, được đào tạo chính quy</p>
           </div>
@@ -88,12 +88,12 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
               <div key={member.id} className="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs flex flex-col justify-between">
                 <div>
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-blue-100 text-[#0057c2] flex items-center justify-center font-bold text-lg">
+                    <div className="w-12 h-12 rounded-full bg-green-100 text-[#1c7a42] flex items-center justify-center font-bold text-lg">
                       {member.name.slice(0, 1)}
                     </div>
                     <div>
                       <h3 className="text-sm font-bold text-[#121c2a]">{member.name}</h3>
-                      <p className="text-xs font-semibold text-[#0057c2]">{member.role}</p>
+                      <p className="text-xs font-semibold text-[#1c7a42]">{member.role}</p>
                       <p className="text-[11px] text-gray-500">{member.department}</p>
                     </div>
                   </div>
@@ -119,7 +119,7 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
             </div>
             <button
               onClick={onOpenBooking}
-              className="px-4 py-2 bg-[#0057c2] hover:bg-[#004398] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 self-start"
+              className="px-4 py-2 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 self-start"
             >
               <span className="material-symbols-outlined text-sm">calendar_month</span>
               <span>Đặt lịch khám bệnh</span>
@@ -127,22 +127,22 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-            <div className="p-4 bg-[#f8f9ff] rounded-xl border border-blue-50">
-              <span className="material-symbols-outlined text-2xl text-[#0057c2] mb-1">ecg_heart</span>
+            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
+              <span className="material-symbols-outlined text-2xl text-[#1c7a42] mb-1">ecg_heart</span>
               <h4 className="text-sm font-bold text-[#121c2a]">Máy điện tim 6 cần</h4>
               <p className="text-xs text-[#414755] mt-1">Đo điện tâm đồ tầm soát bệnh tim mạch, thiếu máu cơ tim và rối loạn nhịp tại chỗ.</p>
             </div>
-            <div className="p-4 bg-[#f8f9ff] rounded-xl border border-blue-50">
+            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
               <span className="material-symbols-outlined text-2xl text-[#006c4e] mb-1">water_drop</span>
               <h4 className="text-sm font-bold text-[#121c2a]">Máy đo đường huyết & Tủ thuốc GSP</h4>
               <p className="text-xs text-[#414755] mt-1">Xét nghiệm mao mạch nhanh kiểm soát đường máu cho bệnh nhân Đái tháo đường.</p>
             </div>
-            <div className="p-4 bg-[#f8f9ff] rounded-xl border border-blue-50">
+            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
               <span className="material-symbols-outlined text-2xl text-[#bb0112] mb-1">vaccines</span>
               <h4 className="text-sm font-bold text-[#121c2a]">Dây chuyền lạnh bảo quản Vắc xin</h4>
               <p className="text-xs text-[#414755] mt-1">Tủ lạnh chuyên dụng đạt chuẩn GSP có hệ thống giám sát nhiệt độ 24/7 tự động.</p>
             </div>
-            <div className="p-4 bg-[#f8f9ff] rounded-xl border border-blue-50">
+            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
               <span className="material-symbols-outlined text-2xl text-purple-600 mb-1">emergency</span>
               <h4 className="text-sm font-bold text-[#121c2a]">Bộ sơ cứu & Bình Oxy hồi sức</h4>
               <p className="text-xs text-[#414755] mt-1">Trang bị sẵn sàng xử trí suy hô hấp, tai nạn thương tích và sốc phản vệ 24/24.</p>
@@ -153,16 +153,16 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
         {/* Section: National Health Criteria Evaluation */}
         <div className="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 space-y-4">
           <div>
-            <span className="text-xs uppercase font-bold text-[#0057c2] tracking-wider">Đánh giá chất lượng</span>
+            <span className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider">Đánh giá chất lượng</span>
             <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">Tiêu chí Quốc gia về Y tế xã/phường giai đoạn 2021-2030</h2>
             <p className="text-xs text-[#414755]">Trạm Y tế phường An Hải duy trì đạt chuẩn 10/10 tiêu chí theo Quyết định của Bộ Y tế</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             {nationalCriteria.map((c) => (
-              <div key={c.id} className="p-3 bg-[#f8f9ff] rounded-xl border border-gray-100 flex items-center justify-between">
+              <div key={c.id} className="p-3 bg-[#f7faf8] rounded-xl border border-gray-100 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 rounded-full bg-blue-100 text-[#0057c2] font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                  <span className="w-6 h-6 rounded-full bg-green-100 text-[#1c7a42] font-mono font-bold text-xs flex items-center justify-center shrink-0">
                     {c.id}
                   </span>
                   <span className="text-xs text-[#121c2a] font-medium">{c.title}</span>

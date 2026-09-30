@@ -44,12 +44,12 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
   };
 
   return (
-    <div className="w-full bg-[#f8f9ff] py-8 sm:py-12">
+    <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 space-y-10">
         {/* Header Breadcrumb */}
         <div>
           <div className="flex items-center gap-2 text-xs text-[#414755] mb-2">
-            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#0057c2]">Trang chủ</button>
+            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#1c7a42]">Trang chủ</button>
             <span>/</span>
             <span className="text-[#006c4e] font-semibold">Tiêm chủng mở rộng</span>
           </div>
@@ -177,13 +177,13 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
                     <span className="text-[10px] uppercase font-bold text-[#006c4e] bg-emerald-50 px-2 py-0.5 rounded">
                       {v.isNationalProgram ? 'Miễn phí TCMR' : 'Dịch vụ'}
                     </span>
-                    <span className="text-xs font-bold text-[#0057c2]">{v.recommendedAge}</span>
+                    <span className="text-xs font-bold text-[#1c7a42]">{v.recommendedAge}</span>
                   </div>
 
                   <h3 className="text-base font-bold text-[#121c2a]">{v.name}</h3>
                   <p className="text-xs font-semibold text-[#006c4e] mt-1">{v.diseaseTarget}</p>
                   
-                  <div className="mt-3 p-2.5 bg-[#f8f9ff] rounded-xl text-xs space-y-1">
+                  <div className="mt-3 p-2.5 bg-[#f7faf8] rounded-xl text-xs space-y-1">
                     <p className="text-[#414755]"><strong>Liều lượng:</strong> {v.dosage}</p>
                     <p className="text-[#414755]"><strong>Lưu ý:</strong> {v.notes}</p>
                   </div>
@@ -207,22 +207,22 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
         {/* 4-Step Safety Flow reminder */}
         <div className="bg-white p-6 rounded-2xl shadow-xs border border-gray-200">
           <h3 className="text-base font-bold text-[#121c2a] mb-4 flex items-center gap-2">
-            <span className="material-symbols-outlined text-[#0057c2]">verified</span>
+            <span className="material-symbols-outlined text-[#1c7a42]">verified</span>
             <span>Quy trình 4 bước tiêm chủng an toàn tại Trạm Y tế phường An Hải</span>
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="p-4 bg-[#eff4ff] rounded-xl border border-blue-50">
-              <div className="w-7 h-7 rounded-full bg-[#0057c2] text-white flex items-center justify-center font-bold text-xs mb-2">1</div>
+            <div className="p-4 bg-[#eef6f0] rounded-xl border border-green-50">
+              <div className="w-7 h-7 rounded-full bg-[#1c7a42] text-white flex items-center justify-center font-bold text-xs mb-2">1</div>
               <h4 className="text-xs font-bold text-[#121c2a]">Tiếp đón & Đối chiếu sổ</h4>
               <p className="text-xs text-[#414755] mt-1">Kiểm tra lịch sử tiêm chủng, cân nặng và nhiệt độ ban đầu của bé.</p>
             </div>
-            <div className="p-4 bg-[#eff4ff] rounded-xl border border-blue-50">
-              <div className="w-7 h-7 rounded-full bg-[#0057c2] text-white flex items-center justify-center font-bold text-xs mb-2">2</div>
+            <div className="p-4 bg-[#eef6f0] rounded-xl border border-green-50">
+              <div className="w-7 h-7 rounded-full bg-[#1c7a42] text-white flex items-center justify-center font-bold text-xs mb-2">2</div>
               <h4 className="text-xs font-bold text-[#121c2a]">Khám sàng lọc trước tiêm</h4>
               <p className="text-xs text-[#414755] mt-1">Bác sĩ nghe tim phổi, kiểm tra họng và xác định bé đủ điều kiện tiêm.</p>
             </div>
-            <div className="p-4 bg-[#eff4ff] rounded-xl border border-blue-50">
-              <div className="w-7 h-7 rounded-full bg-[#0057c2] text-white flex items-center justify-center font-bold text-xs mb-2">3</div>
+            <div className="p-4 bg-[#eef6f0] rounded-xl border border-green-50">
+              <div className="w-7 h-7 rounded-full bg-[#1c7a42] text-white flex items-center justify-center font-bold text-xs mb-2">3</div>
               <h4 className="text-xs font-bold text-[#121c2a]">Tiêm đúng kỹ thuật chuyên môn</h4>
               <p className="text-xs text-[#414755] mt-1">Nhân viên y tế thực hiện đúng nguyên tắc "3 kiểm tra, 5 đối chiếu".</p>
             </div>

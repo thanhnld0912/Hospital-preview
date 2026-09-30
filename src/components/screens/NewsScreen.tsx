@@ -24,23 +24,23 @@ export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticl
   const featured = NEWS_ARTICLES[0];
 
   return (
-    <div className="w-full bg-[#f8f9ff] py-8 sm:py-12">
+    <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 space-y-10">
         {/* Header Breadcrumb */}
         <div>
           <div className="flex items-center gap-2 text-xs text-[#414755] mb-2">
-            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#0057c2]">Trang chủ</button>
+            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#1c7a42]">Trang chủ</button>
             <span>/</span>
-            <span className="text-[#0057c2] font-semibold">Tin tức & Hoạt động</span>
+            <span className="text-[#1c7a42] font-semibold">Tin tức & Hoạt động</span>
           </div>
-          <span className="text-xs uppercase font-bold tracking-wider text-[#0057c2] bg-blue-50 px-2.5 py-1 rounded-full">
+          <span className="text-xs uppercase font-bold tracking-wider text-[#1c7a42] bg-green-50 px-2.5 py-1 rounded-full">
             Đời sống y tế cơ sở
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#121c2a] mt-2">
             Tin tức & Hoạt động thực địa y tế địa phương
           </h1>
           <p className="text-sm text-[#414755] mt-1 max-w-3xl leading-relaxed">
-            Các hoạt động phòng dịch sốt xuất huyết, tiêm chủng, truyền thông chăm sóc sức khỏe ban đầu tại các tổ dân phố thuộc phường An Hải, quận Sơn Trà.
+            Các hoạt động phòng dịch sốt xuất huyết, tiêm chủng, truyền thông chăm sóc sức khỏe ban đầu tại các tổ dân phố thuộc phường An Hải.
           </p>
         </div>
 
@@ -60,12 +60,12 @@ export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticl
             <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between">
               <div className="space-y-2.5">
                 <div className="flex items-center gap-2">
-                  <span className="text-xs uppercase font-bold px-2 py-0.5 rounded bg-blue-100 text-[#0057c2]">
+                  <span className="text-xs uppercase font-bold px-2 py-0.5 rounded bg-green-100 text-[#1c7a42]">
                     {featured.category}
                   </span>
                   <span className="text-xs text-gray-400">• {featured.date}</span>
                 </div>
-                <h2 className="text-lg sm:text-xl font-bold text-[#121c2a] group-hover:text-[#0057c2] transition-colors leading-snug">
+                <h2 className="text-lg sm:text-xl font-bold text-[#121c2a] group-hover:text-[#1c7a42] transition-colors leading-snug">
                   {featured.title}
                 </h2>
                 <p className="text-xs sm:text-sm text-[#414755] line-clamp-3 leading-relaxed">
@@ -73,7 +73,7 @@ export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticl
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-[#0057c2]">
+              <div className="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between text-xs font-bold text-[#1c7a42]">
                 <span>Tác giả: {featured.author}</span>
                 <span className="inline-flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                   Đọc toàn văn →
@@ -92,7 +92,7 @@ export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticl
                 onClick={() => setSelectedCategory(c.id)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
                   selectedCategory === c.id
-                    ? 'bg-[#0057c2] text-white shadow-xs'
+                    ? 'bg-[#1c7a42] text-white shadow-xs'
                     : 'bg-white hover:bg-gray-100 text-[#414755] border border-gray-200'
                 }`}
               >
@@ -124,13 +124,13 @@ export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticl
                           ? 'text-[#006c4e]'
                           : article.categoryColor === 'tertiary'
                           ? 'text-[#bb0112]'
-                          : 'text-[#0057c2]'
+                          : 'text-[#1c7a42]'
                       }`}>
                         {article.category}
                       </span>
                       <span>{article.date}</span>
                     </div>
-                    <h3 className="text-sm font-bold text-[#121c2a] group-hover:text-[#0057c2] transition-colors line-clamp-2 leading-snug">
+                    <h3 className="text-sm font-bold text-[#121c2a] group-hover:text-[#1c7a42] transition-colors line-clamp-2 leading-snug">
                       {article.title}
                     </h3>
                     <p className="text-xs text-[#414755] line-clamp-3 mt-2 leading-relaxed">
@@ -139,7 +139,7 @@ export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticl
                   </div>
                 </div>
 
-                <div className="p-5 pt-0 flex items-center justify-between text-xs text-[#0057c2] font-bold">
+                <div className="p-5 pt-0 flex items-center justify-between text-xs text-[#1c7a42] font-bold">
                   <span className="text-gray-400 font-normal">{article.author}</span>
                   <span className="inline-flex items-center gap-1">
                     Đọc tiếp →

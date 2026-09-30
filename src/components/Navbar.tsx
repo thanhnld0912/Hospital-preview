@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             <p className="text-[11px] uppercase tracking-wider font-semibold text-[#414755]">
               {STATION_INFO.parentAgency}
             </p>
-            <h1 className="text-base sm:text-lg lg:text-xl font-bold text-[#0057c2] tracking-tight group-hover:text-[#004398] transition-colors leading-tight">
+            <h1 className="text-base sm:text-lg lg:text-xl font-bold text-[#1c7a42] tracking-tight group-hover:text-[#155f33] transition-colors leading-tight">
               {STATION_INFO.name} - {STATION_INFO.city}
             </h1>
             <p className="text-xs text-[#414755] hidden sm:block">
@@ -123,7 +123,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           {/* Search Trigger Input */}
           <div 
             onClick={onOpenSearch}
-            className="hidden xl:flex items-center bg-[#eff4ff] hover:bg-[#e6eeff] cursor-pointer rounded-xl px-3 py-2 w-64 border border-[#c1c6d7]/60 transition-colors"
+            className="hidden xl:flex items-center bg-[#eef6f0] hover:bg-[#e3f0e6] cursor-pointer rounded-xl px-3 py-2 w-64 border border-[#c3cbc5]/60 transition-colors"
           >
             <span className="material-symbols-outlined text-[#414755] text-lg mr-2 shrink-0">search</span>
             <span className="text-xs text-[#727786] select-none">Tìm kiếm thông tin y tế...</span>
@@ -134,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={onOpenBooking}
-            className="hidden lg:flex items-center gap-1.5 bg-[#eff4ff] hover:bg-[#d9e2ff] text-[#0057c2] px-3.5 py-2 rounded-xl text-xs font-bold border border-[#afc6ff] transition-all shadow-2xs"
+            className="hidden lg:flex items-center gap-1.5 bg-[#eef6f0] hover:bg-[#d4ecdb] text-[#1c7a42] px-3.5 py-2 rounded-xl text-xs font-bold border border-[#a6d3b4] transition-all shadow-2xs"
           >
             <span className="material-symbols-outlined text-base">calendar_month</span>
             <span>Đặt lịch khám</span>
@@ -160,7 +160,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={onOpenSearch}
-            className="xl:hidden p-2 text-gray-600 hover:text-[#0057c2] hover:bg-gray-100 rounded-lg"
+            className="xl:hidden p-2 text-gray-600 hover:text-[#1c7a42] hover:bg-gray-100 rounded-lg"
             title="Tìm kiếm"
           >
             <span className="material-symbols-outlined text-xl">search</span>
@@ -170,7 +170,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-2 text-gray-600 hover:text-[#0057c2] hover:bg-gray-100 rounded-lg"
+            className="lg:hidden p-2 text-gray-600 hover:text-[#1c7a42] hover:bg-gray-100 rounded-lg"
             title="Mở menu"
           >
             <span className="material-symbols-outlined text-2xl">
@@ -181,7 +181,7 @@ export const Navbar: React.FC<NavbarProps> = ({
       </div>
 
       {/* Sub Navigation Bar for Desktop */}
-      <nav className="bg-[#eff4ff] border-t border-b border-[#dee9fc] hidden lg:block">
+      <nav className="bg-[#eef6f0] border-t border-b border-[#d9eadd] hidden lg:block">
         <div className="max-w-7xl mx-auto px-4 lg:px-6 flex items-center overflow-x-auto gap-1 py-1">
           {navItems.map((item) => {
             const isActive = currentTab === item.id;
@@ -192,8 +192,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onClick={() => onSelectTab(item.id)}
                 className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
                   isActive
-                    ? 'bg-[#0057c2] text-white font-bold shadow-xs'
-                    : 'text-[#414755] hover:bg-[#dee9fc] hover:text-[#121c2a]'
+                    ? 'bg-[#1c7a42] text-white font-bold shadow-xs'
+                    : 'text-[#414755] hover:bg-[#d9eadd] hover:text-[#121c2a]'
                 }`}
               >
                 <span className="material-symbols-outlined text-sm">{item.icon}</span>
@@ -223,7 +223,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 onOpenBooking();
                 setMobileMenuOpen(false);
               }}
-              className="p-2 bg-blue-50 text-[#0057c2] rounded-lg text-xs font-bold flex items-center justify-center gap-1"
+              className="p-2 bg-green-50 text-[#1c7a42] rounded-lg text-xs font-bold flex items-center justify-center gap-1"
             >
               <span className="material-symbols-outlined text-sm">calendar_month</span>
               <span>Đặt lịch khám</span>
@@ -243,7 +243,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                   }}
                   className={`w-full text-left px-3 py-2 rounded-lg text-sm flex items-center gap-2 font-medium ${
                     isActive
-                      ? 'bg-[#0057c2] text-white font-bold'
+                      ? 'bg-[#1c7a42] text-white font-bold'
                       : 'text-[#414755] hover:bg-gray-100'
                   }`}
                 >

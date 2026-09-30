@@ -17,13 +17,13 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ isOpen, onClose, dat
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
       <div 
-        className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-blue-100 max-h-[88vh] flex flex-col animate-in zoom-in-95 duration-200"
+        className="bg-white rounded-2xl max-w-2xl w-full shadow-2xl overflow-hidden border border-green-100 max-h-[88vh] flex flex-col animate-in zoom-in-95 duration-200"
         role="dialog"
       >
         {/* Top Header */}
-        <div className="bg-[#f8f9ff] px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="bg-[#f7faf8] px-6 py-4 border-b border-gray-200 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-xs uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-blue-100 text-[#0057c2]">
+            <span className="text-xs uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-green-100 text-[#1c7a42]">
               {type === 'announcement' ? 'Thông báo hành chính' : type === 'news' ? 'Tin tức y tế' : 'Cẩm nang sức khỏe'}
             </span>
             {item.date && <span className="text-xs text-gray-500">• Ngày đăng: {item.date}</span>}
@@ -77,7 +77,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ isOpen, onClose, dat
                 )}
               </div>
               {item.author && (
-                <p className="text-xs text-right italic font-semibold text-[#0057c2]">
+                <p className="text-xs text-right italic font-semibold text-[#1c7a42]">
                   Bài viết & Ảnh: {item.author}
                 </p>
               )}
@@ -142,7 +142,7 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ isOpen, onClose, dat
             </button>
             <button
               onClick={onClose}
-              className="px-4 py-1.5 bg-[#0057c2] hover:bg-[#004398] text-white rounded-lg text-xs font-semibold"
+              className="px-4 py-1.5 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-lg text-xs font-semibold"
             >
               Đóng
             </button>

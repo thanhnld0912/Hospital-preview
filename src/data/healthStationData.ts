@@ -3,12 +3,19 @@ import { MedicalService, Announcement, NewsArticle, HealthGuide, StaffMember, Du
 export const STATION_INFO = {
   name: 'TRẠM Y TẾ PHƯỜNG AN HẢI',
   city: 'TP. ĐÀ NẴNG',
-  district: 'QUẬN SƠN TRÀ',
-  parentAgency: 'UBND QUẬN SƠN TRÀ - TRUNG TÂM Y TẾ',
-  fullAddress: 'Số 12 đường Trần Khát Chân, Phường An Hải, Quận Sơn Trà, TP. Đà Nẵng',
-  hotline: '(0236) 3844 567',
+  district: 'UBND PHƯỜNG AN HẢI',
+  parentAgency: 'Trực thuộc Ủy ban Nhân dân phường An Hải',
+  fullAddress: 'Số 127 Nguyễn Trung Trực, phường An Hải',
+  locations: [
+    { name: 'Cơ sở chính', address: 'Số 127 Nguyễn Trung Trực, phường An Hải' },
+    { name: 'Điểm trạm An Hải 1', address: 'Số 231A Nguyễn Công Trứ, phường An Hải' },
+    { name: 'Điểm trạm An Hải 2', address: 'Số 25 Nguyễn Thông, phường An Hải' },
+    { name: 'Điểm trạm An Hải 3', address: 'Số 90 Nguyễn Duy Hiệu, phường An Hải' },
+    { name: 'Cơ sở phòng Dân số', address: 'Số 88 Lý Đạo Thành, phường An Hải' }
+  ],
+  hotline: '02363 844075',
   emergency115: '115',
-  vaccineHotline: '(0236) 3844 889',
+  vaccineHotline: '02363 844075',
   email: 'tyt.anhai@danang.gov.vn',
   portalUrl: 'suckhoe.anhai.danang.vn',
   workingHours: {
@@ -86,7 +93,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
     icon: 'sanitizer',
     colorScheme: 'primary',
     shortDesc: 'Giám sát ca bệnh, khoanh vùng xử lý ổ dịch sốt xuất huyết, tay chân miệng, sởi, cúm gia cầm và các dịch bệnh mới nổi trên địa bàn phường.',
-    fullDesc: 'Đội cơ động phản ứng nhanh của trạm phối hợp cùng Trung tâm Y tế quận Sơn Trà thực hiện giám sát dịch tễ tại từng tổ dân phố. Tiến hành phun hóa chất diệt muỗi, xử lý ổ bọ gậy, điều tra dịch tễ ca nhiễm sốt xuất huyết, sốt phát ban nghi sởi, ngăn ngừa lây lan diện rộng trong cộng đồng.',
+    fullDesc: 'Đội cơ động phản ứng nhanh của trạm phối hợp cùng UBND phường An Hải thực hiện giám sát dịch tễ tại từng tổ dân phố. Tiến hành phun hóa chất diệt muỗi, xử lý ổ bọ gậy, điều tra dịch tễ ca nhiễm sốt xuất huyết, sốt phát ban nghi sởi, ngăn ngừa lây lan diện rộng trong cộng đồng.',
     schedule: 'Giám sát 24/7 – Trực cơ động sẵn sàng',
     feeInfo: 'Đội cơ động trạm phục vụ miễn phí',
     targetAudience: 'Toàn thể hộ dân, trường học, cơ sở sản xuất kinh doanh tại địa bàn phường',
@@ -121,7 +128,7 @@ export const MEDICAL_SERVICES: MedicalService[] = [
     icon: 'nutrition',
     colorScheme: 'primary',
     shortDesc: 'Truyền thông giáo dục sức khỏe tại cộng đồng, hướng dẫn chế độ ăn khoa học cho người cao tuổi, an toàn vệ sinh thực phẩm cho hộ kinh doanh.',
-    fullDesc: 'Tổ chức các buổi nói chuyện chuyên đề sức khỏe tại các nhà sinh hoạt cộng đồng, trường mầm non, trường tiểu học; phối hợp kiểm tra định kỳ các cơ sở kinh doanh thức ăn đường phố, nhà hàng ven biển trên địa bàn quận Sơn Trà; hướng dẫn thực hành 10 lời khuyên vàng về an toàn thực phẩm.',
+    fullDesc: 'Tổ chức các buổi nói chuyện chuyên đề sức khỏe tại các nhà sinh hoạt cộng đồng, trường mầm non, trường tiểu học; phối hợp kiểm tra định kỳ các cơ sở kinh doanh thức ăn đường phố, nhà hàng ven biển trên địa bàn phường An Hải; hướng dẫn thực hành 10 lời khuyên vàng về an toàn thực phẩm.',
     schedule: 'Theo kế hoạch truyền thông tháng và quý',
     feeInfo: 'Tuyên truyền rộng rãi miễn phí',
     targetAudience: 'Học sinh, phụ huynh, người cao tuổi, các hộ chế biến ẩm thực và kinh doanh ăn uống',
@@ -146,7 +153,7 @@ export const ANNOUNCEMENTS: Announcement[] = [
     content: `Trạm Y tế phường An Hải xin thông báo lịch tổ chức tiêm chủng mở rộng tháng 10/2026 như sau:
 - Đợt 1: Ngày 05/10/2026 (Thứ Hai), từ 07:30 đến 11:00 (Ưu tiên trẻ từ 2 tháng đến dưới 1 tuổi tiêm vắc xin 5 trong 1, Bại liệt OPV/IPV).
 - Đợt 2: Ngày 20/10/2026 (Thứ Ba), từ 07:30 đến 11:00 (Tiêm vắc xin Sởi, Sởi-Rubella, Viêm não Nhật Bản và tiêm vét các trường hợp hoãn đợt 1).
-- Địa điểm: Phòng tiêm chủng Trạm Y tế phường An Hải, số 12 đường Trần Khát Chân.
+- Địa điểm: Phòng tiêm chủng Trạm Y tế phường An Hải, số 127 Nguyễn Trung Trực.
 Lưu ý cho phụ huynh:
 1. Đem theo Sổ tiêm chủng của trẻ hoặc xuất trình thông tin trên ứng dụng VNeID / VssID.
 2. Kiểm tra sức khỏe của trẻ trước khi đi tiêm (không đưa trẻ đi tiêm nếu đang sốt cao hoặc mắc bệnh cấp tính nặng).
@@ -161,7 +168,7 @@ Lưu ý cho phụ huynh:
     isUrgent: true,
     issuedBy: 'Ban Chỉ đạo Chăm sóc Sức khỏe Nhân dân phường An Hải',
     summary: 'Kế hoạch phối hợp với các tổ dân phố tổng vệ sinh môi trường, lật úp dụng cụ chứa nước đọng tại các khu dân cư ven biển và chân cầu Rồng.',
-    content: `Thực hiện chỉ đạo của UBND quận Sơn Trà và Trung tâm Y tế quận, Trạm Y tế phường An Hải phối hợp cùng Mặt trận Tổ quốc và các đoàn thể địa phương tổ chức chiến dịch ra quân:
+    content: `Thực hiện chỉ đạo của UBND phường An Hải, Trạm Y tế phường An Hải phối hợp cùng Mặt trận Tổ quốc và các đoàn thể địa phương tổ chức chiến dịch ra quân:
 1. Thời gian: Từ 07:00 ngày Chủ Nhật (ngày 04/10/2026).
 2. Nội dung thực hiện:
 - Từng hộ gia đình chủ động kiểm tra bồn hoa, chum vại, xô chậu, lật úp các đồ phế thải chứa nước mưa.
@@ -325,11 +332,11 @@ export const HEALTH_GUIDES: HealthGuide[] = [
         'CẦN GỌI 115 HOẶC ĐẾN BỆNH VIỆN LỚN: Đau thắt ngực kéo dài trên 15 phút lan lên vai hoặc hàm; Khó thở dữ dội, thở khò khè tím tái; Méo miệng, nói đớ, yếu liệt tay chân đột ngột; Co giật liên tục, hôn mê sâu; Tai nạn giao thông va đập vùng đầu, gãy xương lớn, mất máu nhiều.'
       ],
       preventiveSteps: [
-        'Lưu số điện thoại Trực ban Trạm Y tế phường An Hải: (0236) 3844 567 vào danh bạ người thân',
+        'Lưu số điện thoại Trực ban Trạm Y tế phường An Hải: 02363 844075 vào danh bạ người thân',
         'Lưu số Cấp cứu 115 trên phím gọi nhanh của điện thoại người cao tuổi',
         'Chuẩn bị sẵn túi hồ sơ y tế gia đình gồm CCCD, thẻ BHYT và đơn thuốc đang dùng'
       ],
-      whenToSeeDoctor: 'Nếu không chắc chắn về mức độ nghiêm trọng, hãy gọi ngay đường dây nóng (0236) 3844 567 để được bác sĩ trực ban hướng dẫn xử trí từ xa.'
+      whenToSeeDoctor: 'Nếu không chắc chắn về mức độ nghiêm trọng, hãy gọi ngay đường dây nóng 02363 844075 để được bác sĩ trực ban hướng dẫn xử trí từ xa.'
     }
   }
 ];
@@ -360,7 +367,7 @@ export const STAFF_MEMBERS: StaffMember[] = [
     title: 'Cử nhân Hộ sinh',
     department: 'Chăm sóc Sức khỏe Sinh sản & KHHGĐ',
     phone: '0905.xxx.556',
-    experience: '10 năm đồng hành cùng sản phụ và chăm sóc dinh dưỡng trẻ em dưới 5 tuổi trên địa bàn quận Sơn Trà.'
+    experience: '10 năm đồng hành cùng sản phụ và chăm sóc dinh dưỡng trẻ em dưới 5 tuổi trên địa bàn phường An Hải.'
   },
   {
     id: 'staff-4',
@@ -389,7 +396,7 @@ export const WEEKLY_DUTY: DutyShift[] = [
     leaderOnDuty: 'Bs.CKI. Tuấn Thọ Sinh',
     assistantOnDuty: 'Ys. Nguyễn Thị Lan',
     nurseOnDuty: 'Đd. Phan Văn Hùng',
-    phone: '(0236) 3844 567',
+    phone: '02363 844075',
     status: 'Đang trực'
   },
   {
@@ -398,7 +405,7 @@ export const WEEKLY_DUTY: DutyShift[] = [
     leaderOnDuty: 'Ys. Nguyễn Thị Lan',
     assistantOnDuty: 'NHS. Trần Thị Thu Thảo',
     nurseOnDuty: 'Đd. Phan Văn Hùng',
-    phone: '(0236) 3844 567',
+    phone: '02363 844075',
     status: 'Kế hoạch'
   },
   {
@@ -407,7 +414,7 @@ export const WEEKLY_DUTY: DutyShift[] = [
     leaderOnDuty: 'Bs.CKI. Tuấn Thọ Sinh',
     assistantOnDuty: 'Ds. Lê Hoàng Nam',
     nurseOnDuty: 'Đd. Phan Văn Hùng',
-    phone: '(0236) 3844 567',
+    phone: '02363 844075',
     status: 'Kế hoạch'
   },
   {
@@ -416,7 +423,7 @@ export const WEEKLY_DUTY: DutyShift[] = [
     leaderOnDuty: 'Ys. Nguyễn Thị Lan',
     assistantOnDuty: 'NHS. Trần Thị Thu Thảo',
     nurseOnDuty: 'Đd. Phan Văn Hùng',
-    phone: '(0236) 3844 567',
+    phone: '02363 844075',
     status: 'Kế hoạch'
   },
   {
@@ -425,7 +432,7 @@ export const WEEKLY_DUTY: DutyShift[] = [
     leaderOnDuty: 'Bs.CKI. Tuấn Thọ Sinh',
     assistantOnDuty: 'Ds. Lê Hoàng Nam',
     nurseOnDuty: 'Đd. Phan Văn Hùng',
-    phone: '(0236) 3844 567',
+    phone: '02363 844075',
     status: 'Kế hoạch'
   },
   {
@@ -434,7 +441,7 @@ export const WEEKLY_DUTY: DutyShift[] = [
     leaderOnDuty: 'Ys. Nguyễn Thị Lan (Trực 24/24)',
     assistantOnDuty: 'Đd. Phan Văn Hùng',
     nurseOnDuty: 'Kíp cấp cứu trực ban 24/7',
-    phone: '(0236) 3844 567',
+    phone: '02363 844075',
     status: 'Kế hoạch'
   },
   {
@@ -443,7 +450,7 @@ export const WEEKLY_DUTY: DutyShift[] = [
     leaderOnDuty: 'Bs.CKI. Tuấn Thọ Sinh (Trực 24/24)',
     assistantOnDuty: 'NHS. Trần Thị Thu Thảo',
     nurseOnDuty: 'Kíp cấp cứu trực ban 24/7',
-    phone: '(0236) 3844 567',
+    phone: '02363 844075',
     status: 'Kế hoạch'
   }
 ];

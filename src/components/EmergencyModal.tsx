@@ -75,7 +75,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose 
           {/* Critical Triage Tips while waiting */}
           <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
             <h4 className="text-xs font-bold text-[#121c2a] uppercase tracking-wide flex items-center gap-1.5 mb-2">
-              <span className="material-symbols-outlined text-sm text-[#0057c2]">info</span>
+              <span className="material-symbols-outlined text-sm text-[#1c7a42]">info</span>
               <span>Lưu ý trong khi chờ hỗ trợ y tế:</span>
             </h4>
             <ul className="text-xs text-[#414755] space-y-1.5 list-disc list-inside">
@@ -89,7 +89,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose 
 
         {/* Footer */}
         <div className="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-[#414755]">
-          <span>Địa chỉ trạm: 12 Trần Khát Chân, An Hải, Sơn Trà</span>
+          <span>Địa chỉ trạm: {STATION_INFO.fullAddress}</span>
           <button 
             onClick={onClose}
             className="px-4 py-1.5 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg text-xs font-semibold text-gray-700 transition-colors"

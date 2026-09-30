@@ -30,16 +30,16 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
   };
 
   return (
-    <div className="w-full bg-[#f8f9ff] py-8 sm:py-12">
+    <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
       <div className="max-w-7xl mx-auto px-4 lg:px-6 space-y-10">
         {/* Header Breadcrumb */}
         <div>
           <div className="flex items-center gap-2 text-xs text-[#414755] mb-2">
-            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#0057c2]">Trang chủ</button>
+            <button onClick={() => onNavigate('trang-chu')} className="hover:text-[#1c7a42]">Trang chủ</button>
             <span>/</span>
-            <span className="text-[#0057c2] font-semibold">Liên hệ & Chỉ dẫn</span>
+            <span className="text-[#1c7a42] font-semibold">Liên hệ & Chỉ dẫn</span>
           </div>
-          <span className="text-xs uppercase font-bold tracking-wider text-[#0057c2] bg-blue-50 px-2.5 py-1 rounded-full">
+          <span className="text-xs uppercase font-bold tracking-wider text-[#1c7a42] bg-green-50 px-2.5 py-1 rounded-full">
             Kênh tiếp nhận ý kiến công dân
           </span>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-[#121c2a] mt-2">
@@ -59,26 +59,26 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
               style={{ backgroundImage: `url('${STATION_INFO.images.map}')` }}
             >
               <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-xs p-4 rounded-xl shadow-lg border border-gray-200 max-w-xs text-xs">
-                <p className="font-bold text-[#0057c2] flex items-center gap-1">
+                <p className="font-bold text-[#1c7a42] flex items-center gap-1">
                   <span className="material-symbols-outlined text-base">pin_drop</span>
                   <span>Trạm Y tế phường An Hải</span>
                 </p>
                 <p className="text-gray-600 mt-1">{STATION_INFO.fullAddress}</p>
                 <div className="mt-2 text-[11px] text-[#006c4e] font-semibold">
-                  Gần cầu Sông Hàn và trung tâm hành chính Sơn Trà
+                  Gần cầu Sông Hàn, phường An Hải
                 </div>
               </div>
             </div>
 
             {/* Transit tips */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 text-xs">
-              <div className="p-3 bg-[#f8f9ff] rounded-xl border border-blue-50">
-                <span className="font-bold text-[#0057c2] block mb-1">Xe máy & Xe đạp:</span>
+              <div className="p-3 bg-[#f7faf8] rounded-xl border border-green-50">
+                <span className="font-bold text-[#1c7a42] block mb-1">Xe máy & Xe đạp:</span>
                 <p className="text-[#414755]">Bãi giữ xe miễn phí có mái che ngay trước cổng trạm y tế.</p>
               </div>
-              <div className="p-3 bg-[#f8f9ff] rounded-xl border border-blue-50">
+              <div className="p-3 bg-[#f7faf8] rounded-xl border border-green-50">
                 <span className="font-bold text-[#006c4e] block mb-1">Ô tô & Taxi:</span>
-                <p className="text-[#414755]">Đường Trần Khát Chân thông thoáng, có khu vực dừng đón trả bệnh nhân.</p>
+                <p className="text-[#414755]">Có khu vực dừng đón trả bệnh nhân tại cơ sở chính.</p>
               </div>
               <div className="p-3 bg-red-50 rounded-xl border border-red-50">
                 <span className="font-bold text-[#bb0112] block mb-1">Luồng Cấp cứu:</span>
@@ -88,18 +88,28 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
           </div>
 
           {/* Contact Details List */}
-          <div className="lg:col-span-5 bg-[#f8f9ff] p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
+          <div className="lg:col-span-5 bg-[#f7faf8] p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
             <div className="space-y-4">
               <div>
-                <span className="text-xs text-[#0057c2] uppercase font-bold tracking-wider">{STATION_INFO.district}</span>
+                <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">{STATION_INFO.district}</span>
                 <h3 className="text-xl font-bold text-[#121c2a] mt-0.5">{STATION_INFO.name}</h3>
                 <p className="text-xs text-[#414755] mt-1">{STATION_INFO.fullAddress}</p>
               </div>
 
               <div className="space-y-2.5 text-xs">
                 <div className="p-3 bg-white rounded-xl border border-gray-100">
+                  <span className="text-[#414755] block">Địa chỉ các cơ sở:</span>
+                  <ul className="mt-0.5 space-y-1">
+                    {STATION_INFO.locations.map((location) => (
+                      <li key={location.name} className="text-[#121c2a]">
+                        <span className="font-semibold">{location.name}:</span> {location.address}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="p-3 bg-white rounded-xl border border-gray-100">
                   <span className="text-[#414755] block">Đường dây nóng cấp cứu (24/7):</span>
-                  <a href={`tel:${STATION_INFO.hotline}`} className="text-base font-bold text-[#bb0112] block mt-0.5 hover:underline">
+                  <a href={`tel:${STATION_INFO.hotline.replace(/[^0-9]/g, '')}`} className="text-base font-bold text-[#bb0112] block mt-0.5 hover:underline">
                     {STATION_INFO.hotline}
                   </a>
                 </div>
@@ -134,7 +144,7 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
         {/* Citizen Epidemic / Outbreak Feedback Form */}
         <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-xs border border-gray-200 space-y-6">
           <div className="max-w-2xl">
-            <span className="text-xs uppercase font-bold text-[#0057c2] tracking-wider">Hợp tác cộng đồng</span>
+            <span className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider">Hợp tác cộng đồng</span>
             <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">
               Báo cáo điểm nguy cơ dịch bệnh & Ý kiến đóng góp của người dân
             </h2>
@@ -171,7 +181,7 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
                   placeholder="Ví dụ: Nguyễn Thị Mai"
                   value={reporterName}
                   onChange={(e) => setReporterName(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                 />
               </div>
 
@@ -185,7 +195,7 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
                   placeholder="0905 xxx xxx"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                 />
               </div>
 
@@ -196,7 +206,7 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
                 <select
                   value={neighborhood}
                   onChange={(e) => setNeighborhood(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2] bg-white"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42] bg-white"
                 >
                   {Array.from({ length: 15 }, (_, i) => (
                     <option key={i + 1} value={`Tổ dân phố ${i + 1}`}>Tổ dân phố {i + 1}</option>
@@ -211,7 +221,7 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as OutbreakReport['type'])}
-                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2] bg-white"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42] bg-white"
                 >
                   <option value="Nước đọng / lăng quăng">Nước đọng / Ổ bọ gậy, lăng quăng</option>
                   <option value="Sốt xuất huyết">Nghi ngờ ca mắc Sốt xuất huyết</option>
@@ -230,7 +240,7 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
                   placeholder="Ví dụ: Lô đất trống cạnh số 34 đường Hà Bổng..."
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                 />
               </div>
 
@@ -244,14 +254,14 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
                   placeholder="Mô tả cụ thể về hiện trạng, tình hình dịch bệnh hoặc ý kiến đóng góp của người dân..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                 />
               </div>
 
               <div className="sm:col-span-2 flex justify-end">
                 <button
                   type="submit"
-                  className="px-6 py-2.5 bg-[#0057c2] hover:bg-[#004398] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5"
+                  className="px-6 py-2.5 bg-[#1c7a42] hover:bg-[#155f33] text-white text-xs font-bold rounded-xl transition-all shadow-xs flex items-center gap-1.5"
                 >
                   <span className="material-symbols-outlined text-base">send</span>
                   <span>Gửi phản ánh cho Trạm Y tế</span>

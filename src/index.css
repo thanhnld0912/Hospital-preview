@@ -7,7 +7,7 @@
   }
 
   body {
-    background-color: #f8f9ff;
+    background-color: #f7faf8;
     color: #121c2a;
     line-height: 1.625;
   }
@@ -51,12 +51,12 @@
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #eff4ff;
+  background: #eef6f0;
 }
 ::-webkit-scrollbar-thumb {
-  background: #afc6ff;
+  background: #a6d3b4;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #0057c2;
+  background: #1c7a42;
 }

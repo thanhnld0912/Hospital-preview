@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppointmentRecord } from '../types';
-import { MEDICAL_SERVICES } from '../data/healthStationData';
+import { MEDICAL_SERVICES, STATION_INFO } from '../data/healthStationData';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -65,17 +65,17 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-200">
       <div 
-        className="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden border border-blue-100 max-h-[90vh] flex flex-col"
+        className="bg-white rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden border border-green-100 max-h-[90vh] flex flex-col"
         role="dialog"
         aria-modal="true"
       >
         {/* Header */}
-        <div className="bg-[#0057c2] text-white p-5 flex items-center justify-between">
+        <div className="bg-[#1c7a42] text-white p-5 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <span className="material-symbols-outlined text-2xl">event_available</span>
             <div>
               <h3 className="text-lg font-bold">Đặt lịch hẹn khám / Tiêm chủng</h3>
-              <p className="text-xs text-blue-100">Trạm Y tế phường An Hải, quận Sơn Trà</p>
+              <p className="text-xs text-green-100">Trạm Y tế phường An Hải, TP. Đà Nẵng</p>
             </div>
           </div>
           <button 
@@ -104,10 +104,10 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
               </div>
 
               {/* Ticket Card */}
-              <div className="p-5 bg-[#eff4ff] border-2 border-dashed border-[#afc6ff] rounded-xl text-left space-y-2.5">
-                <div className="flex items-center justify-between pb-2 border-b border-blue-200">
+              <div className="p-5 bg-[#eef6f0] border-2 border-dashed border-[#a6d3b4] rounded-xl text-left space-y-2.5">
+                <div className="flex items-center justify-between pb-2 border-b border-green-200">
                   <span className="text-xs font-semibold text-[#414755]">Mã số thứ tự khám:</span>
-                  <span className="text-xl font-mono font-bold text-[#0057c2]">{submittedBooking.id}</span>
+                  <span className="text-xl font-mono font-bold text-[#1c7a42]">{submittedBooking.id}</span>
                 </div>
                 <div className="text-xs text-[#414755] space-y-1">
                   <p><strong>Người khám:</strong> {submittedBooking.citizenName}</p>
@@ -115,9 +115,9 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                   <p><strong>Dịch vụ:</strong> {submittedBooking.serviceType}</p>
                   <p><strong>Ngày hẹn:</strong> {submittedBooking.preferredDate}</p>
                   <p><strong>Khung giờ:</strong> {submittedBooking.timeSlot}</p>
-                  <p><strong>Địa điểm:</strong> Bàn tiếp đón - Số 12 Trần Khát Chân, An Hải, Sơn Trà</p>
+                  <p><strong>Địa điểm:</strong> Bàn tiếp đón - {STATION_INFO.fullAddress}</p>
                 </div>
-                <div className="pt-2 border-t border-blue-200 flex items-center gap-1.5 text-xs text-[#006c4e] font-semibold">
+                <div className="pt-2 border-t border-green-200 flex items-center gap-1.5 text-xs text-[#006c4e] font-semibold">
                   <span className="material-symbols-outlined text-sm">verified</span>
                   <span>Đã ghi nhận trên hệ thống tiếp nhận của Trạm</span>
                 </div>
@@ -135,7 +135,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                 <button
                   type="button"
                   onClick={handleReset}
-                  className="flex-1 py-2 px-3 bg-[#0057c2] hover:bg-[#004398] text-white rounded-xl text-xs font-semibold"
+                  className="flex-1 py-2 px-3 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs font-semibold"
                 >
                   Xong
                 </button>
@@ -157,7 +157,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                   placeholder="Ví dụ: Nguyễn Văn An"
                   value={citizenName}
                   onChange={(e) => setCitizenName(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                  className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                 />
               </div>
 
@@ -171,7 +171,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                     placeholder="12 chữ số CCCD (tùy chọn)"
                     value={citizenId}
                     onChange={(e) => setCitizenId(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                   />
                 </div>
                 <div>
@@ -184,7 +184,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                     placeholder="0905 xxx xxx"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                   />
                 </div>
               </div>
@@ -196,7 +196,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                 <select
                   value={serviceType}
                   onChange={(e) => setServiceType(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2] bg-white"
+                  className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42] bg-white"
                 >
                   {MEDICAL_SERVICES.map((s) => (
                     <option key={s.id} value={s.title}>{s.title}</option>
@@ -217,7 +217,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                     required
                     value={preferredDate}
                     onChange={(e) => setPreferredDate(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2] bg-white"
+                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42] bg-white"
                   />
                 </div>
                 <div>
@@ -227,7 +227,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                   <select
                     value={timeSlot}
                     onChange={(e) => setTimeSlot(e.target.value)}
-                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2] bg-white"
+                    className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42] bg-white"
                   >
                     <option value="07:30 - 08:30 (Sáng)">07:30 - 08:30 (Sáng)</option>
                     <option value="08:30 - 09:30 (Sáng)">08:30 - 09:30 (Sáng)</option>
@@ -247,7 +247,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                   placeholder="Ví dụ: Đo huyết áp định kỳ, bé tiêm mũi 5 trong 1 lần thứ 2..."
                   value={symptomsOrNotes}
                   onChange={(e) => setSymptomsOrNotes(e.target.value)}
-                  className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0057c2]"
+                  className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42]"
                 />
               </div>
 
@@ -261,7 +261,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 bg-[#0057c2] hover:bg-[#004398] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center gap-1.5"
+                  className="px-5 py-2 bg-[#1c7a42] hover:bg-[#155f33] text-white text-xs font-bold rounded-lg shadow-sm transition-colors flex items-center gap-1.5"
                 >
                   <span className="material-symbols-outlined text-sm">assignment_turned_in</span>
                   <span>Xác nhận đặt lịch hẹn</span>
