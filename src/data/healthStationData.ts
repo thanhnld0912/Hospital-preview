@@ -18,6 +18,7 @@ export const STATION_INFO = {
   vaccineHotline: '02363 844075',
   email: 'tyt.anhai@danang.gov.vn',
   portalUrl: 'suckhoe.anhai.danang.vn',
+  logoUrl: '/logo.jpg',
   workingHours: {
     morning: '07:30 - 11:30',
     afternoon: '13:30 - 17:00',

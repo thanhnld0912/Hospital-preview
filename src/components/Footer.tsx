@@ -1,5 +1,5 @@
 import React from 'react';
-import { STATION_INFO } from '../data/healthStationData';
+import { useSiteContent } from '../services/siteContent';
 import { NavTab } from '../types';
 
 interface FooterProps {
@@ -8,6 +8,8 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenEmergency }) => {
+  const { stationInfo, locations } = useSiteContent();
+
   return (
     <footer className="w-full bg-[#f7faf8] text-[#414755] border-t border-[#d9eadd] mt-12">
       {/* Blue Emergency Callout Ribbon */}
@@ -28,7 +30,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenEmergency }) =
             className="bg-white hover:bg-green-50 text-[#1c7a42] px-5 py-2.5 rounded-xl text-xs font-bold transition-all shrink-0 shadow-sm flex items-center gap-1.5"
           >
             <span className="material-symbols-outlined text-base">call</span>
-            <span>Gọi cấp cứu: {STATION_INFO.hotline}</span>
+            <span>Gọi cấp cứu: {stationInfo.hotline}</span>
           </button>
         </div>
       </div>
@@ -42,16 +44,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenEmergency }) =
             <span className="text-xs text-[#121c2a] uppercase font-bold tracking-wider">Cơ quan chủ quản</span>
           </div>
           <p className="text-xs text-[#414755] leading-relaxed">
-            {STATION_INFO.parentAgency}
+            {stationInfo.parentAgency}
           </p>
           <p className="text-xs text-[#1c7a42] font-bold mt-1">
-            {STATION_INFO.name}
+            {stationInfo.name}
           </p>
           <div className="text-xs text-[#414755]">
             <p>Địa chỉ:</p>
             <ul className="mt-1 space-y-1">
-              {STATION_INFO.locations.map((location) => (
-                <li key={location.name}>
+              {locations.map((location) => (
+                <li key={location.id}>
                   <strong className="text-[#121c2a]">{location.name}:</strong> {location.address}
                 </li>
               ))}
@@ -67,16 +69,16 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenEmergency }) =
           </div>
           <ul className="flex flex-col gap-1.5 text-xs text-[#414755]">
             <li>
-              Điện thoại trực trạm: <strong className="text-[#121c2a]">{STATION_INFO.hotline}</strong>
+              Điện thoại trực trạm: <strong className="text-[#121c2a]">{stationInfo.hotline}</strong>
             </li>
             <li>
-              Đường dây nóng tiêm chủng: <strong className="text-[#121c2a]">{STATION_INFO.vaccineHotline}</strong>
+              Đường dây nóng tiêm chủng: <strong className="text-[#121c2a]">{stationInfo.vaccineHotline}</strong>
             </li>
             <li>
-              Email công vụ: <strong className="text-[#121c2a]">{STATION_INFO.email}</strong>
+              Email công vụ: <strong className="text-[#121c2a]">{stationInfo.email}</strong>
             </li>
             <li>
-              Cổng điều hành: <strong className="text-[#121c2a]">{STATION_INFO.portalUrl}</strong>
+              Cổng điều hành: <strong className="text-[#121c2a]">{stationInfo.portalUrl}</strong>
             </li>
           </ul>
         </div>

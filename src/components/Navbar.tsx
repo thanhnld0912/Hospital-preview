@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { NavTab } from '../types';
 import { ClinicLogo } from './ClinicLogo';
-import { STATION_INFO } from '../data/healthStationData';
+import { useSiteContent } from '../services/siteContent';
 
 interface NavbarProps {
   currentTab: NavTab;
@@ -23,6 +23,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onChangeFontScale
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { stationInfo } = useSiteContent();
 
   const navItems: { id: NavTab; label: string; icon: string }[] = [
     { id: 'trang-chu', label: 'Trang chủ', icon: 'home' },
@@ -55,7 +56,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <div className="flex items-center gap-2">
             <span className="material-symbols-outlined text-base shrink-0 animate-pulse">campaign</span>
             <span className="font-medium tracking-wide">
-              Cổng thông tin điện tử phục vụ người dân phường An Hải - Đường dây nóng tư vấn sức khỏe: {STATION_INFO.hotline}
+              Cổng thông tin điện tử phục vụ người dân phường An Hải - Đường dây nóng tư vấn sức khỏe: {stationInfo.hotline}
             </span>
           </div>
 
@@ -107,10 +108,10 @@ export const Navbar: React.FC<NavbarProps> = ({
           <ClinicLogo className="w-13 h-13 group-hover:scale-105 transition-transform" />
           <div>
             <p className="text-[11px] uppercase tracking-wider font-semibold text-[#414755]">
-              {STATION_INFO.parentAgency}
+              {stationInfo.parentAgency}
             </p>
             <h1 className="text-base sm:text-lg lg:text-xl font-bold text-[#1c7a42] tracking-tight group-hover:text-[#155f33] transition-colors leading-tight">
-              {STATION_INFO.name} - {STATION_INFO.city}
+              {stationInfo.name} - {stationInfo.city}
             </h1>
             <p className="text-xs text-[#414755] hidden sm:block">
               Hệ thống quản lý, tư vấn và chăm sóc sức khỏe cộng đồng tuyến cơ sở
@@ -148,7 +149,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="flex items-center gap-1.5 bg-[#bb0112] hover:bg-[#a0010f] text-white px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all shadow-xs"
             >
               <span className="material-symbols-outlined text-base">e911_emergency</span>
-              <span>Cấp cứu / Trực trạm: {STATION_INFO.hotline}</span>
+              <span>Cấp cứu / Trực trạm: {stationInfo.hotline}</span>
             </button>
             <span className="text-[11px] text-[#006c4e] font-semibold mt-0.5 flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-[#006c4e] inline-block animate-pulse"></span>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { STATION_INFO } from '../../data/healthStationData';
-import { NavTab, OutbreakReport } from '../../types';
+import React, { useRef, useState } from 'react';
+import { useSiteContent } from '../../services/siteContent';
+import { NavTab, OutbreakReport, StationLocation } from '../../types';
+import { LocationList, LocationMap } from '../Locations';
 
 interface ContactScreenProps {
   onNavigate: (tab: NavTab) => void;
@@ -15,6 +16,16 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
   const [type, setType] = useState<OutbreakReport['type']>('Nước đọng / lăng quăng');
   const [description, setDescription] = useState('');
   const [reportSuccess, setReportSuccess] = useState(false);
+  const { stationInfo, locations } = useSiteContent();
+  const [selectedLocationId, setSelectedLocationId] = useState<string>();
+  const selectedLocation = locations.find((location) => location.id === selectedLocationId) ?? locations[0];
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectLocation = (location: StationLocation) => {
+    setSelectedLocationId(location.id);
+    // Trên mobile bản đồ nằm dưới/trên danh sách: cuộn tới bản đồ vừa cập nhật
+    mapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
 
   const handleSubmitReport = (e: React.FormEvent) => {
     e.preventDefault();
@@ -52,23 +63,13 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
 
         {/* Map & Direction Full Block */}
         <div className="bg-white rounded-2xl p-6 shadow-xs border border-gray-200 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Map view (Image) */}
+          {/* Map view (bản đồ của địa điểm đang chọn) */}
           <div className="lg:col-span-7 flex flex-col justify-between">
-            <div 
-              className="w-full h-72 sm:h-96 rounded-xl bg-cover bg-center relative overflow-hidden border border-gray-200"
-              style={{ backgroundImage: `url('${STATION_INFO.images.map}')` }}
-            >
-              <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-xs p-4 rounded-xl shadow-lg border border-gray-200 max-w-xs text-xs">
-                <p className="font-bold text-[#1c7a42] flex items-center gap-1">
-                  <span className="material-symbols-outlined text-base">pin_drop</span>
-                  <span>Trạm Y tế phường An Hải</span>
-                </p>
-                <p className="text-gray-600 mt-1">{STATION_INFO.fullAddress}</p>
-                <div className="mt-2 text-[11px] text-[#006c4e] font-semibold">
-                  Gần cầu Sông Hàn, phường An Hải
-                </div>
-              </div>
-            </div>
+            <LocationMap
+              ref={mapRef}
+              location={selectedLocation}
+              className="w-full h-72 sm:h-96 rounded-xl border border-gray-200"
+            />
 
             {/* Transit tips */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-4 text-xs">
@@ -91,35 +92,29 @@ export const ContactScreen: React.FC<ContactScreenProps> = ({ onNavigate, onOpen
           <div className="lg:col-span-5 bg-[#f7faf8] p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
             <div className="space-y-4">
               <div>
-                <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">{STATION_INFO.district}</span>
-                <h3 className="text-xl font-bold text-[#121c2a] mt-0.5">{STATION_INFO.name}</h3>
-                <p className="text-xs text-[#414755] mt-1">{STATION_INFO.fullAddress}</p>
+                <span className="text-xs text-[#1c7a42] uppercase font-bold tracking-wider">{stationInfo.district}</span>
+                <h3 className="text-xl font-bold text-[#121c2a] mt-0.5">{stationInfo.name}</h3>
+                <p className="text-xs text-[#414755] mt-1">{stationInfo.fullAddress}</p>
               </div>
 
               <div className="space-y-2.5 text-xs">
                 <div className="p-3 bg-white rounded-xl border border-gray-100">
                   <span className="text-[#414755] block">Địa chỉ các cơ sở:</span>
-                  <ul className="mt-0.5 space-y-1">
-                    {STATION_INFO.locations.map((location) => (
-                      <li key={location.name} className="text-[#121c2a]">
-                        <span className="font-semibold">{location.name}:</span> {location.address}
-                      </li>
-                    ))}
-                  </ul>
+                  <LocationList locations={locations} selectedId={selectedLocation?.id} onSelect={handleSelectLocation} />
                 </div>
                 <div className="p-3 bg-white rounded-xl border border-gray-100">
                   <span className="text-[#414755] block">Đường dây nóng cấp cứu (24/7):</span>
-                  <a href={`tel:${STATION_INFO.hotline.replace(/[^0-9]/g, '')}`} className="text-base font-bold text-[#bb0112] block mt-0.5 hover:underline">
-                    {STATION_INFO.hotline}
+                  <a href={`tel:${stationInfo.hotline.replace(/[^0-9]/g, '')}`} className="text-base font-bold text-[#bb0112] block mt-0.5 hover:underline">
+                    {stationInfo.hotline}
                   </a>
                 </div>
                 <div className="p-3 bg-white rounded-xl border border-gray-100">
                   <span className="text-[#414755] block">Tư vấn tiêm chủng mở rộng:</span>
-                  <span className="text-sm font-bold text-[#006c4e] block mt-0.5">{STATION_INFO.vaccineHotline}</span>
+                  <span className="text-sm font-bold text-[#006c4e] block mt-0.5">{stationInfo.vaccineHotline}</span>
                 </div>
                 <div className="p-3 bg-white rounded-xl border border-gray-100">
                   <span className="text-[#414755] block">Hòm thư điện tử công vụ:</span>
-                  <span className="font-semibold text-[#121c2a] block mt-0.5">{STATION_INFO.email}</span>
+                  <span className="font-semibold text-[#121c2a] block mt-0.5">{stationInfo.email}</span>
                 </div>
                 <div className="p-3 bg-white rounded-xl border border-gray-100">
                   <span className="text-[#414755] block">Giờ khám bệnh hành chính:</span>

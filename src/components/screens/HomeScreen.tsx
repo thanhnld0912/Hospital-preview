@@ -1,6 +1,8 @@
-import React from 'react';
-import { NavTab, MedicalService, Announcement, NewsArticle, HealthGuide } from '../../types';
-import { STATION_INFO, MEDICAL_SERVICES, ANNOUNCEMENTS, NEWS_ARTICLES, HEALTH_GUIDES } from '../../data/healthStationData';
+import React, { useRef, useState } from 'react';
+import { NavTab, MedicalService, Announcement, NewsArticle, HealthGuide, StationLocation } from '../../types';
+import { HEALTH_GUIDES } from '../../data/healthStationData';
+import { useSiteContent } from '../../services/siteContent';
+import { LocationList, LocationMap } from '../Locations';
 
 interface HomeScreenProps {
   onNavigate: (tab: NavTab) => void;
@@ -15,6 +17,17 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onOpenEmergency,
   onOpenArticle,
 }) => {
+  const { stationInfo, locations, services, announcements, news } = useSiteContent();
+  const [selectedLocationId, setSelectedLocationId] = useState<string>();
+  const selectedLocation = locations.find((location) => location.id === selectedLocationId) ?? locations[0];
+  const mapRef = useRef<HTMLDivElement>(null);
+
+  const handleSelectLocation = (location: StationLocation) => {
+    setSelectedLocationId(location.id);
+    // Trên mobile bản đồ nằm dưới/trên danh sách: cuộn tới bản đồ vừa cập nhật
+    mapRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  };
+
   return (
     <div className="flex flex-col w-full">
       {/* SECTION 1: HERO & EMERGENCY CALLOUT */}
@@ -27,7 +40,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               <div className="text-xs sm:text-sm">
                 <span className="font-bold tracking-wide mr-1.5">ĐƯỜNG DÂY NÓNG KHẨN CẤP:</span>
                 <span className="font-bold underline cursor-pointer" onClick={onOpenEmergency}>
-                  Cấp cứu / Trực ban trạm: {STATION_INFO.hotline}
+                  Cấp cứu / Trực ban trạm: {stationInfo.hotline}
                 </span>
                 <span className="hidden md:inline opacity-90 ml-2">— Phục vụ 24/7 đối với sơ cấp cứu ban đầu</span>
               </div>
@@ -52,7 +65,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
               <div>
                 <h1 className="text-2xl sm:text-3xl lg:text-4xl text-[#1c7a42] tracking-tight font-extrabold leading-tight">
-                  {STATION_INFO.name}
+                  {stationInfo.name}
                 </h1>
                 <p className="text-base sm:text-lg text-[#006c4e] font-semibold mt-1">
                   Chăm sóc sức khỏe cộng đồng – Đồng hành cùng người dân
@@ -114,7 +127,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <div className="lg:col-span-6 relative">
               <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#c3cbc5]/50 bg-white">
                 <img
-                  src={STATION_INFO.images.hero}
+                  src={stationInfo.images.hero}
                   alt="Cán bộ nhân viên y tế Trạm Y tế phường An Hải khám và tư vấn sức khỏe"
                   className="w-full h-[320px] sm:h-[390px] object-cover"
                 />
@@ -183,7 +196,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
                 <div>
                   <span className="text-[11px] text-[#414755] uppercase font-bold tracking-wider">Điện thoại liên hệ</span>
-                  <p className="text-sm text-[#121c2a] font-bold mt-0.5">{STATION_INFO.hotline}</p>
+                  <p className="text-sm text-[#121c2a] font-bold mt-0.5">{stationInfo.hotline}</p>
                   <p className="text-xs text-[#414755]">Đường dây nóng hỗ trợ người dân</p>
                 </div>
               </div>
@@ -490,7 +503,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {MEDICAL_SERVICES.map((service) => (
+            {services.map((service) => (
               <div
                 key={service.id}
                 className="bg-[#f7faf8] p-6 rounded-2xl border border-gray-100 hover:border-green-200 hover:shadow-md transition-all flex flex-col justify-between"
@@ -681,7 +694,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
 
               <div className="flex flex-col gap-3">
-                {ANNOUNCEMENTS.map((announcement) => (
+                {announcements.map((announcement) => (
                   <div
                     key={announcement.id}
                     onClick={() => onOpenArticle('announcement', announcement)}
@@ -729,7 +742,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {NEWS_ARTICLES.map((article) => (
+                {news.map((article) => (
                   <article
                     key={article.id}
                     onClick={() => onOpenArticle('news', article)}
@@ -844,25 +857,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <div className="lg:col-span-5 bg-[#f7faf8] p-6 rounded-2xl border border-gray-100 flex flex-col justify-between">
               <div className="space-y-4">
                 <div>
-                  <span className="text-xs text-[#1c7a42] font-bold uppercase tracking-wider">{STATION_INFO.district}</span>
-                  <h3 className="text-lg text-[#121c2a] font-bold">{STATION_INFO.name}</h3>
-                  <p className="text-xs text-[#414755]">{STATION_INFO.city}</p>
+                  <span className="text-xs text-[#1c7a42] font-bold uppercase tracking-wider">{stationInfo.district}</span>
+                  <h3 className="text-lg text-[#121c2a] font-bold">{stationInfo.name}</h3>
+                  <p className="text-xs text-[#414755]">{stationInfo.city}</p>
                 </div>
 
                 <div className="space-y-2 text-xs">
                   <div className="p-3 bg-white rounded-xl border border-gray-100">
                     <span className="text-[#414755] block">Địa chỉ các cơ sở:</span>
-                    <ul className="mt-0.5 space-y-1">
-                      {STATION_INFO.locations.map((location) => (
-                        <li key={location.name} className="text-[#121c2a]">
-                          <span className="font-semibold">{location.name}:</span> {location.address}
-                        </li>
-                      ))}
-                    </ul>
+                    <LocationList locations={locations} selectedId={selectedLocation?.id} onSelect={handleSelectLocation} />
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-gray-100">
                     <span className="text-[#414755] block">Đường dây nóng / Trực ban:</span>
-                    <span className="font-bold text-[#1c7a42] text-sm mt-0.5 block">{STATION_INFO.hotline}</span>
+                    <span className="font-bold text-[#1c7a42] text-sm mt-0.5 block">{stationInfo.hotline}</span>
                   </div>
                   <div className="p-3 bg-white rounded-xl border border-gray-100">
                     <span className="text-[#414755] block">Giờ khám bệnh hành chính:</span>
@@ -885,7 +892,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <span>Gọi điện cho trạm</span>
                 </button>
                 <a
-                  href="https://maps.google.com"
+                  href={selectedLocation?.mapUrl ?? 'https://www.google.com/maps'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex-1 h-11 bg-white hover:bg-gray-100 text-[#121c2a] border border-gray-300 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
@@ -896,27 +903,13 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
               </div>
             </div>
 
-            {/* Right Panel: Map View (using map image) */}
+            {/* Right Panel: Map View (bản đồ của địa điểm đang chọn) */}
             <div className="lg:col-span-7 bg-[#f7faf8] p-2 rounded-2xl border border-gray-100 flex flex-col">
-              <div 
-                className="w-full h-80 lg:h-full min-h-[360px] bg-cover bg-center rounded-xl relative overflow-hidden"
-                style={{ backgroundImage: `url('${STATION_INFO.images.map}')` }}
-              >
-                {/* Map Card Overlay */}
-                <div className="absolute bottom-4 left-4 right-4 sm:right-auto bg-white/95 backdrop-blur-xs p-4 rounded-xl shadow-lg border border-gray-200 max-w-sm">
-                  <div className="flex items-center gap-1.5 text-[#1c7a42] text-xs font-bold">
-                    <span className="material-symbols-outlined text-base">pin_drop</span>
-                    <span>Vị trí Trạm Y tế phường An Hải</span>
-                  </div>
-                  <p className="text-xs text-[#414755] mt-1 leading-relaxed">
-                    Tuyến giao thông thuận tiện kết nối các trục đường chính tại phường An Hải, gần cầu Rồng và sông Hàn, TP. Đà Nẵng.
-                  </p>
-                  <div className="mt-2 flex items-center gap-3 text-[11px] text-[#006c4e] font-semibold">
-                    <span>✓ Có bãi đỗ xe người dân</span>
-                    <span>✓ Lối đi ưu tiên xe cấp cứu</span>
-                  </div>
-                </div>
-              </div>
+              <LocationMap
+                ref={mapRef}
+                location={selectedLocation}
+                className="w-full h-80 lg:h-full min-h-[360px] rounded-xl"
+              />
             </div>
           </div>
         </div>

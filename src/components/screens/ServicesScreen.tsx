@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { MEDICAL_SERVICES } from '../../data/healthStationData';
+import { useSiteContent } from '../../services/siteContent';
 import { NavTab, MedicalService } from '../../types';
 
 interface ServicesScreenProps {
@@ -13,7 +13,9 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
   onOpenBooking,
   onOpenEmergency,
 }) => {
-  const [selectedService, setSelectedService] = useState<MedicalService>(MEDICAL_SERVICES[0]);
+  const { services } = useSiteContent();
+  const [selectedServiceId, setSelectedServiceId] = useState<string>();
+  const selectedService: MedicalService | undefined = services.find((s) => s.id === selectedServiceId) ?? services[0];
 
   return (
     <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
@@ -48,7 +50,7 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
             </p>
           </div>
           <button
-            onClick={() => onOpenBooking(selectedService.title)}
+            onClick={() => onOpenBooking(selectedService?.title)}
             className="px-5 py-2.5 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 flex items-center gap-1.5"
           >
             <span className="material-symbols-outlined text-base">event_available</span>
@@ -61,14 +63,14 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           {/* Left Service Selector List (4 cols) */}
           <div className="lg:col-span-5 space-y-3">
             <h3 className="text-xs font-bold uppercase tracking-wider text-[#414755] px-1">
-              Chọn dịch vụ y tế ({MEDICAL_SERVICES.length})
+              Chọn dịch vụ y tế ({services.length})
             </h3>
-            {MEDICAL_SERVICES.map((s) => {
-              const isSelected = selectedService.id === s.id;
+            {services.map((s) => {
+              const isSelected = selectedService?.id === s.id;
               return (
                 <div
                   key={s.id}
-                  onClick={() => setSelectedService(s)}
+                  onClick={() => setSelectedServiceId(s.id)}
                   className={`p-4 rounded-xl cursor-pointer transition-all border flex items-start gap-3 ${
                     isSelected
                       ? 'bg-white border-[#1c7a42] shadow-md ring-2 ring-[#1c7a42]/10'
@@ -96,76 +98,78 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
           </div>
 
           {/* Right Detailed Service View (7 cols) */}
-          <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl shadow-xs border border-gray-200 space-y-6">
-            <div className="flex items-start justify-between gap-4 pb-4 border-b border-gray-100">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-green-100 text-[#1c7a42] flex items-center justify-center">
-                  <span className="material-symbols-outlined text-2xl">{selectedService.icon}</span>
-                </div>
-                <div>
-                  <span className="text-xs font-semibold text-[#1c7a42]">{selectedService.feeInfo}</span>
-                  <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">{selectedService.title}</h2>
-                </div>
-              </div>
-              <button
-                onClick={() => onOpenBooking(selectedService.title)}
-                className="px-4 py-2 bg-[#006c4e] hover:bg-[#00513a] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1 shrink-0"
-              >
-                <span className="material-symbols-outlined text-sm">assignment_turned_in</span>
-                <span>Hẹn khám</span>
-              </button>
-            </div>
-
-            {/* Description */}
-            <div>
-              <h3 className="text-xs uppercase font-bold text-[#414755] tracking-wider mb-1.5">Mô tả chuyên môn</h3>
-              <p className="text-sm text-[#121c2a] leading-relaxed">
-                {selectedService.fullDesc}
-              </p>
-            </div>
-
-            {/* Target & Schedule */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="p-3.5 bg-[#f7faf8] rounded-xl border border-gray-100">
-                <span className="text-xs font-bold text-[#1c7a42] block">Thời gian phục vụ:</span>
-                <span className="text-xs text-[#121c2a] mt-1 block">{selectedService.schedule}</span>
-              </div>
-              <div className="p-3.5 bg-[#f7faf8] rounded-xl border border-gray-100">
-                <span className="text-xs font-bold text-[#006c4e] block">Đối tượng áp dụng:</span>
-                <span className="text-xs text-[#121c2a] mt-1 block">{selectedService.targetAudience}</span>
-              </div>
-            </div>
-
-            {/* Step by step procedure */}
-            <div>
-              <h3 className="text-xs uppercase font-bold text-[#414755] tracking-wider mb-2.5">
-                Các bước thực hiện thủ tục
-              </h3>
-              <div className="space-y-2.5">
-                {selectedService.procedure.map((step, idx) => (
-                  <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-[#121c2a]">
-                    <span className="w-6 h-6 rounded-full bg-green-100 text-[#1c7a42] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 font-mono">
-                      {idx + 1}
-                    </span>
-                    <span className="leading-relaxed">{step}</span>
+          {selectedService && (
+            <div className="lg:col-span-7 bg-white p-6 sm:p-8 rounded-2xl shadow-xs border border-gray-200 space-y-6">
+              <div className="flex items-start justify-between gap-4 pb-4 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl bg-green-100 text-[#1c7a42] flex items-center justify-center">
+                    <span className="material-symbols-outlined text-2xl">{selectedService.icon}</span>
                   </div>
-                ))}
+                  <div>
+                    <span className="text-xs font-semibold text-[#1c7a42]">{selectedService.feeInfo}</span>
+                    <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">{selectedService.title}</h2>
+                  </div>
+                </div>
+                <button
+                  onClick={() => onOpenBooking(selectedService?.title)}
+                  className="px-4 py-2 bg-[#006c4e] hover:bg-[#00513a] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1 shrink-0"
+                >
+                  <span className="material-symbols-outlined text-sm">assignment_turned_in</span>
+                  <span>Hẹn khám</span>
+                </button>
               </div>
-            </div>
 
-            {/* Emergency note */}
-            <div className="p-4 bg-red-50 rounded-xl border border-red-100 flex items-center justify-between gap-4">
-              <div className="text-xs text-red-900">
-                <strong>Trường hợp khẩn cấp:</strong> Nếu bệnh nhân có dấu hiệu mất ý thức hoặc khó thở, vui lòng gọi cấp cứu ngay.
+              {/* Description */}
+              <div>
+                <h3 className="text-xs uppercase font-bold text-[#414755] tracking-wider mb-1.5">Mô tả chuyên môn</h3>
+                <p className="text-sm text-[#121c2a] leading-relaxed">
+                  {selectedService.fullDesc}
+                </p>
               </div>
-              <button
-                onClick={onOpenEmergency}
-                className="px-3 py-1.5 bg-[#bb0112] hover:bg-[#a0010f] text-white rounded-lg text-xs font-bold shrink-0 transition-colors"
-              >
-                Cấp cứu 24/7
-              </button>
+
+              {/* Target & Schedule */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="p-3.5 bg-[#f7faf8] rounded-xl border border-gray-100">
+                  <span className="text-xs font-bold text-[#1c7a42] block">Thời gian phục vụ:</span>
+                  <span className="text-xs text-[#121c2a] mt-1 block">{selectedService.schedule}</span>
+                </div>
+                <div className="p-3.5 bg-[#f7faf8] rounded-xl border border-gray-100">
+                  <span className="text-xs font-bold text-[#006c4e] block">Đối tượng áp dụng:</span>
+                  <span className="text-xs text-[#121c2a] mt-1 block">{selectedService.targetAudience}</span>
+                </div>
+              </div>
+
+              {/* Step by step procedure */}
+              <div>
+                <h3 className="text-xs uppercase font-bold text-[#414755] tracking-wider mb-2.5">
+                  Các bước thực hiện thủ tục
+                </h3>
+                <div className="space-y-2.5">
+                  {selectedService.procedure.map((step, idx) => (
+                    <div key={idx} className="flex items-start gap-3 text-xs sm:text-sm text-[#121c2a]">
+                      <span className="w-6 h-6 rounded-full bg-green-100 text-[#1c7a42] font-bold text-xs flex items-center justify-center shrink-0 mt-0.5 font-mono">
+                        {idx + 1}
+                      </span>
+                      <span className="leading-relaxed">{step}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Emergency note */}
+              <div className="p-4 bg-red-50 rounded-xl border border-red-100 flex items-center justify-between gap-4">
+                <div className="text-xs text-red-900">
+                  <strong>Trường hợp khẩn cấp:</strong> Nếu bệnh nhân có dấu hiệu mất ý thức hoặc khó thở, vui lòng gọi cấp cứu ngay.
+                </div>
+                <button
+                  onClick={onOpenEmergency}
+                  className="px-3 py-1.5 bg-[#bb0112] hover:bg-[#a0010f] text-white rounded-lg text-xs font-bold shrink-0 transition-colors"
+                >
+                  Cấp cứu 24/7
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

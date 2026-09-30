@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AppointmentRecord } from '../types';
-import { MEDICAL_SERVICES, STATION_INFO } from '../data/healthStationData';
+import { useSiteContent } from '../services/siteContent';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -9,10 +9,11 @@ interface BookingModalProps {
 }
 
 export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, defaultService }) => {
+  const { stationInfo, services } = useSiteContent();
   const [citizenName, setCitizenName] = useState('');
   const [citizenId, setCitizenId] = useState('');
   const [phone, setPhone] = useState('');
-  const [serviceType, setServiceType] = useState(defaultService || MEDICAL_SERVICES[0].title);
+  const [serviceType, setServiceType] = useState(defaultService || services[0]?.title || '');
   const [preferredDate, setPreferredDate] = useState(() => {
     const d = new Date();
     d.setDate(d.getDate() + 1);
@@ -115,7 +116,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                   <p><strong>Dịch vụ:</strong> {submittedBooking.serviceType}</p>
                   <p><strong>Ngày hẹn:</strong> {submittedBooking.preferredDate}</p>
                   <p><strong>Khung giờ:</strong> {submittedBooking.timeSlot}</p>
-                  <p><strong>Địa điểm:</strong> Bàn tiếp đón - {STATION_INFO.fullAddress}</p>
+                  <p><strong>Địa điểm:</strong> Bàn tiếp đón - {stationInfo.fullAddress}</p>
                 </div>
                 <div className="pt-2 border-t border-green-200 flex items-center gap-1.5 text-xs text-[#006c4e] font-semibold">
                   <span className="material-symbols-outlined text-sm">verified</span>
@@ -198,7 +199,7 @@ export const BookingModal: React.FC<BookingModalProps> = ({ isOpen, onClose, def
                   onChange={(e) => setServiceType(e.target.value)}
                   className="w-full px-3.5 py-2 text-sm rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#1c7a42] bg-white"
                 >
-                  {MEDICAL_SERVICES.map((s) => (
+                  {services.map((s) => (
                     <option key={s.id} value={s.title}>{s.title}</option>
                   ))}
                   <option value="Khám sức khỏe Người cao tuổi">Khám sức khỏe Người cao tuổi</option>

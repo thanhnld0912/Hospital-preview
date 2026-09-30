@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NEWS_ARTICLES } from '../../data/healthStationData';
+import { useSiteContent } from '../../services/siteContent';
 import { NavTab, NewsArticle } from '../../types';
 
 interface NewsScreenProps {
@@ -8,6 +8,7 @@ interface NewsScreenProps {
 }
 
 export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticle }) => {
+  const { news } = useSiteContent();
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const categories = [
@@ -17,11 +18,11 @@ export const NewsScreen: React.FC<NewsScreenProps> = ({ onNavigate, onOpenArticl
     { id: 'Vệ sinh phòng dịch', label: 'Vệ sinh phòng dịch' },
   ];
 
-  const filteredNews = NEWS_ARTICLES.filter(
+  const filteredNews = news.filter(
     (n) => selectedCategory === 'all' || n.category === selectedCategory
   );
 
-  const featured = NEWS_ARTICLES[0];
+  const featured = news[0];
 
   return (
     <div className="w-full bg-[#f7faf8] py-8 sm:py-12">

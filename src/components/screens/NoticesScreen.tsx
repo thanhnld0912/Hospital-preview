@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ANNOUNCEMENTS, WEEKLY_DUTY, STATION_INFO } from '../../data/healthStationData';
+import { WEEKLY_DUTY } from '../../data/healthStationData';
+import { useSiteContent } from '../../services/siteContent';
 import { NavTab, Announcement } from '../../types';
 
 interface NoticesScreenProps {
@@ -13,9 +14,10 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
   onOpenArticle,
   onOpenEmergency,
 }) => {
+  const { stationInfo, announcements } = useSiteContent();
   const [filterType, setFilterType] = useState<'all' | 'urgent' | 'vaccine' | 'general'>('all');
 
-  const filteredNotices = ANNOUNCEMENTS.filter((item) => {
+  const filteredNotices = announcements.filter((item) => {
     if (filterType === 'urgent') return item.isUrgent;
     if (filterType === 'vaccine') return item.tagColor === 'secondary';
     if (filterType === 'general') return !item.isUrgent;
@@ -58,7 +60,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
               className="px-4 py-2 bg-[#bb0112] hover:bg-[#a0010f] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 self-start shadow-xs"
             >
               <span className="material-symbols-outlined text-sm">phone_in_talk</span>
-              <span>Đường dây nóng trực ban: {STATION_INFO.hotline}</span>
+              <span>Đường dây nóng trực ban: {stationInfo.hotline}</span>
             </button>
           </div>
 

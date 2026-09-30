@@ -8,6 +8,17 @@ export type NavTab =
   | 'huong-dan-suc-khoe' 
   | 'lien-he';
 
+export interface StationLocation {
+  id: string;
+  name: string;
+  address: string;
+  phone: string | null;
+  // Chỉ có giá trị khi tọa độ đã được xác minh; nếu null, bản đồ tìm theo địa chỉ
+  latitude: number | null;
+  longitude: number | null;
+  mapUrl: string;
+}
+
 export interface MedicalService {
   id: string;
   title: string;

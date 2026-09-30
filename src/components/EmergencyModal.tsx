@@ -1,5 +1,5 @@
 import React from 'react';
-import { STATION_INFO } from '../data/healthStationData';
+import { useSiteContent } from '../services/siteContent';
 
 interface EmergencyModalProps {
   isOpen: boolean;
@@ -7,6 +7,8 @@ interface EmergencyModalProps {
 }
 
 export const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose }) => {
+  const { stationInfo } = useSiteContent();
+
   if (!isOpen) return null;
 
   return (
@@ -44,11 +46,11 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose 
           <div className="p-4 rounded-xl bg-red-50 border border-red-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase font-bold text-[#bb0112]">Trực ban Trạm Y tế phường An Hải</p>
-              <p className="text-xl font-bold text-[#121c2a] mt-0.5">{STATION_INFO.hotline}</p>
+              <p className="text-xl font-bold text-[#121c2a] mt-0.5">{stationInfo.hotline}</p>
               <p className="text-xs text-[#414755]">Sơ cấp cứu tại trạm, xử lý chấn thương, ngộ độc, điều động kíp trực</p>
             </div>
             <a 
-              href={`tel:${STATION_INFO.hotline.replace(/[^0-9]/g, '')}`}
+              href={`tel:${stationInfo.hotline.replace(/[^0-9]/g, '')}`}
               className="w-full sm:w-auto px-4 py-2.5 bg-[#bb0112] hover:bg-[#a0010f] text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-colors"
             >
               <span className="material-symbols-outlined text-base">call</span>
@@ -89,7 +91,7 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose 
 
         {/* Footer */}
         <div className="bg-gray-50 px-6 py-3 border-t border-gray-100 flex items-center justify-between text-xs text-[#414755]">
-          <span>Địa chỉ trạm: {STATION_INFO.fullAddress}</span>
+          <span>Địa chỉ trạm: {stationInfo.fullAddress}</span>
           <button 
             onClick={onClose}
             className="px-4 py-1.5 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg text-xs font-semibold text-gray-700 transition-colors"

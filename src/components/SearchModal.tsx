@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
-import { MEDICAL_SERVICES, ANNOUNCEMENTS, NEWS_ARTICLES, HEALTH_GUIDES, VACCINE_CATALOG, STATION_INFO } from '../data/healthStationData';
+import { HEALTH_GUIDES, VACCINE_CATALOG } from '../data/healthStationData';
+import { useSiteContent } from '../services/siteContent';
 import { NavTab } from '../types';
 
 interface SearchModalProps {
@@ -10,6 +11,7 @@ interface SearchModalProps {
 }
 
 export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNavigate, onSelectArticle }) => {
+  const { stationInfo, services, announcements, news } = useSiteContent();
   const [query, setQuery] = useState('');
 
   const results = useMemo(() => {
@@ -17,13 +19,13 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
     if (!q) return { services: [], announcements: [], news: [], guides: [], vaccines: [] };
 
     return {
-      services: MEDICAL_SERVICES.filter(s => s.title.toLowerCase().includes(q) || s.shortDesc.toLowerCase().includes(q)),
-      announcements: ANNOUNCEMENTS.filter(a => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q)),
-      news: NEWS_ARTICLES.filter(n => n.title.toLowerCase().includes(q) || n.summary.toLowerCase().includes(q)),
+      services: services.filter(s => s.title.toLowerCase().includes(q) || s.shortDesc.toLowerCase().includes(q)),
+      announcements: announcements.filter(a => a.title.toLowerCase().includes(q) || a.summary.toLowerCase().includes(q)),
+      news: news.filter(n => n.title.toLowerCase().includes(q) || n.summary.toLowerCase().includes(q)),
       guides: HEALTH_GUIDES.filter(g => g.title.toLowerCase().includes(q) || g.summary.toLowerCase().includes(q)),
       vaccines: VACCINE_CATALOG.filter(v => v.name.toLowerCase().includes(q) || v.diseaseTarget.toLowerCase().includes(q)),
     };
-  }, [query]);
+  }, [query, services, announcements, news]);
 
   if (!isOpen) return null;
 
@@ -89,7 +91,7 @@ export const SearchModal: React.FC<SearchModalProps> = ({ isOpen, onClose, onNav
           ) : totalResults === 0 ? (
             <div className="text-center py-8 text-[#414755]">
               <p className="text-sm font-semibold">Không tìm thấy nội dung phù hợp cho "{query}"</p>
-              <p className="text-xs text-gray-400 mt-1">Vui lòng thử từ khóa khác hoặc gọi trực tiếp đến số {STATION_INFO.hotline}.</p>
+              <p className="text-xs text-gray-400 mt-1">Vui lòng thử từ khóa khác hoặc gọi trực tiếp đến số {stationInfo.hotline}.</p>
             </div>
           ) : (
             <div className="space-y-4">
