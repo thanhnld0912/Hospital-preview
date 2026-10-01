@@ -1,6 +1,6 @@
 import { query } from '../db/pool.js';
 import { buildUpdateSet } from '../db/sql.js';
-import type { PostCreateInput, PostListQuery, PostUpdateInput } from '../schemas/post.js';
+import type { AdminPostListQuery, PostCreateInput, PostListQuery, PostUpdateInput } from '../schemas/post.js';
 import type { ColorScheme, PostDto, PostStatus, PostType } from '../types/content.js';
 import { notFound } from '../utils/errors.js';
 
@@ -51,8 +51,12 @@ function toDto(row: PostRow): PostDto {
   };
 }
 
-export async function listPublishedPosts(filters: PostListQuery): Promise<{ items: PostDto[]; total: number }> {
-  const conditions = [PUBLIC_CONDITION];
+async function listPosts(
+  baseCondition: string,
+  filters: AdminPostListQuery,
+  orderBy: string,
+): Promise<{ items: PostDto[]; total: number }> {
+  const conditions = [baseCondition];
   const params: unknown[] = [];
   if (filters.type) {
     params.push(filters.type);
@@ -62,12 +66,16 @@ export async function listPublishedPosts(filters: PostListQuery): Promise<{ item
     params.push(filters.category);
     conditions.push(`category = $${params.length}`);
   }
+  if (filters.status) {
+    params.push(filters.status);
+    conditions.push(`status = $${params.length}`);
+  }
   const where = conditions.join(' AND ');
 
   const [list, count] = await Promise.all([
     query<PostRow>(
       `SELECT * FROM posts WHERE ${where}
-       ORDER BY published_at DESC, created_at DESC
+       ORDER BY ${orderBy}
        LIMIT $${params.length + 1} OFFSET $${params.length + 2}`,
       [...params, filters.limit, filters.offset],
     ),
@@ -75,6 +83,15 @@ export async function listPublishedPosts(filters: PostListQuery): Promise<{ item
   ]);
 
   return { items: list.rows.map(toDto), total: count.rows[0]?.total ?? 0 };
+}
+
+export function listPublishedPosts(filters: PostListQuery): Promise<{ items: PostDto[]; total: number }> {
+  return listPosts(PUBLIC_CONDITION, filters, 'published_at DESC, created_at DESC');
+}
+
+/** Quản trị: mọi trạng thái (gồm bản nháp và bài hẹn giờ), bài mới tạo lên đầu */
+export function listAllPosts(filters: AdminPostListQuery): Promise<{ items: PostDto[]; total: number }> {
+  return listPosts('true', filters, 'created_at DESC');
 }
 
 export async function getPublishedPostBySlug(slug: string): Promise<PostDto> {

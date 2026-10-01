@@ -148,8 +148,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                 </div>
               </div>
 
-              {/* Floating Accent pill */}
-              <div className="hidden sm:flex absolute -bottom-3 -right-3 bg-white p-3 rounded-xl shadow-lg border border-gray-200 items-center gap-3">
+              {/* Accent card: nằm bên dưới ảnh (trong flow), không đè lên ảnh/caption */}
+              <div className="mt-4 flex w-full sm:w-fit sm:ml-auto bg-white p-3 rounded-xl shadow-lg border border-gray-200 items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#77fac7] flex items-center justify-center text-[#00513a]">
                   <span className="material-symbols-outlined text-xl">health_and_safety</span>
                 </div>

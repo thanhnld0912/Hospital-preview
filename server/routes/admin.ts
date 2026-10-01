@@ -11,6 +11,11 @@ adminRouter.use(authenticate, requireAdmin);
 
 adminRouter.put('/site-settings', siteSettingsController.updateSiteSettings);
 
+// Danh sách cho trang quản trị: gồm cả mục đang tắt / bản nháp (GET public chỉ trả mục công khai)
+adminRouter.get('/locations', locationController.listAllLocations);
+adminRouter.get('/posts', postController.listAllPosts);
+adminRouter.get('/services', serviceController.listAllServices);
+
 adminRouter.post('/locations', locationController.createLocation);
 adminRouter.put('/locations/:id', locationController.updateLocation);
 adminRouter.delete('/locations/:id', locationController.deleteLocation);

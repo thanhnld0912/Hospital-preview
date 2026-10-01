@@ -5,6 +5,7 @@ export const STATION_INFO = {
   city: 'TP. ĐÀ NẴNG',
   district: 'UBND PHƯỜNG AN HẢI',
   parentAgency: 'Trực thuộc Ủy ban Nhân dân phường An Hải',
+  managingUnit: 'Ủy ban Nhân dân phường An Hải',
   fullAddress: 'Số 127 Nguyễn Trung Trực, phường An Hải',
   locations: [
     { name: 'Cơ sở chính', address: 'Số 127 Nguyễn Trung Trực, phường An Hải' },

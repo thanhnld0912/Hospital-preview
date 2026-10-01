@@ -29,8 +29,13 @@ function toDto(row: LocationRow): LocationDto {
     phone: row.phone,
     latitude: row.latitude,
     longitude: row.longitude,
-    // map_url do admin nhập được ưu tiên; nếu trống thì tạo URL theo chính địa điểm này
-    mapUrl: row.map_url ?? buildGoogleMapsSearchUrl(row),
+    // Ưu tiên: tọa độ đã xác minh → map_url do admin nhập → tìm theo địa chỉ của chính địa điểm này
+    mapUrl:
+      row.latitude !== null && row.longitude !== null
+        ? buildGoogleMapsSearchUrl(row)
+        : (row.map_url ?? buildGoogleMapsSearchUrl(row)),
+    // Giá trị gốc của cột map_url (null nếu admin chưa nhập) — dùng cho form quản trị
+    customMapUrl: row.map_url,
     isActive: row.is_active,
     sortOrder: row.sort_order,
     createdAt: row.created_at.toISOString(),
@@ -42,6 +47,12 @@ export async function listActiveLocations(): Promise<LocationDto[]> {
   const { rows } = await query<LocationRow>(
     'SELECT * FROM locations WHERE is_active = true ORDER BY sort_order, created_at',
   );
+  return rows.map(toDto);
+}
+
+/** Quản trị: gồm cả địa điểm đang tắt */
+export async function listAllLocations(): Promise<LocationDto[]> {
+  const { rows } = await query<LocationRow>('SELECT * FROM locations ORDER BY sort_order, created_at');
   return rows.map(toDto);
 }
 

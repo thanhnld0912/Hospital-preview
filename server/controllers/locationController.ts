@@ -8,7 +8,12 @@ export const listLocations = asyncHandler(async (_req, res) => {
   sendList(res, locations, locations.length);
 });
 
-export const getLocation = asyncHandler(async (req, res) => {
+export const listAllLocations = asyncHandler(async (_req, res) => {
+  const locations = await locationService.listAllLocations();
+  sendList(res, locations, locations.length);
+});
+
+export const getLocation =asyncHandler(async (req, res) => {
   const { id } = idParamSchema.parse(req.params);
   sendSuccess(res, await locationService.getActiveLocation(id));
 });

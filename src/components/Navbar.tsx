@@ -108,7 +108,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           <ClinicLogo className="w-13 h-13 group-hover:scale-105 transition-transform" />
           <div>
             <p className="text-[11px] uppercase tracking-wider font-semibold text-[#414755]">
-              {stationInfo.parentAgency}
+              {stationInfo.managingUnit}
             </p>
             <h1 className="text-base sm:text-lg lg:text-xl font-bold text-[#1c7a42] tracking-tight group-hover:text-[#155f33] transition-colors leading-tight">
               {stationInfo.name} - {stationInfo.city}

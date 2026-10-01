@@ -151,6 +151,16 @@ Prefix: `/api`
 | PUT | `/admin/services/:id` | ADMIN | Cập nhật một phần |
 | DELETE | `/admin/services/:id` | ADMIN | Xóa |
 
+Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang tắt và bài nháp, khác với GET public:
+
+| Method | Path | Mô tả |
+|---|---|---|
+| GET | `/admin/locations` | Mọi địa điểm (kể cả `isActive = false`), kèm `customMapUrl` (giá trị gốc cột `map_url`) |
+| GET | `/admin/posts?type=&status=&category=&limit=&offset=` | Mọi bài viết (DRAFT/PUBLISHED/hẹn giờ), mới tạo lên đầu |
+| GET | `/admin/services` | Mọi dịch vụ (kể cả đang tắt) |
+
+`mapUrl` của địa điểm được tạo theo thứ tự ưu tiên: **tọa độ đã xác minh → `map_url` admin nhập → tìm theo địa chỉ của chính địa điểm**.
+
 ### Định dạng response
 
 ```jsonc
@@ -180,11 +190,29 @@ Prefix: `/api`
 - `posts`: `type` (`NEWS`/`ANNOUNCEMENT`), `thumbnail_alt`, `color_scheme`, `author`, `issued_by`, `is_urgent`. Nội dung tin tức lưu dạng văn bản, các đoạn cách nhau một dòng trống.
 - `services`: `short_description`, `color_scheme`, `schedule`, `fee_info`, `target_audience`, `procedure` (mảng các bước), `notes`.
 
+## Admin Dashboard
+
+Giao diện quản trị nằm trong frontend hiện tại (`src/admin/`), tải riêng (code splitting) nên không làm nặng website công khai.
+
+| URL | Chức năng |
+|---|---|
+| `/admin/login` | Đăng nhập (email + mật khẩu tài khoản ADMIN tạo bởi seed) |
+| `/admin` | Tổng quan: số địa điểm, bài viết, dịch vụ, trạng thái backend |
+| `/admin/settings` | Thông tin website (tên, đơn vị quản lý, số điện thoại, email, mô tả, logo) |
+| `/admin/locations` | Thêm/sửa/xóa/bật-tắt/sắp xếp địa điểm; xem trước bản đồ theo tọa độ |
+| `/admin/posts` | Tin tức & thông báo: tạo, sửa, lưu nháp, xuất bản/gỡ xuống, xóa |
+| `/admin/services` | Thêm/sửa/xóa/bật-tắt/sắp xếp dịch vụ |
+
+- JWT lưu trong `sessionStorage` của tab (tự xóa khi đóng tab), tự gắn `Authorization: Bearer <token>`; nhận 401 ⇒ tự đăng xuất và về `/admin/login`.
+- Không có đăng ký / quên mật khẩu / quản lý người dùng: tài khoản admin quản lý qua seed hoặc database.
+- Website công khai tải dữ liệu từ API trước khi hiển thị, nên nội dung admin vừa lưu xuất hiện ngay khi tải lại trang (không cần build lại).
+- Local: chạy `npm run dev:api` và `npm run dev` (với `VITE_API_BASE_URL=http://localhost:3001/api`), mở `http://localhost:3000/admin`.
+
 ## Deploy lên Vercel
 
 1. Import repository vào Vercel (Framework Preset: **Vite**; Build Command `npm run build`; Output `dist`).
 2. Khai báo Environment Variables (Production/Preview): `DATABASE_URL` (Transaction pooler, port 6543), `DATABASE_SSL=true`, `JWT_SECRET`, `FRONTEND_URL=https://<domain>`, `NODE_ENV=production`, `VITE_API_BASE_URL=/api`.
-3. `api/index.ts` được Vercel build thành Serverless Function; `vercel.json` rewrite `/api/*` → function này. Frontend vẫn được phục vụ tĩnh từ `dist`.
+3. `api/index.ts` được Vercel build thành Serverless Function; `vercel.json` rewrite `/api/*` → function này và `/admin/*` → `index.html` (để mở trực tiếp/tải lại các trang quản trị). Frontend vẫn được phục vụ tĩnh từ `dist`.
 4. Chạy migration/seed từ máy local (trỏ `DATABASE_URL` tới database production) hoặc qua Supabase SQL Editor.
 5. Kiểm tra `https://<domain>/api/health`.
 

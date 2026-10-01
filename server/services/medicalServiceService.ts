@@ -53,6 +53,12 @@ export async function listActiveServices(): Promise<ServiceDto[]> {
   return rows.map(toDto);
 }
 
+/** Quản trị: gồm cả dịch vụ đang tắt */
+export async function listAllServices(): Promise<ServiceDto[]> {
+  const { rows } = await query<ServiceRow>('SELECT * FROM services ORDER BY sort_order, created_at');
+  return rows.map(toDto);
+}
+
 export async function getActiveService(id: string): Promise<ServiceDto> {
   const { rows } = await query<ServiceRow>('SELECT * FROM services WHERE id = $1 AND is_active = true', [id]);
   if (!rows[0]) throw notFound(NOT_FOUND_MESSAGE);

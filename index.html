@@ -7,9 +7,9 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <title>Trạm Y Tế Phường An Hải - TP. Đà Nẵng</title>
+    <title>Trạm Y Tế Phường An Hải</title>
     <meta name="description" content="Cổng thông tin điện tử và dịch vụ chăm sóc sức khỏe cộng đồng Trạm Y tế phường An Hải, TP. Đà Nẵng." />
-    <meta property="og:title" content="Trạm Y Tế Phường An Hải - TP. Đà Nẵng" />
+    <meta property="og:title" content="Trạm Y Tế Phường An Hải" />
     <meta property="og:description" content="Cổng thông tin điện tử và dịch vụ chăm sóc sức khỏe cộng đồng Trạm Y tế phường An Hải, TP. Đà Nẵng." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -19,7 +19,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
   </head>
   <body class="bg-[#f7faf8] text-[#121c2a] antialiased selection:bg-[#1c7a42] selection:text-white">
-    <div id="root"></div>
+    <div id="root">
+      <!-- Hiển thị trong lúc tải dữ liệu từ API; React thay thế khi render -->
+      <div style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;font-family:'Be Vietnam Pro',system-ui,sans-serif;color:#414755">
+        <img src="/logo.jpg" alt="" width="64" height="64" style="width:64px;height:64px;object-fit:contain" />
+        <span style="font-size:14px">Đang tải dữ liệu...</span>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

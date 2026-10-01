@@ -8,7 +8,12 @@ export const listServices = asyncHandler(async (_req, res) => {
   sendList(res, services, services.length);
 });
 
-export const getService = asyncHandler(async (req, res) => {
+export const listAllServices = asyncHandler(async (_req, res) => {
+  const services = await medicalServiceService.listAllServices();
+  sendList(res, services, services.length);
+});
+
+export const getService =asyncHandler(async (req, res) => {
   const { id } = idParamSchema.parse(req.params);
   sendSuccess(res, await medicalServiceService.getActiveService(id));
 });

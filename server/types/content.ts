@@ -26,6 +26,7 @@ export interface LocationDto {
   latitude: number | null;
   longitude: number | null;
   mapUrl: string;
+  customMapUrl: string | null;
   isActive: boolean;
   sortOrder: number;
   createdAt: string;

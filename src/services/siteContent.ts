@@ -113,6 +113,7 @@ function mergeStationInfo(settings: SiteSettingsDto | null, locations: StationLo
     ...(settings && {
       name: settings.siteName,
       parentAgency: `Trực thuộc ${settings.managingUnit}`,
+      managingUnit: settings.managingUnit,
       hotline: settings.phone,
       email: settings.email ?? STATION_INFO.email,
       logoUrl: settings.logoUrl ?? STATION_INFO.logoUrl,
@@ -169,7 +170,15 @@ function getSiteContent(): Promise<SiteContent> {
   return pendingContent;
 }
 
-/** Nội dung website: hiển thị ngay dữ liệu dự phòng, thay bằng dữ liệu API khi tải xong */
+/**
+ * Tải nội dung trước lần render đầu tiên (main.tsx) để website hiển thị ngay dữ liệu mới nhất
+ * từ API, không hiện thoáng qua dữ liệu tĩnh. Không bao giờ reject: lỗi đã được log và dùng dự phòng.
+ */
+export function preloadSiteContent(): Promise<SiteContent> {
+  return getSiteContent();
+}
+
+/** Nội dung website: dữ liệu API (đã tải trước); dữ liệu dự phòng chỉ khi API lỗi/chưa cấu hình */
 export function useSiteContent(): SiteContent {
   const [content, setContent] = useState<SiteContent>(() => cachedContent ?? FALLBACK_CONTENT);
 

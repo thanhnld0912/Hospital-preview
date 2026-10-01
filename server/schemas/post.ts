@@ -37,6 +37,12 @@ export const postListQuerySchema = z.object({
   offset: z.coerce.number().int().min(0).default(0),
 });
 
+/** Quản trị: thêm lọc theo trạng thái (gồm cả bản nháp) */
+export const adminPostListQuerySchema = postListQuerySchema.extend({
+  status: z.enum(POST_STATUSES).optional(),
+});
+
 export type PostCreateInput = z.infer<typeof postCreateSchema>;
 export type PostUpdateInput = z.infer<typeof postUpdateSchema>;
 export type PostListQuery = z.infer<typeof postListQuerySchema>;
+export type AdminPostListQuery = z.infer<typeof adminPostListQuerySchema>;
