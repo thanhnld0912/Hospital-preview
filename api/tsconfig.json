@@ -1,0 +1,13 @@
+{
+  // Config cho Vercel Serverless Function (@vercel/node tìm tsconfig.json gần nhất tính từ api/).
+  // Dùng cấu hình backend (tsconfig.server.json) thay vì tsconfig.json của frontend (types "vite/client").
+  // @vercel/node + TypeScript 7 biên dịch qua một tsconfig tạm nằm ngoài project, nên typeRoots phải
+  // trỏ rõ về node_modules/@types của project để tìm được type "node".
+  // useDefineForClassFields: giữ như tsconfig.json cũ để JS emit cho function không đổi.
+  "extends": "../tsconfig.server.json",
+  "compilerOptions": {
+    "typeRoots": ["../node_modules/@types"],
+    "useDefineForClassFields": false
+  },
+  "include": ["./**/*.ts", "../server/**/*.ts"]
+}
