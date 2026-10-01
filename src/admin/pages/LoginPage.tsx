@@ -12,7 +12,7 @@ export const LoginPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    document.title = 'Đăng nhập – Code-Hospital Admin';
+    document.title = 'Đăng nhập quản trị — Trạm Y Tế An Hải';
   }, []);
 
   // Đã đăng nhập thì không ở lại trang đăng nhập
@@ -41,8 +41,8 @@ export const LoginPage: React.FC = () => {
         <div className="rounded-2xl border border-gray-200 bg-white p-6 sm:p-8 shadow-sm">
           <div className="flex flex-col items-center text-center">
             <img src="/logo.jpg" alt="Biểu trưng Trạm Y tế An Hải" width={72} height={72} className="h-18 w-18 object-contain" />
-            <h1 className="mt-3 text-xl font-bold text-[#1c7a42]">Code-Hospital</h1>
-            <p className="text-sm text-[#414755]">Quản trị hệ thống</p>
+            <h1 className="mt-3 text-xl font-bold text-[#1c7a42]">TRẠM Y TẾ AN HẢI</h1>
+            <p className="text-sm text-[#414755]">Đăng nhập quản trị</p>
           </div>
 
           {status === 'loading' ? (

@@ -1,5 +1,6 @@
 import React from 'react';
-import { STAFF_MEMBERS, STATION_INFO } from '../../data/healthStationData';
+import { STATION_INFO } from '../../data/healthStationData';
+import { useSiteContent } from '../../services/siteContent';
 import { NavTab } from '../../types';
 
 interface AboutScreenProps {
@@ -8,6 +9,10 @@ interface AboutScreenProps {
 }
 
 export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBooking }) => {
+  // Nhân sự và tiêu đề section lấy từ API (quản trị cập nhật), dự phòng dữ liệu tĩnh khi API lỗi
+  const { staff, stationInfo } = useSiteContent();
+  const { staffSection } = stationInfo;
+
   const nationalCriteria = [
     { id: 1, title: 'Chỉ đạo, điều hành công tác CSSK nhân dân', score: '100%' },
     { id: 2, title: 'Nhân lực y tế đạt chuẩn theo định biên', score: '100%' },
@@ -78,35 +83,51 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
         {/* Section: Medical Staff & Leadership */}
         <div className="space-y-4">
           <div>
-            <span className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider">Nhân sự chuyên môn</span>
-            <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">Đội ngũ y bác sĩ & Nhân viên y tế</h2>
-            <p className="text-xs text-[#414755]">Cán bộ tận tâm, y đức trong sáng, được đào tạo chính quy</p>
+            <span className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider">{staffSection.label}</span>
+            <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">{staffSection.title}</h2>
+            {staffSection.description && <p className="text-xs text-[#414755]">{staffSection.description}</p>}
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {STAFF_MEMBERS.map((member) => (
-              <div key={member.id} className="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-12 h-12 rounded-full bg-green-100 text-[#1c7a42] flex items-center justify-center font-bold text-lg">
-                      {member.name.slice(0, 1)}
+            {staff.map((member) => {
+              // Chức danh viết tắt + họ tên, ví dụ "Bs.CKI. Tuấn Thọ Sinh"
+              const displayName = [member.title, member.fullName].filter(Boolean).join(' ');
+              return (
+                <div key={member.id} className="bg-white p-5 rounded-2xl border border-gray-200 shadow-xs flex flex-col justify-between">
+                  <div>
+                    <div className="flex items-center gap-3 mb-3">
+                      {member.avatarUrl ? (
+                        <img
+                          src={member.avatarUrl}
+                          alt={displayName}
+                          className="w-12 h-12 rounded-full object-cover shrink-0 bg-green-100"
+                        />
+                      ) : (
+                        <div className="w-12 h-12 rounded-full bg-green-100 text-[#1c7a42] flex items-center justify-center font-bold text-lg">
+                          {displayName.slice(0, 1)}
+                        </div>
+                      )}
+                      <div>
+                        <h3 className="text-sm font-bold text-[#121c2a]">{displayName}</h3>
+                        <p className="text-xs font-semibold text-[#1c7a42]">{member.position}</p>
+                        {member.department && <p className="text-[11px] text-gray-500">{member.department}</p>}
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="text-sm font-bold text-[#121c2a]">{member.name}</h3>
-                      <p className="text-xs font-semibold text-[#1c7a42]">{member.role}</p>
-                      <p className="text-[11px] text-gray-500">{member.department}</p>
-                    </div>
+                    {member.bio && (
+                      <p className="text-xs text-[#414755] leading-relaxed border-t border-gray-100 pt-3">
+                        {member.bio}
+                      </p>
+                    )}
                   </div>
-                  <p className="text-xs text-[#414755] leading-relaxed border-t border-gray-100 pt-3">
-                    {member.experience}
-                  </p>
+                  {member.qualification && (
+                    <div className="mt-4 pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
+                      <span className="text-gray-400">Trình độ:</span>
+                      <span className="font-semibold text-gray-700">{member.qualification}</span>
+                    </div>
+                  )}
                 </div>
-                <div className="mt-4 pt-2 border-t border-gray-100 flex items-center justify-between text-xs">
-                  <span className="text-gray-400">Trình độ:</span>
-                  <span className="font-semibold text-gray-700">{member.title}</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 

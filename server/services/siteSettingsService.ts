@@ -12,6 +12,9 @@ interface SiteSettingsRow {
   email: string | null;
   description: string | null;
   logo_url: string | null;
+  staff_section_label: string;
+  staff_section_title: string;
+  staff_section_description: string | null;
   updated_at: Date;
 }
 
@@ -26,6 +29,9 @@ function toDto(row: SiteSettingsRow): SiteSettingsDto {
     email: row.email,
     description: row.description,
     logoUrl: row.logo_url,
+    staffSectionLabel: row.staff_section_label,
+    staffSectionTitle: row.staff_section_title,
+    staffSectionDescription: row.staff_section_description,
     updatedAt: row.updated_at.toISOString(),
   };
 }
@@ -45,6 +51,9 @@ export async function updateSiteSettings(input: SiteSettingsUpdateInput): Promis
     email: input.email,
     description: input.description,
     logo_url: input.logoUrl,
+    staff_section_label: input.staffSectionLabel,
+    staff_section_title: input.staffSectionTitle,
+    staff_section_description: input.staffSectionDescription,
   });
   const { rows } = await query<SiteSettingsRow>(
     `UPDATE site_settings SET ${assignments.join(', ')} WHERE id = 1 RETURNING *`,

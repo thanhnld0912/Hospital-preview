@@ -15,8 +15,33 @@ export interface SiteSettingsDto {
   email: string | null;
   description: string | null;
   logoUrl: string | null;
+  staffSectionLabel: string;
+  staffSectionTitle: string;
+  staffSectionDescription: string | null;
   updatedAt: string;
 }
+
+/** Nhân sự chuyên môn — bản đầy đủ cho trang quản trị */
+export interface StaffDto {
+  id: string;
+  fullName: string;
+  title: string | null;
+  position: string;
+  department: string | null;
+  bio: string | null;
+  qualification: string | null;
+  avatarUrl: string | null;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+/** Nhân sự chuyên môn — bản công khai: chỉ các trường hiển thị trên website */
+export type PublicStaffDto = Pick<
+  StaffDto,
+  'id' | 'fullName' | 'title' | 'position' | 'department' | 'bio' | 'qualification' | 'avatarUrl'
+>;
 
 export interface LocationDto {
   id: string;

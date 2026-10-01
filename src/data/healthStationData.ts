@@ -1,4 +1,4 @@
-import { MedicalService, Announcement, NewsArticle, HealthGuide, StaffMember, DutyShift, VaccineItem } from '../types';
+import { MedicalService, Announcement, NewsArticle, HealthGuide, StaffMember, StaffProfile, DutyShift, VaccineItem } from '../types';
 
 export const STATION_INFO = {
   name: 'TRẠM Y TẾ PHƯỜNG AN HẢI',
@@ -20,6 +20,12 @@ export const STATION_INFO = {
   email: 'tyt.anhai@danang.gov.vn',
   portalUrl: 'suckhoe.anhai.danang.vn',
   logoUrl: '/logo.jpg',
+  // Tiêu đề section "Nhân sự chuyên môn" (trang Giới thiệu) — quản trị sửa trong Thông tin website
+  staffSection: {
+    label: 'Nhân sự chuyên môn',
+    title: 'Đội ngũ y bác sĩ & Nhân viên y tế',
+    description: 'Cán bộ tận tâm, y đức trong sáng, được đào tạo chính quy' as string | null,
+  },
   workingHours: {
     morning: '07:30 - 11:30',
     afternoon: '13:30 - 17:00',
@@ -390,6 +396,25 @@ export const STAFF_MEMBERS: StaffMember[] = [
     experience: 'Phụ trách đo dấu hiệu sinh tồn, hỗ trợ thủ tục BHYT điện tử VNeID và trực cấp cứu 24/7.'
   }
 ];
+
+/**
+ * STAFF_MEMBERS theo cấu trúc bảng professional_staff (dùng cho seed và dữ liệu dự phòng khi API lỗi).
+ * Tên hiển thị "Bs.CKI. Tuấn Thọ Sinh" được tách thành chức danh "Bs.CKI." + họ tên "Tuấn Thọ Sinh";
+ * website ghép lại đúng như cũ. Trường `title` cũ (hiển thị ở mục "Trình độ") là qualification.
+ */
+export const STAFF_PROFILES: StaffProfile[] = STAFF_MEMBERS.map((member) => {
+  const match = /^(\S+\.)\s+(.+)$/.exec(member.name);
+  return {
+    id: member.id,
+    fullName: match ? match[2] : member.name,
+    title: match ? match[1] : null,
+    position: member.role,
+    department: member.department,
+    bio: member.experience,
+    qualification: member.title,
+    avatarUrl: member.avatarUrl ?? null,
+  };
+});
 
 export const WEEKLY_DUTY: DutyShift[] = [
   {

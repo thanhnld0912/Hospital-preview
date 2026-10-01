@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import type pg from 'pg';
 import { z } from 'zod';
 // Dữ liệu ban đầu lấy từ nguồn dữ liệu tĩnh hiện tại của frontend (một nguồn duy nhất, không copy tay)
-import { ANNOUNCEMENTS, MEDICAL_SERVICES, NEWS_ARTICLES, STATION_INFO } from '../../src/data/healthStationData.js';
+import { ANNOUNCEMENTS, MEDICAL_SERVICES, NEWS_ARTICLES, STAFF_PROFILES, STATION_INFO } from '../../src/data/healthStationData.js';
 import { closePool, getPool } from './pool.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -36,7 +36,14 @@ async function seedAdmin(client: pg.PoolClient): Promise<void> {
      ON CONFLICT (email) DO NOTHING`,
     [ADMIN_EMAIL, passwordHash, ADMIN_FULL_NAME],
   );
-  console.log(result.rowCount ? `✓ Tạo admin ${ADMIN_EMAIL}` : `- Admin ${ADMIN_EMAIL} đã tồn tại (giữ nguyên mật khẩu)`);
+  const maskedEmail = maskEmail(ADMIN_EMAIL);
+  console.log(result.rowCount ? `✓ Tạo admin ${maskedEmail}` : `- Admin ${maskedEmail} đã tồn tại (giữ nguyên mật khẩu)`);
+}
+
+/** "admin@example.com" -> "ad***@example.com" (không in đầy đủ thông tin đăng nhập ra log) */
+function maskEmail(email: string): string {
+  const [local, domain] = email.split('@');
+  return `${local.slice(0, 2)}***@${domain ?? ''}`;
 }
 
 async function seedSiteSettings(client: pg.PoolClient): Promise<void> {
@@ -126,6 +133,32 @@ async function seedPosts(client: pg.PoolClient): Promise<void> {
   console.log(`✓ posts: thêm ${created}/${ANNOUNCEMENTS.length + NEWS_ARTICLES.length} (bỏ qua slug đã có)`);
 }
 
+async function seedStaff(client: pg.PoolClient): Promise<void> {
+  const { rows } = await client.query<{ total: number }>('SELECT count(*)::int AS total FROM professional_staff');
+  if ((rows[0]?.total ?? 0) > 0) {
+    console.log('- professional_staff đã có dữ liệu (giữ nguyên)');
+    return;
+  }
+  // Đúng nhân sự đang hiển thị trên website, giữ nguyên nội dung và thứ tự
+  for (const [index, member] of STAFF_PROFILES.entries()) {
+    await client.query(
+      `INSERT INTO professional_staff (full_name, title, position, department, bio, qualification, avatar_url, sort_order)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+      [
+        member.fullName,
+        member.title,
+        member.position,
+        member.department,
+        member.bio,
+        member.qualification,
+        member.avatarUrl,
+        index + 1,
+      ],
+    );
+  }
+  console.log(`✓ Tạo ${STAFF_PROFILES.length} nhân sự chuyên môn`);
+}
+
 async function seed(): Promise<void> {
   const client = await getPool().connect();
   try {
@@ -135,6 +168,7 @@ async function seed(): Promise<void> {
     await seedLocations(client);
     await seedServices(client);
     await seedPosts(client);
+    await seedStaff(client);
     await client.query('COMMIT');
   } catch (error) {
     await client.query('ROLLBACK');

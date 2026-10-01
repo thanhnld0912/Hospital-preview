@@ -85,6 +85,19 @@ export interface StaffMember {
   avatarUrl?: string;
 }
 
+/** Nhân sự hiển thị trên trang Giới thiệu (dữ liệu từ API /staff, dự phòng từ STAFF_MEMBERS) */
+export interface StaffProfile {
+  id: string;
+  fullName: string;
+  /** Chức danh viết tắt hiển thị trước tên, ví dụ "Bs.CKI." */
+  title: string | null;
+  position: string;
+  department: string | null;
+  bio: string | null;
+  qualification: string | null;
+  avatarUrl: string | null;
+}
+
 export interface DutyShift {
   day: string;
   date: string;

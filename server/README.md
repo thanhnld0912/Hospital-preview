@@ -73,12 +73,12 @@ node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
    Thay `[YOUR-PASSWORD]` rồi gán vào `DATABASE_URL`. **Không** thêm `?sslmode=...` (SSL điều khiển bằng `DATABASE_SSL`).
 3. **Chạy migration** — chọn một trong hai cách:
    - `npm run db:migrate` (đọc `DATABASE_URL` từ `.env`), hoặc
-   - mở **SQL Editor** trên Supabase, dán nội dung `server/db/migrations/001_initial.sql` và Run. Script idempotent, chạy lại không lỗi.
+   - mở **SQL Editor** trên Supabase, dán lần lượt nội dung các file trong `server/db/migrations/` (`001_initial.sql`, `002_professional_staff.sql`, …) theo thứ tự và Run. Script idempotent, chạy lại không lỗi.
 4. **Chạy seed** (cần `ADMIN_PASSWORD` ≥ 12 ký tự trong `.env`):
    ```bash
    npm run db:seed
    ```
-   Tạo: 1 admin, `site_settings`, 5 địa điểm, 6 dịch vụ, 3 thông báo + 3 tin tức. Seed an toàn khi chạy lại (không ghi đè dữ liệu đã có, không đổi mật khẩu admin đã tồn tại).
+   Tạo: 1 admin, `site_settings`, 5 địa điểm, 6 dịch vụ, 3 thông báo + 3 tin tức, 5 nhân sự chuyên môn. Seed an toàn khi chạy lại (không ghi đè dữ liệu đã có, không đổi mật khẩu admin đã tồn tại).
 5. **Cấu hình biến môi trường** (local: `.env`; production: Vercel → Project Settings → Environment Variables).
 
 > Migration bật **Row Level Security** cho mọi bảng và không tạo policy, để Data API (anon key) của Supabase không đọc/ghi được dữ liệu (đặc biệt `users.password_hash`). Backend kết nối bằng role owner nên không bị ảnh hưởng.
@@ -150,6 +150,10 @@ Prefix: `/api`
 | POST | `/admin/services` | ADMIN | Tạo dịch vụ |
 | PUT | `/admin/services/:id` | ADMIN | Cập nhật một phần |
 | DELETE | `/admin/services/:id` | ADMIN | Xóa |
+| GET | `/staff` | Public | Nhân sự chuyên môn đang hiển thị (theo `sort_order`), chỉ các trường hiển thị |
+| POST | `/admin/staff` | ADMIN | Thêm nhân sự |
+| PUT | `/admin/staff/:id` | ADMIN | Cập nhật một phần |
+| DELETE | `/admin/staff/:id` | ADMIN | Xóa |
 
 Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang tắt và bài nháp, khác với GET public:
 
@@ -158,6 +162,7 @@ Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang
 | GET | `/admin/locations` | Mọi địa điểm (kể cả `isActive = false`), kèm `customMapUrl` (giá trị gốc cột `map_url`) |
 | GET | `/admin/posts?type=&status=&category=&limit=&offset=` | Mọi bài viết (DRAFT/PUBLISHED/hẹn giờ), mới tạo lên đầu |
 | GET | `/admin/services` | Mọi dịch vụ (kể cả đang tắt) |
+| GET | `/admin/staff` | Mọi nhân sự (kể cả đang ẩn) |
 
 `mapUrl` của địa điểm được tạo theo thứ tự ưu tiên: **tọa độ đã xác minh → `map_url` admin nhập → tìm theo địa chỉ của chính địa điểm**.
 
@@ -189,6 +194,8 @@ Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang
 
 - `posts`: `type` (`NEWS`/`ANNOUNCEMENT`), `thumbnail_alt`, `color_scheme`, `author`, `issued_by`, `is_urgent`. Nội dung tin tức lưu dạng văn bản, các đoạn cách nhau một dòng trống.
 - `services`: `short_description`, `color_scheme`, `schedule`, `fee_info`, `target_audience`, `procedure` (mảng các bước), `notes`.
+- `professional_staff` (migration 002): `full_name`, `title` (chức danh viết tắt, ví dụ `Bs.CKI.` — website hiển thị trước họ tên), `position` (chức vụ), `department`, `bio`, `qualification` (trình độ), `avatar_url`, `is_active`, `sort_order`.
+- `site_settings` (migration 002): `staff_section_label`, `staff_section_title`, `staff_section_description` — tiêu đề section "Nhân sự chuyên môn" trên trang Giới thiệu.
 
 ## Admin Dashboard
 
@@ -198,13 +205,14 @@ Giao diện quản trị nằm trong frontend hiện tại (`src/admin/`), tải
 |---|---|
 | `/admin/login` | Đăng nhập (email + mật khẩu tài khoản ADMIN tạo bởi seed) |
 | `/admin` | Tổng quan: số địa điểm, bài viết, dịch vụ, trạng thái backend |
-| `/admin/settings` | Thông tin website (tên, đơn vị quản lý, số điện thoại, email, mô tả, logo) |
+| `/admin/settings` | Thông tin website (tên, đơn vị quản lý, số điện thoại, email, mô tả, logo) và nội dung giới thiệu (tiêu đề section nhân sự) |
 | `/admin/locations` | Thêm/sửa/xóa/bật-tắt/sắp xếp địa điểm; xem trước bản đồ theo tọa độ |
 | `/admin/posts` | Tin tức & thông báo: tạo, sửa, lưu nháp, xuất bản/gỡ xuống, xóa |
 | `/admin/services` | Thêm/sửa/xóa/bật-tắt/sắp xếp dịch vụ |
+| `/admin/staff` | Nhân sự chuyên môn: thêm/sửa/xóa/ẩn-hiện/sắp xếp |
 
 - JWT lưu trong `sessionStorage` của tab (tự xóa khi đóng tab), tự gắn `Authorization: Bearer <token>`; nhận 401 ⇒ tự đăng xuất và về `/admin/login`.
-- Không có đăng ký / quên mật khẩu / quản lý người dùng: tài khoản admin quản lý qua seed hoặc database.
+- Không có đăng ký / quên mật khẩu / quản lý người dùng: tài khoản admin quản lý qua seed hoặc database. Website công khai chỉ có liên kết nhỏ "Đăng nhập quản trị" ở chân trang dẫn tới `/admin/login`.
 - Website công khai tải dữ liệu từ API trước khi hiển thị, nên nội dung admin vừa lưu xuất hiện ngay khi tải lại trang (không cần build lại).
 - Local: chạy `npm run dev:api` và `npm run dev` (với `VITE_API_BASE_URL=http://localhost:3001/api`), mở `http://localhost:3000/admin`.
 

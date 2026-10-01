@@ -3,6 +3,7 @@ import * as locationController from '../controllers/locationController.js';
 import * as postController from '../controllers/postController.js';
 import * as serviceController from '../controllers/serviceController.js';
 import * as siteSettingsController from '../controllers/siteSettingsController.js';
+import * as staffController from '../controllers/staffController.js';
 import { authenticate, requireAdmin } from '../middleware/auth.js';
 
 export const adminRouter = Router();
@@ -15,6 +16,7 @@ adminRouter.put('/site-settings', siteSettingsController.updateSiteSettings);
 adminRouter.get('/locations', locationController.listAllLocations);
 adminRouter.get('/posts', postController.listAllPosts);
 adminRouter.get('/services', serviceController.listAllServices);
+adminRouter.get('/staff', staffController.listAllStaff);
 
 adminRouter.post('/locations', locationController.createLocation);
 adminRouter.put('/locations/:id', locationController.updateLocation);
@@ -27,3 +29,7 @@ adminRouter.delete('/posts/:id', postController.deletePost);
 adminRouter.post('/services', serviceController.createService);
 adminRouter.put('/services/:id', serviceController.updateService);
 adminRouter.delete('/services/:id', serviceController.deleteService);
+
+adminRouter.post('/staff', staffController.createStaff);
+adminRouter.put('/staff/:id', staffController.updateStaff);
+adminRouter.delete('/staff/:id', staffController.deleteStaff);

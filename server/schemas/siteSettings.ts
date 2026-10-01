@@ -10,6 +10,9 @@ export const siteSettingsUpdateSchema = z
     email: emailSchema.nullable().optional(),
     description: optionalText(1000),
     logoUrl: optionalUrl,
+    staffSectionLabel: requiredText(100).optional(),
+    staffSectionTitle: requiredText(200).optional(),
+    staffSectionDescription: optionalText(500),
   })
   .refine(hasAtLeastOneField, AT_LEAST_ONE_FIELD_MESSAGE);
 

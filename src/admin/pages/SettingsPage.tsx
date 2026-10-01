@@ -22,6 +22,9 @@ interface SettingsForm {
   email: string;
   description: string;
   logoUrl: string;
+  staffSectionLabel: string;
+  staffSectionTitle: string;
+  staffSectionDescription: string;
 }
 
 function toForm(settings: SiteSettingsDto): SettingsForm {
@@ -33,6 +36,9 @@ function toForm(settings: SiteSettingsDto): SettingsForm {
     email: settings.email ?? '',
     description: settings.description ?? '',
     logoUrl: settings.logoUrl ?? '',
+    staffSectionLabel: settings.staffSectionLabel,
+    staffSectionTitle: settings.staffSectionTitle,
+    staffSectionDescription: settings.staffSectionDescription ?? '',
   };
 }
 
@@ -82,6 +88,9 @@ export const SettingsPage: React.FC = () => {
           email: emptyToNull(form.email),
           description: emptyToNull(form.description),
           logoUrl: emptyToNull(form.logoUrl),
+          staffSectionLabel: form.staffSectionLabel.trim(),
+          staffSectionTitle: form.staffSectionTitle.trim(),
+          staffSectionDescription: emptyToNull(form.staffSectionDescription),
         },
       });
       setForm(toForm(data));
@@ -171,6 +180,40 @@ export const SettingsPage: React.FC = () => {
                 <span className="text-xs text-gray-500">Xem trước logo</span>
               </div>
             )}
+            <fieldset className="space-y-4 border-t border-gray-100 pt-5">
+              <legend className="sr-only">Nội dung giới thiệu</legend>
+              <div>
+                <h2 className="text-sm font-bold text-[#121c2a]">Nội dung giới thiệu</h2>
+                <p className="text-xs text-gray-500">
+                  Tiêu đề section "Nhân sự chuyên môn" trên trang Giới thiệu. Danh sách nhân sự quản lý ở mục Nhân sự.
+                </p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <AdminInput
+                  label="Tiêu đề nhỏ"
+                  required
+                  value={form.staffSectionLabel}
+                  onChange={update('staffSectionLabel')}
+                  error={errors.staffSectionLabel}
+                  hint="Hiển thị chữ in hoa phía trên tiêu đề chính."
+                />
+                <AdminInput
+                  label="Tiêu đề chính"
+                  required
+                  value={form.staffSectionTitle}
+                  onChange={update('staffSectionTitle')}
+                  error={errors.staffSectionTitle}
+                />
+              </div>
+              <AdminTextarea
+                label="Mô tả"
+                rows={2}
+                value={form.staffSectionDescription}
+                onChange={update('staffSectionDescription')}
+                error={errors.staffSectionDescription}
+                hint="Để trống nếu không muốn hiển thị dòng mô tả."
+              />
+            </fieldset>
             <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
               <span className="text-xs text-gray-500">Cập nhật lần cuối: {formatDateTime(updatedAt)}</span>
               <AdminButton type="submit" icon="save" loading={saving}>

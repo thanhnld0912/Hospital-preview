@@ -111,7 +111,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               {stationInfo.managingUnit}
             </p>
             <h1 className="text-base sm:text-lg lg:text-xl font-bold text-[#1c7a42] tracking-tight group-hover:text-[#155f33] transition-colors leading-tight">
-              {stationInfo.name} - {stationInfo.city}
+              {stationInfo.name}
             </h1>
             <p className="text-xs text-[#414755] hidden sm:block">
               Hệ thống quản lý, tư vấn và chăm sóc sức khỏe cộng đồng tuyến cơ sở

@@ -11,6 +11,8 @@ const root = createRoot(document.getElementById('root')!);
 const {pathname} = window.location;
 
 if (pathname === '/admin' || pathname.startsWith('/admin/')) {
+  // Tiêu đề tab ngay từ lúc tải khu vực quản trị (các trang sẽ đặt tiêu đề chi tiết sau)
+  document.title = 'Quản trị — Trạm Y Tế An Hải';
   root.render(
     <Suspense fallback={null}>
       <AdminApp />

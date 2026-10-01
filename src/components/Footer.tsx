@@ -117,7 +117,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenEmergency }) =
       <div className="bg-[#e3f0e6] py-3 border-t border-[#d9eadd]">
         <div className="max-w-7xl mx-auto px-4 lg:px-6 flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-2 text-xs text-[#414755]">
           <p>© 2026 Trạm Y tế phường An Hải – Thành phố Đà Nẵng. Bản quyền thuộc cơ quan y tế địa phương.</p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
             <button onClick={() => onNavigate('gioi-thieu')} className="hover:text-[#1c7a42] transition-colors">
               Quy chế hoạt động
             </button>
@@ -129,6 +129,12 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate, onOpenEmergency }) =
             <button onClick={() => onNavigate('lien-he')} className="hover:text-[#1c7a42] transition-colors">
               Sơ đồ trang & Chỉ dẫn
             </button>
+            <span>•</span>
+            {/* Lối vào trang đăng nhập quản trị (chỉ là liên kết; quyền do backend kiểm tra) */}
+            <a href="/admin/login" className="inline-flex items-center gap-1 hover:text-[#1c7a42] transition-colors">
+              <span className="material-symbols-outlined text-sm">lock</span>
+              <span>Đăng nhập quản trị</span>
+            </a>
           </div>
         </div>
       </div>

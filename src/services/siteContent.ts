@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { ANNOUNCEMENTS, MEDICAL_SERVICES, NEWS_ARTICLES, STATION_INFO } from '../data/healthStationData';
-import { Announcement, MedicalService, NewsArticle, StationLocation } from '../types';
-import { API_BASE_URL, apiGet, LocationDto, PostDto, ServiceDto, SiteSettingsDto } from './api';
+import { ANNOUNCEMENTS, MEDICAL_SERVICES, NEWS_ARTICLES, STAFF_PROFILES, STATION_INFO } from '../data/healthStationData';
+import { Announcement, MedicalService, NewsArticle, StaffProfile, StationLocation } from '../types';
+import { API_BASE_URL, apiGet, LocationDto, PostDto, PublicStaffDto, ServiceDto, SiteSettingsDto } from './api';
 import { buildGoogleMapsSearchUrl } from './maps';
 
 export type StationInfo = typeof STATION_INFO;
@@ -12,6 +12,7 @@ export interface SiteContent {
   services: MedicalService[];
   announcements: Announcement[];
   news: NewsArticle[];
+  staff: StaffProfile[];
 }
 
 // ---------------------------------------------------------------------------
@@ -33,6 +34,7 @@ const FALLBACK_CONTENT: SiteContent = {
   services: MEDICAL_SERVICES,
   announcements: ANNOUNCEMENTS,
   news: NEWS_ARTICLES,
+  staff: STAFF_PROFILES,
 };
 
 // ---------------------------------------------------------------------------
@@ -117,6 +119,11 @@ function mergeStationInfo(settings: SiteSettingsDto | null, locations: StationLo
       hotline: settings.phone,
       email: settings.email ?? STATION_INFO.email,
       logoUrl: settings.logoUrl ?? STATION_INFO.logoUrl,
+      staffSection: {
+        label: settings.staffSectionLabel,
+        title: settings.staffSectionTitle,
+        description: settings.staffSectionDescription,
+      },
     }),
     // Địa chỉ chính = địa điểm đầu tiên theo thứ tự sắp xếp
     fullAddress: locations[0]?.address ?? STATION_INFO.fullAddress,
@@ -142,11 +149,12 @@ async function loadSiteContent(): Promise<SiteContent> {
     return FALLBACK_CONTENT;
   }
 
-  const [settings, locations, services, posts] = await Promise.all([
+  const [settings, locations, services, posts, staff] = await Promise.all([
     fetchOrFallback('cấu hình website', '/site-settings', null, (dto: SiteSettingsDto): SiteSettingsDto | null => dto),
     fetchOrFallback('danh sách địa điểm', '/locations', FALLBACK_LOCATIONS, mapLocations),
     fetchOrFallback('danh sách dịch vụ', '/services', MEDICAL_SERVICES, mapServices),
     fetchOrFallback('tin tức & thông báo', '/posts?limit=100', null, (dtos: PostDto[]): PostDto[] | null => dtos),
+    fetchOrFallback('nhân sự chuyên môn', '/staff', STAFF_PROFILES, (dtos: PublicStaffDto[]): StaffProfile[] => dtos),
   ]);
 
   return {
@@ -155,6 +163,7 @@ async function loadSiteContent(): Promise<SiteContent> {
     services,
     announcements: posts ? posts.filter((post) => post.type === 'ANNOUNCEMENT').map(mapAnnouncement) : ANNOUNCEMENTS,
     news: posts ? posts.filter((post) => post.type === 'NEWS').map(mapNews) : NEWS_ARTICLES,
+    staff,
   };
 }
 

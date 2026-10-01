@@ -8,6 +8,7 @@ import { LoginPage } from './pages/LoginPage';
 import { PostsPage } from './pages/PostsPage';
 import { ServicesPage } from './pages/ServicesPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { StaffPage } from './pages/StaffPage';
 import { AdminLink, navigate, usePathname } from './router';
 
 const ROUTES: Record<string, React.FC> = {
@@ -16,6 +17,7 @@ const ROUTES: Record<string, React.FC> = {
   '/admin/locations': LocationsPage,
   '/admin/posts': PostsPage,
   '/admin/services': ServicesPage,
+  '/admin/staff': StaffPage,
 };
 
 const FullScreen: React.FC<{ children: React.ReactNode }> = ({ children }) => (

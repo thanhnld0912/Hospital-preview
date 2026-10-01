@@ -8,7 +8,10 @@ export const ADMIN_NAV_ITEMS = [
   { to: '/admin/locations', label: 'Địa điểm', icon: 'location_on' },
   { to: '/admin/posts', label: 'Tin tức', icon: 'newspaper' },
   { to: '/admin/services', label: 'Dịch vụ', icon: 'medical_services' },
+  { to: '/admin/staff', label: 'Nhân sự', icon: 'groups' },
 ] as const;
+
+export const ADMIN_TITLE = 'Quản trị — Trạm Y Tế An Hải';
 
 const AdminSidebar: React.FC<{ pathname: string; onNavigate: () => void }> = ({ pathname, onNavigate }) => {
   const { logout } = useAuth();
@@ -61,7 +64,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
   const current = ADMIN_NAV_ITEMS.find((item) => item.to === pathname);
 
   useEffect(() => {
-    document.title = `${current?.label ?? 'Quản trị'} – Code-Hospital Admin`;
+    document.title = current && current.to !== '/admin' ? `${current.label} | ${ADMIN_TITLE}` : ADMIN_TITLE;
   }, [current]);
 
   // Đóng drawer bằng phím Esc
@@ -86,7 +89,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
         </button>
         <AdminLink to="/admin" className="flex items-center gap-2.5 min-w-0">
           <img src="/logo.jpg" alt="" width={36} height={36} className="h-9 w-9 shrink-0 object-contain" />
-          <span className="truncate text-base font-bold text-[#1c7a42]">Code-Hospital</span>
+          <span className="truncate text-base font-bold text-[#1c7a42]">TRẠM Y TẾ AN HẢI</span>
           <span className="hidden sm:inline-flex rounded-md bg-[#eef6f0] px-2 py-0.5 text-xs font-semibold text-[#155f33]">
             Admin
           </span>
@@ -122,7 +125,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
             <div className="absolute inset-0 bg-black/40" onClick={() => setDrawerOpen(false)} />
             <aside className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col bg-white shadow-xl">
               <div className="flex h-16 items-center justify-between border-b border-gray-200 px-4">
-                <span className="font-bold text-[#1c7a42]">Code-Hospital Admin</span>
+                <span className="font-bold text-[#1c7a42]">TRẠM Y TẾ AN HẢI</span>
                 <button
                   type="button"
                   onClick={() => setDrawerOpen(false)}
