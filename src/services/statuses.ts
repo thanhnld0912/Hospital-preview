@@ -1,4 +1,4 @@
-import { DutyStatus } from './api';
+import { AppointmentStatus, DutyStatus } from './api';
 
 // Một nguồn duy nhất cho nhãn tiếng Việt và màu của các trạng thái (website công khai + quản trị)
 
@@ -22,6 +22,41 @@ export const DUTY_STATUS_TONES: Record<DutyStatus, 'green' | 'gray' | 'amber' | 
   COMPLETED: 'gray',
   SHIFT_CHANGED: 'amber',
   SUSPENDED: 'red',
+};
+
+export const APPOINTMENT_STATUS_OPTIONS: { value: AppointmentStatus; label: string }[] = [
+  { value: 'PENDING', label: 'Chờ xác nhận' },
+  { value: 'CONFIRMED', label: 'Đã xác nhận' },
+  { value: 'ARRIVED', label: 'Đã đến' },
+  { value: 'IN_PROGRESS', label: 'Đang khám' },
+  { value: 'COMPLETED', label: 'Hoàn thành' },
+  { value: 'CANCELLED', label: 'Đã hủy' },
+  { value: 'NO_SHOW', label: 'Không đến' },
+];
+
+export const APPOINTMENT_STATUS_LABELS = Object.fromEntries(
+  APPOINTMENT_STATUS_OPTIONS.map((o) => [o.value, o.label]),
+) as Record<AppointmentStatus, string>;
+
+export const APPOINTMENT_STATUS_TONES: Record<AppointmentStatus, 'green' | 'gray' | 'amber' | 'red'> = {
+  PENDING: 'amber',
+  CONFIRMED: 'green',
+  ARRIVED: 'green',
+  IN_PROGRESS: 'green',
+  COMPLETED: 'gray',
+  CANCELLED: 'red',
+  NO_SHOW: 'red',
+};
+
+/** Nhãn nút thao tác chuyển trạng thái trong trang quản trị */
+export const APPOINTMENT_ACTION_LABELS: Record<AppointmentStatus, { label: string; icon: string }> = {
+  PENDING: { label: 'Chờ xác nhận', icon: 'hourglass_empty' },
+  CONFIRMED: { label: 'Xác nhận', icon: 'check_circle' },
+  ARRIVED: { label: 'Đánh dấu đã đến', icon: 'how_to_reg' },
+  IN_PROGRESS: { label: 'Đang khám', icon: 'stethoscope' },
+  COMPLETED: { label: 'Hoàn thành', icon: 'task_alt' },
+  CANCELLED: { label: 'Hủy lịch', icon: 'cancel' },
+  NO_SHOW: { label: 'Không đến', icon: 'person_off' },
 };
 
 const WEEKDAYS = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];

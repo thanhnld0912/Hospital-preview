@@ -25,6 +25,7 @@ interface SettingsForm {
   staffSectionLabel: string;
   staffSectionTitle: string;
   staffSectionDescription: string;
+  appointmentSlotCapacity: string;
 }
 
 function toForm(settings: SiteSettingsDto): SettingsForm {
@@ -39,6 +40,7 @@ function toForm(settings: SiteSettingsDto): SettingsForm {
     staffSectionLabel: settings.staffSectionLabel,
     staffSectionTitle: settings.staffSectionTitle,
     staffSectionDescription: settings.staffSectionDescription ?? '',
+    appointmentSlotCapacity: String(settings.appointmentSlotCapacity),
   };
 }
 
@@ -74,6 +76,11 @@ export const SettingsPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!form) return;
+    const appointmentSlotCapacity = Number(form.appointmentSlotCapacity);
+    if (!Number.isInteger(appointmentSlotCapacity) || appointmentSlotCapacity < 1 || appointmentSlotCapacity > 500) {
+      setErrors({ appointmentSlotCapacity: 'Phải là số nguyên từ 1 đến 500' });
+      return;
+    }
     setSaving(true);
     setErrors({});
     setNotice(null);
@@ -91,6 +98,7 @@ export const SettingsPage: React.FC = () => {
           staffSectionLabel: form.staffSectionLabel.trim(),
           staffSectionTitle: form.staffSectionTitle.trim(),
           staffSectionDescription: emptyToNull(form.staffSectionDescription),
+          appointmentSlotCapacity,
         },
       });
       setForm(toForm(data));
@@ -212,6 +220,26 @@ export const SettingsPage: React.FC = () => {
                 onChange={update('staffSectionDescription')}
                 error={errors.staffSectionDescription}
                 hint="Để trống nếu không muốn hiển thị dòng mô tả."
+              />
+            </fieldset>
+            <fieldset className="space-y-4 border-t border-gray-100 pt-5">
+              <legend className="sr-only">Đặt lịch khám</legend>
+              <div>
+                <h2 className="text-sm font-bold text-[#121c2a]">Đặt lịch khám</h2>
+                <p className="text-xs text-gray-500">Giới hạn số lượt người dân đặt lịch qua website.</p>
+              </div>
+              <AdminInput
+                label="Số lượt tối đa mỗi khung giờ (mỗi cơ sở)"
+                type="number"
+                min={1}
+                max={500}
+                step={1}
+                required
+                className="md:max-w-xs"
+                value={form.appointmentSlotCapacity}
+                onChange={update('appointmentSlotCapacity')}
+                error={errors.appointmentSlotCapacity}
+                hint="Khi đủ lượt, khung giờ đó không nhận thêm lịch hẹn."
               />
             </fieldset>
             <div className="flex flex-col-reverse gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">

@@ -118,19 +118,6 @@ export interface VaccineItem {
   isNationalProgram: boolean; // Miễn phí
 }
 
-export interface AppointmentRecord {
-  id: string;
-  citizenName: string;
-  citizenId: string; // CCCD
-  phone: string;
-  serviceType: string;
-  preferredDate: string;
-  timeSlot: string;
-  symptomsOrNotes: string;
-  status: 'Chờ tiếp nhận' | 'Đã xác nhận' | 'Hoàn thành';
-  createdAt: string;
-}
-
 export interface OutbreakReport {
   id: string;
   reporterName: string;

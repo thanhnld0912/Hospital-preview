@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import * as appointmentController from '../controllers/appointmentController.js';
 import * as dutyScheduleController from '../controllers/dutyScheduleController.js';
 import * as locationController from '../controllers/locationController.js';
 import * as postController from '../controllers/postController.js';
@@ -41,3 +42,10 @@ adminRouter.delete('/staff/:id', staffController.deleteStaff);
 adminRouter.post('/duty-schedules', dutyScheduleController.createDutySchedule);
 adminRouter.put('/duty-schedules/:id', dutyScheduleController.updateDutySchedule);
 adminRouter.delete('/duty-schedules/:id', dutyScheduleController.deleteDutySchedule);
+
+// Lịch hẹn: danh sách/chi tiết chỉ có dữ liệu đã che; xem dữ liệu nhạy cảm qua POST riêng (ghi audit log)
+adminRouter.get('/appointments', appointmentController.listAppointments);
+adminRouter.get('/appointments/:id', appointmentController.getAppointment);
+adminRouter.post('/appointments/:id/sensitive-data', appointmentController.revealSensitiveData);
+adminRouter.put('/appointments/:id', appointmentController.updateAppointment);
+adminRouter.delete('/appointments/:id', appointmentController.deleteAppointment);

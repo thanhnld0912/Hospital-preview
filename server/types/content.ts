@@ -19,6 +19,7 @@ export interface SiteSettingsDto {
   staffSectionTitle: string;
   staffSectionDescription: string | null;
   dutyScheduleEnabled: boolean;
+  appointmentSlotCapacity: number;
   updatedAt: string;
 }
 

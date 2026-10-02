@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { AuthProvider, useAuth } from './auth';
 import { AdminLayout } from './components/AdminLayout';
 import { AdminButton, EmptyState, ErrorState, LoadingState } from './components/ui';
+import { AppointmentsPage } from './pages/AppointmentsPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { DutySchedulesPage } from './pages/DutySchedulesPage';
 import { LocationsPage } from './pages/LocationsPage';
@@ -20,6 +21,7 @@ const ROUTES: Record<string, React.FC> = {
   '/admin/services': ServicesPage,
   '/admin/staff': StaffPage,
   '/admin/duty-schedules': DutySchedulesPage,
+  '/admin/appointments': AppointmentsPage,
 };
 
 const FullScreen: React.FC<{ children: React.ReactNode }> = ({ children }) => (

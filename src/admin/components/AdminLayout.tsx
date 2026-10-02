@@ -10,6 +10,7 @@ export const ADMIN_NAV_ITEMS = [
   { to: '/admin/services', label: 'Dịch vụ', icon: 'medical_services' },
   { to: '/admin/staff', label: 'Nhân sự', icon: 'groups' },
   { to: '/admin/duty-schedules', label: 'Lịch trực', icon: 'calendar_month' },
+  { to: '/admin/appointments', label: 'Đặt lịch khám', icon: 'event_available' },
 ] as const;
 
 export const ADMIN_TITLE = 'Quản trị — Trạm Y Tế An Hải';

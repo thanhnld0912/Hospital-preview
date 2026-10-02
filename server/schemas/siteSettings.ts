@@ -14,6 +14,7 @@ export const siteSettingsUpdateSchema = z
     staffSectionTitle: requiredText(200).optional(),
     staffSectionDescription: optionalText(500),
     dutyScheduleEnabled: z.boolean().optional(),
+    appointmentSlotCapacity: z.number().int().min(1).max(500).optional(),
   })
   .refine(hasAtLeastOneField, AT_LEAST_ONE_FIELD_MESSAGE);
 

@@ -58,6 +58,7 @@ export interface SiteSettingsDto {
   staffSectionTitle: string;
   staffSectionDescription: string | null;
   dutyScheduleEnabled: boolean;
+  appointmentSlotCapacity: number;
   updatedAt: string;
 }
 
@@ -105,6 +106,75 @@ export interface PublicDutyScheduleDto {
 export interface PublicDutySchedulesResponse {
   enabled: boolean;
   schedules: PublicDutyScheduleDto[];
+}
+
+// ---------------------------------------------------------------------------
+// Đặt lịch khám
+// ---------------------------------------------------------------------------
+export type AppointmentStatus = 'PENDING' | 'CONFIRMED' | 'ARRIVED' | 'IN_PROGRESS' | 'COMPLETED' | 'CANCELLED' | 'NO_SHOW';
+
+export interface BookingOptionsDto {
+  locations: { id: string; name: string; address: string }[];
+  services: { id: string; title: string }[];
+  slots: { time: string; label: string }[];
+  workingDays: number[];
+  minDate: string;
+  maxDate: string;
+}
+
+export interface AvailabilityDto {
+  date: string;
+  reason: string | null;
+  slots: { time: string; label: string; available: boolean; reason: string | null }[];
+}
+
+/** Phản hồi công khai sau khi đặt lịch: không chứa SĐT/CCCD */
+export interface PublicAppointmentDto {
+  bookingCode: string;
+  status: AppointmentStatus;
+  appointmentDate: string;
+  appointmentTime: string;
+  slotLabel: string;
+  location: { name: string; address: string };
+  service: { title: string };
+}
+
+export interface AdminAppointmentListItemDto {
+  id: string;
+  bookingCode: string;
+  fullName: string;
+  phoneMasked: string;
+  citizenIdMasked: string | null;
+  location: { id: string; name: string };
+  service: { id: string; name: string };
+  appointmentDate: string;
+  appointmentTime: string;
+  slotLabel: string;
+  status: AppointmentStatus;
+  createdAt: string;
+}
+
+export interface AppointmentHistoryEntry {
+  action: string;
+  actorName: string | null;
+  fromStatus: string | null;
+  toStatus: string | null;
+  fields: string[];
+  createdAt: string;
+}
+
+export interface AdminAppointmentDetailDto extends AdminAppointmentListItemDto {
+  note: string | null;
+  internalNote: string | null;
+  allowedTransitions: AppointmentStatus[];
+  canDelete: boolean;
+  updatedAt: string;
+  history: AppointmentHistoryEntry[];
+}
+
+export interface AppointmentSensitiveDto {
+  phone: string;
+  citizenId: string | null;
 }
 
 /** Nhân sự chuyên môn (bản đầy đủ — trang quản trị /admin/staff) */

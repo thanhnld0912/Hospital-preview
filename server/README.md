@@ -159,6 +159,15 @@ Prefix: `/api`
 | POST | `/admin/duty-schedules` | ADMIN | Thêm lịch trực (nhân sự chọn từ `professional_staff`) |
 | PUT | `/admin/duty-schedules/:id` | ADMIN | Cập nhật một phần (ngày, nhân sự, trạng thái, ghi chú, ẩn/hiện, thứ tự) |
 | DELETE | `/admin/duty-schedules/:id` | ADMIN | Xóa |
+| GET | `/appointments/options` | Public | Cơ sở, dịch vụ đang hoạt động, khung giờ, khoảng ngày được đặt |
+| GET | `/appointments/availability?locationId=&date=` | Public | Khung giờ còn nhận theo cơ sở/ngày |
+| POST | `/appointments` | Public | Đặt lịch (rate limit 10 lần/15 phút/IP, body ≤ 8 KB). Trả mã đặt lịch + thông tin tối thiểu, không trả SĐT/CCCD |
+| POST | `/appointments/lookup` | Public | Tra cứu bằng mã đặt lịch + `verification: { method: "PHONE", phone }` (rate limit 20/15 phút/IP). Sai mã hay sai SĐT trả cùng một lỗi 404. Thiết kế sẵn để thêm `method: "OTP"` |
+| GET | `/admin/appointments?date=&locationId=&serviceId=&status=&limit=&offset=` | ADMIN | Danh sách lịch hẹn (SĐT/CCCD đã che) |
+| GET | `/admin/appointments/:id` | ADMIN | Chi tiết (đã che) + lịch sử thao tác; ghi audit `APPOINTMENT_VIEWED` |
+| POST | `/admin/appointments/:id/sensitive-data` | ADMIN | Giải mã SĐT/CCCD; ghi audit `APPOINTMENT_SENSITIVE_DATA_VIEWED` |
+| PUT | `/admin/appointments/:id` | ADMIN | Chỉ `status` (theo luồng hợp lệ) và `internalNote`; ghi audit |
+| DELETE | `/admin/appointments/:id` | ADMIN | Xóa mềm (chỉ lịch đã hủy / không đến); ghi audit `APPOINTMENT_DELETED` |
 
 Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang tắt và bài nháp, khác với GET public:
 
@@ -188,6 +197,7 @@ Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang
 | 400 | `VALIDATION_ERROR`, `INVALID_JSON` |
 | 401 | `UNAUTHORIZED`, `INVALID_TOKEN`, `TOKEN_EXPIRED`, `INVALID_CREDENTIALS` |
 | 403 | `FORBIDDEN`, `ACCOUNT_DISABLED` |
+| 409 | `DUPLICATE_BOOKING`, `SLOT_FULL` (đặt lịch) |
 | 429 | `RATE_LIMITED` (kèm header `Retry-After`) |
 | 404 | `NOT_FOUND` |
 | 409 | `CONFLICT` (trùng slug/email) |
@@ -218,11 +228,21 @@ Giao diện quản trị nằm trong frontend hiện tại (`src/admin/`), tải
 | `/admin/services` | Thêm/sửa/xóa/bật-tắt/sắp xếp dịch vụ |
 | `/admin/staff` | Nhân sự chuyên môn: thêm/sửa/xóa/ẩn-hiện/sắp xếp |
 | `/admin/duty-schedules` | Lịch trực: thêm/sửa/xóa, đổi nhân sự/trạng thái/ngày/thứ tự, ẩn-hiện từng lịch, bật/tắt cả section trên website |
+| `/admin/appointments` | Đặt lịch khám: lọc theo ngày/cơ sở/dịch vụ/trạng thái, xem chi tiết, xác nhận → đã đến → đang khám → hoàn thành, hủy, không đến, ghi chú nội bộ, xem dữ liệu nhạy cảm (có audit), xóa mềm |
 
 - JWT lưu trong `sessionStorage` của tab (tự xóa khi đóng tab), tự gắn `Authorization: Bearer <token>`; nhận 401 ⇒ tự đăng xuất và về `/admin/login`.
 - Không có đăng ký / quên mật khẩu / quản lý người dùng: tài khoản admin quản lý qua seed hoặc database. Website công khai chỉ có liên kết nhỏ "Đăng nhập quản trị" ở chân trang dẫn tới `/admin/login`.
 - Website công khai tải dữ liệu từ API trước khi hiển thị, nên nội dung admin vừa lưu xuất hiện ngay khi tải lại trang (không cần build lại).
 - Local: chạy `npm run dev:api` và `npm run dev` (với `VITE_API_BASE_URL=http://localhost:3001/api`), mở `http://localhost:3000/admin`.
+
+## Lịch trực & đặt lịch khám — bảo mật
+
+- **Lịch trực "realtime"**: website thăm dò `GET /api/duty-schedules` mỗi 20 giây (chỉ khi tab đang mở, tải ngay khi quay lại tab). Không dùng WebSocket (Vercel serverless không giữ kết nối) và không dùng Supabase Realtime (cần đưa anon key + policy đọc bảng ra trình duyệt).
+- **Dữ liệu nhạy cảm**: SĐT và CCCD mã hóa AES-256-GCM ở tầng ứng dụng (`server/utils/sensitiveData.ts`), kèm HMAC có khóa để chống đặt trùng/xác minh tra cứu, và bản che sẵn (`09*****456`, `********1234`). Không có cột plaintext. Danh sách/chi tiết quản trị chỉ trả bản che; giải mã qua POST riêng, luôn ghi audit log. Frontend không lưu dữ liệu này vào storage/URL.
+- **Audit log** (`audit_logs`): tạo, xem, xem dữ liệu nhạy cảm, cập nhật, hủy, xóa lịch hẹn. `metadata` chỉ chứa tên trường / trạng thái cũ-mới, không chứa giá trị SĐT/CCCD.
+- **Rate limit** lưu trong bảng `rate_limits` (dùng chung mọi instance serverless), khóa là HMAC của IP (không lưu IP gốc): đăng nhập 10/15 phút, đặt lịch 10/15 phút, tra cứu 20/15 phút.
+- **Chống spam/trùng**: Zod strict (từ chối trường lạ), ô bẫy (honeypot), tối đa 1 lịch hẹn còn hiệu lực/ngày cho mỗi SĐT hoặc CCCD (unique index), giới hạn số lượt mỗi khung giờ (`site_settings.appointment_slot_capacity`, khóa advisory khi đếm), chỉ nhận Thứ Hai–Thứ Sáu, tối đa 60 ngày tới, không nhận khung giờ đã qua.
+- Mã đặt lịch `AH-YYYY-XXXXXX` ngẫu nhiên (crypto), không dùng ID tuần tự; không có endpoint public `GET /appointments/:id`.
 
 ## Deploy lên Vercel
 

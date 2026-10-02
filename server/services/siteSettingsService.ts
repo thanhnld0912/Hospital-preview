@@ -16,6 +16,7 @@ interface SiteSettingsRow {
   staff_section_title: string;
   staff_section_description: string | null;
   duty_schedule_enabled: boolean;
+  appointment_slot_capacity: number;
   updated_at: Date;
 }
 
@@ -34,6 +35,7 @@ function toDto(row: SiteSettingsRow): SiteSettingsDto {
     staffSectionTitle: row.staff_section_title,
     staffSectionDescription: row.staff_section_description,
     dutyScheduleEnabled: row.duty_schedule_enabled,
+    appointmentSlotCapacity: row.appointment_slot_capacity,
     updatedAt: row.updated_at.toISOString(),
   };
 }
@@ -57,6 +59,7 @@ export async function updateSiteSettings(input: SiteSettingsUpdateInput): Promis
     staff_section_title: input.staffSectionTitle,
     staff_section_description: input.staffSectionDescription,
     duty_schedule_enabled: input.dutyScheduleEnabled,
+    appointment_slot_capacity: input.appointmentSlotCapacity,
   });
   const { rows } = await query<SiteSettingsRow>(
     `UPDATE site_settings SET ${assignments.join(', ')} WHERE id = 1 RETURNING *`,
