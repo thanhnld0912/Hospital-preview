@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { NavTab } from '../types';
 import { ClinicLogo } from './ClinicLogo';
+import { BookingButton } from './BookingButton';
 import { useSiteContent } from '../services/siteContent';
 
 interface NavbarProps {
@@ -132,14 +133,14 @@ export const Navbar: React.FC<NavbarProps> = ({
           </div>
 
           {/* Quick Booking Button */}
-          <button
-            type="button"
-            onClick={onOpenBooking}
-            className="hidden lg:flex items-center gap-1.5 bg-[#eef6f0] hover:bg-[#d4ecdb] text-[#1c7a42] px-3.5 py-2 rounded-xl text-xs font-bold border border-[#a6d3b4] transition-all shadow-2xs"
+          <BookingButton
+            onOpen={onOpenBooking}
+            className="hidden lg:flex items-center gap-1.5 bg-[#eef6f0] text-[#1c7a42] px-3.5 py-2 rounded-xl text-xs font-bold border border-[#a6d3b4] transition-all shadow-2xs"
+            activeClassName="hover:bg-[#d4ecdb]"
           >
             <span className="material-symbols-outlined text-base">calendar_month</span>
             <span>Đặt lịch khám</span>
-          </button>
+          </BookingButton>
 
           {/* Emergency Hotline Button */}
           <div className="hidden md:flex flex-col items-end">
@@ -219,8 +220,8 @@ export const Navbar: React.FC<NavbarProps> = ({
               <span className="material-symbols-outlined text-sm">e911_emergency</span>
               <span>Cấp cứu 24/7</span>
             </button>
-            <button
-              onClick={() => {
+            <BookingButton
+              onOpen={() => {
                 onOpenBooking();
                 setMobileMenuOpen(false);
               }}
@@ -228,7 +229,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             >
               <span className="material-symbols-outlined text-sm">calendar_month</span>
               <span>Đặt lịch khám</span>
-            </button>
+            </BookingButton>
           </div>
 
           <div className="space-y-1">

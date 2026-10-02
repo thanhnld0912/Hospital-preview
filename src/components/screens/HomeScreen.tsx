@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import { BookingButton } from '../BookingButton';
 import { NavTab, MedicalService, Announcement, NewsArticle, HealthGuide, StationLocation } from '../../types';
 import { HEALTH_GUIDES } from '../../data/healthStationData';
 import { useSiteContent } from '../../services/siteContent';
@@ -87,14 +88,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
                   <span>Xem dịch vụ y tế</span>
                 </button>
 
-                <button
-                  type="button"
-                  onClick={() => onOpenBooking()}
-                  className="h-11 px-5 bg-[#006c4e] hover:bg-[#00513a] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs"
+                <BookingButton
+                  onOpen={() => onOpenBooking()}
+                  className="h-11 px-5 bg-[#006c4e] text-white rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 transition-all shadow-xs"
+                  activeClassName="hover:bg-[#00513a]"
                 >
                   <span className="material-symbols-outlined text-lg">event_available</span>
-                  <span>Đặt lịch khám online</span>
-                </button>
+                  <span>Đặt lịch khám</span>
+                </BookingButton>
 
                 <button
                   type="button"

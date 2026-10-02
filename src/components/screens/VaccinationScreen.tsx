@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { BOOKING_UNAVAILABLE_MESSAGE, ONLINE_BOOKING_ENABLED } from '../../config/features';
+import { BookingButton } from '../BookingButton';
 import { VACCINE_CATALOG } from '../../data/healthStationData';
 import { NavTab } from '../../types';
 
@@ -79,15 +81,16 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
             </p>
           </div>
           <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
-            <button
-              onClick={() => onOpenBooking('Tiêm chủng mở rộng quốc gia')}
-              className="px-5 py-3 bg-white hover:bg-emerald-50 text-[#006c4e] rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5"
+            <BookingButton
+              onOpen={() => onOpenBooking('Tiêm chủng mở rộng quốc gia')}
+              className="px-5 py-3 bg-white text-[#006c4e] rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5"
+              activeClassName="hover:bg-emerald-50"
             >
               <span className="material-symbols-outlined text-base">event_available</span>
-              <span>Đăng ký hẹn giờ tiêm cho bé</span>
-            </button>
+              <span>Hẹn lịch tiêm cho bé</span>
+            </BookingButton>
             <p className="text-[11px] text-emerald-200 text-center">
-              Đặt giờ trước giúp phụ huynh không phải chờ đợi
+              {ONLINE_BOOKING_ENABLED ? 'Đặt giờ trước giúp phụ huynh không phải chờ đợi' : BOOKING_UNAVAILABLE_MESSAGE}
             </p>
           </div>
         </div>
@@ -191,13 +194,14 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
 
                 <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
                   <span className="text-gray-400">Chuẩn bảo quản GSP</span>
-                  <button
-                    onClick={() => onOpenBooking(`Tiêm chủng: ${v.name}`)}
-                    className="text-[#006c4e] font-bold hover:underline inline-flex items-center gap-1"
+                  <BookingButton
+                    onOpen={() => onOpenBooking(`Tiêm chủng: ${v.name}`)}
+                    className="text-[#006c4e] font-bold inline-flex items-center gap-1"
+                    activeClassName="hover:underline"
                   >
                     <span>Hẹn lịch tiêm</span>
                     <span className="material-symbols-outlined text-xs">arrow_forward</span>
-                  </button>
+                  </BookingButton>
                 </div>
               </div>
             ))}

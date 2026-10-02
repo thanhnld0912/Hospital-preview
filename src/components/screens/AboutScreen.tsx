@@ -1,5 +1,6 @@
 import React from 'react';
 import { STATION_INFO } from '../../data/healthStationData';
+import { BookingButton } from '../BookingButton';
 import { useSiteContent } from '../../services/siteContent';
 import { NavTab } from '../../types';
 
@@ -138,13 +139,14 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
               <span className="text-xs uppercase font-bold text-[#006c4e] tracking-wider">Cơ sở vật chất</span>
               <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">Trang thiết bị y tế tại Trạm</h2>
             </div>
-            <button
-              onClick={onOpenBooking}
-              className="px-4 py-2 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 self-start"
+            <BookingButton
+              onOpen={onOpenBooking}
+              className="px-4 py-2 bg-[#1c7a42] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 self-start"
+              activeClassName="hover:bg-[#155f33]"
             >
               <span className="material-symbols-outlined text-sm">calendar_month</span>
               <span>Đặt lịch khám bệnh</span>
-            </button>
+            </BookingButton>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2">

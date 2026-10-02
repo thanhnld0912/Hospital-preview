@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { BookingButton } from '../BookingButton';
 import { useSiteContent } from '../../services/siteContent';
 import { NavTab, MedicalService } from '../../types';
 
@@ -49,13 +50,14 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
               Người dân có thẻ BHYT đăng ký ban đầu tại Trạm Y tế phường An Hải hoặc các trạm y tế trên địa bàn TP. Đà Nẵng chỉ cần xuất trình Căn cước công dân gắn chip hoặc ứng dụng VNeID định danh mức 2 để thực hiện thủ tục khám nhanh chóng.
             </p>
           </div>
-          <button
-            onClick={() => onOpenBooking(selectedService?.title)}
-            className="px-5 py-2.5 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 flex items-center gap-1.5"
+          <BookingButton
+            onOpen={() => onOpenBooking(selectedService?.title)}
+            className="px-5 py-2.5 bg-[#1c7a42] text-white rounded-xl text-xs font-bold transition-all shadow-xs shrink-0 flex items-center gap-1.5"
+            activeClassName="hover:bg-[#155f33]"
           >
             <span className="material-symbols-outlined text-base">event_available</span>
-            <span>Đặt lịch khám online</span>
-          </button>
+            <span>Đặt lịch khám</span>
+          </BookingButton>
         </div>
 
         {/* Main Services Split View */}
@@ -110,13 +112,14 @@ export const ServicesScreen: React.FC<ServicesScreenProps> = ({
                     <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">{selectedService.title}</h2>
                   </div>
                 </div>
-                <button
-                  onClick={() => onOpenBooking(selectedService?.title)}
-                  className="px-4 py-2 bg-[#006c4e] hover:bg-[#00513a] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1 shrink-0"
+                <BookingButton
+                  onOpen={() => onOpenBooking(selectedService?.title)}
+                  className="px-4 py-2 bg-[#006c4e] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1 shrink-0"
+                  activeClassName="hover:bg-[#00513a]"
                 >
                   <span className="material-symbols-outlined text-sm">assignment_turned_in</span>
                   <span>Hẹn khám</span>
-                </button>
+                </BookingButton>
               </div>
 
               {/* Description */}
