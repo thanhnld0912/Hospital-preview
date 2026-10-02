@@ -46,6 +46,18 @@ export interface LoginResult {
   user: AuthUser;
 }
 
+/** Một thiết bị / hạng mục trong section "Cơ sở vật chất" (trang Giới thiệu) */
+export interface FacilityItemDto {
+  title: string;
+  description: string;
+}
+
+/** Một tiêu chí trong section "Đánh giá chất lượng" (trang Giới thiệu) */
+export interface QualityItemDto {
+  title: string;
+  score: string;
+}
+
 export interface SiteSettingsDto {
   siteName: string;
   organizationName: string;
@@ -57,6 +69,14 @@ export interface SiteSettingsDto {
   staffSectionLabel: string;
   staffSectionTitle: string;
   staffSectionDescription: string | null;
+  facilitySectionLabel: string;
+  facilitySectionTitle: string;
+  facilitySectionDescription: string | null;
+  facilityItems: FacilityItemDto[];
+  qualitySectionLabel: string;
+  qualitySectionTitle: string;
+  qualitySectionDescription: string | null;
+  qualityItems: QualityItemDto[];
   dutyScheduleEnabled: boolean;
   appointmentSlotCapacity: number;
   updatedAt: string;

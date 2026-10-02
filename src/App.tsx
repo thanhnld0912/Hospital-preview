@@ -108,10 +108,7 @@ export default function App() {
         )}
 
         {currentTab === 'tiem-chung' && (
-          <VaccinationScreen
-            onNavigate={handleSelectTab}
-            onOpenBooking={handleOpenBooking}
-          />
+          <VaccinationScreen onNavigate={handleSelectTab} />
         )}
 
         {currentTab === 'tin-tuc-va-hoat-dong' && (

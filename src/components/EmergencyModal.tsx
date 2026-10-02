@@ -42,36 +42,22 @@ export const EmergencyModal: React.FC<EmergencyModalProps> = ({ isOpen, onClose 
             Trạm Y tế phường An Hải luôn duy trì kíp trực y bác sĩ và phương tiện sơ cấp cứu 24/24 giờ phục vụ người dân trên địa bàn.
           </p>
 
-          {/* Quick Call Action 1: Trực trạm */}
+          {/* Thông tin liên hệ 1: Trực trạm (chỉ hiển thị số, không có nút gọi) */}
           <div className="p-4 rounded-xl bg-red-50 border border-red-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase font-bold text-[#bb0112]">Trực ban Trạm Y tế phường An Hải</p>
               <p className="text-xl font-bold text-[#121c2a] mt-0.5">{stationInfo.hotline}</p>
               <p className="text-xs text-[#414755]">Sơ cấp cứu tại trạm, xử lý chấn thương, ngộ độc, điều động kíp trực</p>
             </div>
-            <a 
-              href={`tel:${stationInfo.hotline.replace(/[^0-9]/g, '')}`}
-              className="w-full sm:w-auto px-4 py-2.5 bg-[#bb0112] hover:bg-[#a0010f] text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-colors"
-            >
-              <span className="material-symbols-outlined text-base">call</span>
-              <span>Gọi trạm ngay</span>
-            </a>
           </div>
 
-          {/* Quick Call Action 2: 115 */}
+          {/* Thông tin liên hệ 2: 115 */}
           <div className="p-4 rounded-xl bg-orange-50 border border-orange-100 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase font-bold text-orange-800">Cấp cứu thành phố Đà Nẵng</p>
               <p className="text-xl font-bold text-[#121c2a] mt-0.5">Số máy khẩn: 115</p>
               <p className="text-xs text-[#414755]">Xe cứu thương chuyên dụng, tai nạn giao thông nghiêm trọng, ngừng tim</p>
             </div>
-            <a 
-              href="tel:115"
-              className="w-full sm:w-auto px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white rounded-xl font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-colors"
-            >
-              <span className="material-symbols-outlined text-base">ambulance</span>
-              <span>Gọi 115</span>
-            </a>
           </div>
 
           {/* Critical Triage Tips while waiting */}

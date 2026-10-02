@@ -1,21 +1,13 @@
 import React, { useState } from 'react';
-import { BOOKING_UNAVAILABLE_MESSAGE, ONLINE_BOOKING_ENABLED } from '../../config/features';
-import { BookingButton } from '../BookingButton';
 import { VACCINE_CATALOG } from '../../data/healthStationData';
 import { NavTab } from '../../types';
 
 interface VaccinationScreenProps {
   onNavigate: (tab: NavTab) => void;
-  onOpenBooking: (serviceName?: string) => void;
 }
 
-export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
-  onNavigate,
-  onOpenBooking,
-}) => {
+export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({ onNavigate }) => {
   const [filterAge, setFilterAge] = useState<string>('all');
-  const [babyDob, setBabyDob] = useState<string>('');
-  const [calculatedAgeMonths, setCalculatedAgeMonths] = useState<number | null>(null);
 
   const filterOptions = [
     { id: 'all', label: 'Tất cả vắc xin' },
@@ -35,15 +27,6 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
     if (filterAge === 'pregnant') return v.id === 'tetanus-pregnant';
     return true;
   });
-
-  const handleCalculateAge = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!babyDob) return;
-    const dob = new Date(babyDob);
-    const today = new Date();
-    const diffMonths = (today.getFullYear() - dob.getFullYear()) * 12 + (today.getMonth() - dob.getMonth());
-    setCalculatedAgeMonths(Math.max(0, diffMonths));
-  };
 
   return (
     <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
@@ -67,8 +50,8 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
         </div>
 
         {/* Schedule Announcement Highlight */}
-        <div className="bg-[#006c4e] text-white p-6 sm:p-8 rounded-2xl shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          <div className="lg:col-span-8 space-y-2">
+        <div className="bg-[#006c4e] text-white p-6 sm:p-8 rounded-2xl shadow-sm">
+          <div className="space-y-2">
             <div className="inline-flex items-center gap-1.5 bg-white/20 px-2.5 py-0.5 rounded text-xs font-bold uppercase">
               <span className="material-symbols-outlined text-sm">schedule</span>
               <span>Lịch tiêm định kỳ tháng 10/2026</span>
@@ -80,73 +63,6 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
               • Thời gian tiếp đón: Buổi sáng từ 07:30 đến 11:00.
             </p>
           </div>
-          <div className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3 justify-center">
-            <BookingButton
-              onOpen={() => onOpenBooking('Tiêm chủng mở rộng quốc gia')}
-              className="px-5 py-3 bg-white text-[#006c4e] rounded-xl text-xs font-bold transition-all shadow-xs flex items-center justify-center gap-1.5"
-              activeClassName="hover:bg-emerald-50"
-            >
-              <span className="material-symbols-outlined text-base">event_available</span>
-              <span>Hẹn lịch tiêm cho bé</span>
-            </BookingButton>
-            <p className="text-[11px] text-emerald-200 text-center">
-              {ONLINE_BOOKING_ENABLED ? 'Đặt giờ trước giúp phụ huynh không phải chờ đợi' : BOOKING_UNAVAILABLE_MESSAGE}
-            </p>
-          </div>
-        </div>
-
-        {/* Interactive Baby Age Due Calculator */}
-        <div className="bg-white p-6 rounded-2xl shadow-xs border border-emerald-200 space-y-4">
-          <div className="flex items-center gap-2 text-[#006c4e]">
-            <span className="material-symbols-outlined text-2xl">calculate</span>
-            <h3 className="text-base font-bold">Tra cứu mũi tiêm đến hạn theo ngày sinh của bé</h3>
-          </div>
-          <p className="text-xs text-[#414755]">
-            Nhập ngày sinh của con để xem những loại vắc xin bé cần tiêm trong giai đoạn hiện tại:
-          </p>
-
-          <form onSubmit={handleCalculateAge} className="flex flex-wrap items-center gap-3">
-            <input
-              type="date"
-              required
-              value={babyDob}
-              onChange={(e) => setBabyDob(e.target.value)}
-              className="px-3.5 py-2 text-xs sm:text-sm rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#006c4e] bg-white"
-            />
-            <button
-              type="submit"
-              className="px-4 py-2 bg-[#006c4e] hover:bg-[#00513a] text-white text-xs font-bold rounded-xl transition-colors"
-            >
-              Kiểm tra lịch tiêm
-            </button>
-            {calculatedAgeMonths !== null && (
-              <span className="text-xs font-semibold text-[#006c4e] bg-emerald-50 px-3 py-2 rounded-xl">
-                Bé hiện tại khoảng <strong>{calculatedAgeMonths} tháng tuổi</strong>
-              </span>
-            )}
-          </form>
-
-          {calculatedAgeMonths !== null && (
-            <div className="p-4 bg-emerald-50/70 border border-emerald-100 rounded-xl text-xs space-y-1.5 text-emerald-950">
-              <p className="font-bold text-sm text-[#006c4e]">Gợi ý mũi tiêm phù hợp cho bé:</p>
-              {calculatedAgeMonths === 0 && <p>• Cần tiêm: Vắc xin Lao (BCG) và Viêm gan B trong tháng đầu sau sinh.</p>}
-              {calculatedAgeMonths >= 2 && calculatedAgeMonths <= 4 && (
-                <p>• Cần tiêm: Vắc xin 5 trong 1 (Bạch hầu - Ho gà - Uốn ván - Viêm gan B - Hib) và uống vắc xin Bại liệt OPV liều 1, 2 hoặc 3.</p>
-              )}
-              {calculatedAgeMonths >= 5 && calculatedAgeMonths < 9 && (
-                <p>• Cần tiêm: Vắc xin Bại liệt tiêm (IPV) lúc 5 tháng tuổi. Kiểm tra lại các mũi tiêm thiếu.</p>
-              )}
-              {calculatedAgeMonths >= 9 && calculatedAgeMonths < 12 && (
-                <p>• Cần tiêm: Mũi vắc xin Sởi đơn bắt buộc lúc 9 tháng tuổi.</p>
-              )}
-              {calculatedAgeMonths >= 12 && calculatedAgeMonths < 18 && (
-                <p>• Cần tiêm: Vắc xin Viêm não Nhật Bản (mũi 1 và mũi 2 cách nhau 1-2 tuần).</p>
-              )}
-              {calculatedAgeMonths >= 18 && (
-                <p>• Cần tiêm: Vắc xin Sởi - Rubella (MR) và vắc xin DPT mũi 4 nhắc lại lúc 18-24 tháng tuổi.</p>
-              )}
-            </div>
-          )}
         </div>
 
         {/* Filter Tabs for Vaccine Catalog */}
@@ -194,14 +110,6 @@ export const VaccinationScreen: React.FC<VaccinationScreenProps> = ({
 
                 <div className="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
                   <span className="text-gray-400">Chuẩn bảo quản GSP</span>
-                  <BookingButton
-                    onOpen={() => onOpenBooking(`Tiêm chủng: ${v.name}`)}
-                    className="text-[#006c4e] font-bold inline-flex items-center gap-1"
-                    activeClassName="hover:underline"
-                  >
-                    <span>Hẹn lịch tiêm</span>
-                    <span className="material-symbols-outlined text-xs">arrow_forward</span>
-                  </BookingButton>
                 </div>
               </div>
             ))}

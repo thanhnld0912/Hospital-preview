@@ -4,6 +4,14 @@ import { BookingButton } from '../BookingButton';
 import { useSiteContent } from '../../services/siteContent';
 import { NavTab } from '../../types';
 
+// Biểu tượng & màu của thẻ thiết bị lặp lại theo thứ tự (giữ thiết kế cũ; nội dung do quản trị nhập)
+const FACILITY_ICONS = [
+  { icon: 'ecg_heart', color: 'text-[#1c7a42]' },
+  { icon: 'water_drop', color: 'text-[#006c4e]' },
+  { icon: 'vaccines', color: 'text-[#bb0112]' },
+  { icon: 'emergency', color: 'text-purple-600' },
+];
+
 interface AboutScreenProps {
   onNavigate: (tab: NavTab) => void;
   onOpenBooking: () => void;
@@ -11,21 +19,8 @@ interface AboutScreenProps {
 
 export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBooking }) => {
   // Nhân sự và tiêu đề section lấy từ API (quản trị cập nhật), dự phòng dữ liệu tĩnh khi API lỗi
-  const { staff, stationInfo } = useSiteContent();
+  const { staff, stationInfo, facilitySection, qualitySection } = useSiteContent();
   const { staffSection } = stationInfo;
-
-  const nationalCriteria = [
-    { id: 1, title: 'Chỉ đạo, điều hành công tác CSSK nhân dân', score: '100%' },
-    { id: 2, title: 'Nhân lực y tế đạt chuẩn theo định biên', score: '100%' },
-    { id: 3, title: 'Cơ sở hạ tầng & Phòng ốc chuyên môn', score: '98%' },
-    { id: 4, title: 'Trang thiết bị, thuốc & phương tiện y tế', score: '97%' },
-    { id: 5, title: 'Kế hoạch - Tài chính & Bảo hiểm y tế', score: '100%' },
-    { id: 6, title: 'Y tế dự phòng, phòng chống HIV/AIDS', score: '100%' },
-    { id: 7, title: 'Khám chữa bệnh, phục hồi chức năng & YHCT', score: '96%' },
-    { id: 8, title: 'Chăm sóc sức khỏe sinh sản & KHHGĐ', score: '99%' },
-    { id: 9, title: 'Ứng dụng CNTT & Hồ sơ sức khỏe điện tử', score: '98%' },
-    { id: 10, title: 'Truyền thông - Giáo dục sức khỏe cộng đồng', score: '100%' },
-  ];
 
   return (
     <div className="w-full bg-[#f7faf8] py-8 sm:py-12">
@@ -132,71 +127,76 @@ export const AboutScreen: React.FC<AboutScreenProps> = ({ onNavigate, onOpenBook
           </div>
         </div>
 
-        {/* Section: Facilities & Medical Equipment */}
-        <div className="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div>
-              <span className="text-xs uppercase font-bold text-[#006c4e] tracking-wider">Cơ sở vật chất</span>
-              <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">Trang thiết bị y tế tại Trạm</h2>
-            </div>
-            <BookingButton
-              onOpen={onOpenBooking}
-              className="px-4 py-2 bg-[#1c7a42] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 self-start"
-              activeClassName="hover:bg-[#155f33]"
-            >
-              <span className="material-symbols-outlined text-sm">calendar_month</span>
-              <span>Đặt lịch khám bệnh</span>
-            </BookingButton>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2">
-            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
-              <span className="material-symbols-outlined text-2xl text-[#1c7a42] mb-1">ecg_heart</span>
-              <h4 className="text-sm font-bold text-[#121c2a]">Máy điện tim 6 cần</h4>
-              <p className="text-xs text-[#414755] mt-1">Đo điện tâm đồ tầm soát bệnh tim mạch, thiếu máu cơ tim và rối loạn nhịp tại chỗ.</p>
-            </div>
-            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
-              <span className="material-symbols-outlined text-2xl text-[#006c4e] mb-1">water_drop</span>
-              <h4 className="text-sm font-bold text-[#121c2a]">Máy đo đường huyết & Tủ thuốc GSP</h4>
-              <p className="text-xs text-[#414755] mt-1">Xét nghiệm mao mạch nhanh kiểm soát đường máu cho bệnh nhân Đái tháo đường.</p>
-            </div>
-            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
-              <span className="material-symbols-outlined text-2xl text-[#bb0112] mb-1">vaccines</span>
-              <h4 className="text-sm font-bold text-[#121c2a]">Dây chuyền lạnh bảo quản Vắc xin</h4>
-              <p className="text-xs text-[#414755] mt-1">Tủ lạnh chuyên dụng đạt chuẩn GSP có hệ thống giám sát nhiệt độ 24/7 tự động.</p>
-            </div>
-            <div className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
-              <span className="material-symbols-outlined text-2xl text-purple-600 mb-1">emergency</span>
-              <h4 className="text-sm font-bold text-[#121c2a]">Bộ sơ cứu & Bình Oxy hồi sức</h4>
-              <p className="text-xs text-[#414755] mt-1">Trang bị sẵn sàng xử trí suy hô hấp, tai nạn thương tích và sốc phản vệ 24/24.</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Section: National Health Criteria Evaluation */}
-        <div className="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 space-y-4">
-          <div>
-            <span className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider">Đánh giá chất lượng</span>
-            <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">Tiêu chí Quốc gia về Y tế xã/phường giai đoạn 2021-2030</h2>
-            <p className="text-xs text-[#414755]">Trạm Y tế phường An Hải duy trì đạt chuẩn 10/10 tiêu chí theo Quyết định của Bộ Y tế</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            {nationalCriteria.map((c) => (
-              <div key={c.id} className="p-3 bg-[#f7faf8] rounded-xl border border-gray-100 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <span className="w-6 h-6 rounded-full bg-green-100 text-[#1c7a42] font-mono font-bold text-xs flex items-center justify-center shrink-0">
-                    {c.id}
-                  </span>
-                  <span className="text-xs text-[#121c2a] font-medium">{c.title}</span>
-                </div>
-                <span className="text-xs font-mono font-bold text-[#006c4e] bg-emerald-50 px-2 py-0.5 rounded">
-                  {c.score}
-                </span>
+        {/* Section: Facilities & Medical Equipment — nội dung do quản trị chỉnh sửa (Thông tin website) */}
+        {facilitySection && (
+          <div className="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 space-y-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span className="text-xs uppercase font-bold text-[#006c4e] tracking-wider">{facilitySection.label}</span>
+                <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">{facilitySection.title}</h2>
+                {facilitySection.description && (
+                  <p className="text-xs text-[#414755] whitespace-pre-line">{facilitySection.description}</p>
+                )}
               </div>
-            ))}
+              <BookingButton
+                onOpen={onOpenBooking}
+                className="px-4 py-2 bg-[#1c7a42] text-white rounded-xl text-xs font-bold transition-colors inline-flex items-center gap-1.5 self-start"
+                activeClassName="hover:bg-[#155f33]"
+              >
+                <span className="material-symbols-outlined text-sm">calendar_month</span>
+                <span>Đặt lịch khám bệnh</span>
+              </BookingButton>
+            </div>
+
+            {facilitySection.items.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+                {facilitySection.items.map((item, index) => {
+                  const { icon, color } = FACILITY_ICONS[index % FACILITY_ICONS.length];
+                  return (
+                    <div key={index} className="p-4 bg-[#f7faf8] rounded-xl border border-green-50">
+                      <span className={`material-symbols-outlined text-2xl ${color} mb-1`}>{icon}</span>
+                      <h4 className="text-sm font-bold text-[#121c2a]">{item.title}</h4>
+                      {item.description && <p className="text-xs text-[#414755] mt-1">{item.description}</p>}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        </div>
+        )}
+
+        {/* Section: National Health Criteria Evaluation — nội dung do quản trị chỉnh sửa (Thông tin website) */}
+        {qualitySection && (
+          <div className="bg-white p-6 rounded-2xl shadow-xs border border-gray-200 space-y-4">
+            <div>
+              <span className="text-xs uppercase font-bold text-[#1c7a42] tracking-wider">{qualitySection.label}</span>
+              <h2 className="text-xl font-bold text-[#121c2a] mt-0.5">{qualitySection.title}</h2>
+              {qualitySection.description && (
+                <p className="text-xs text-[#414755] whitespace-pre-line">{qualitySection.description}</p>
+              )}
+            </div>
+
+            {qualitySection.items.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                {qualitySection.items.map((c, index) => (
+                  <div key={index} className="p-3 bg-[#f7faf8] rounded-xl border border-gray-100 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-green-100 text-[#1c7a42] font-mono font-bold text-xs flex items-center justify-center shrink-0">
+                        {index + 1}
+                      </span>
+                      <span className="text-xs text-[#121c2a] font-medium">{c.title}</span>
+                    </div>
+                    {c.score && (
+                      <span className="text-xs font-mono font-bold text-[#006c4e] bg-emerald-50 px-2 py-0.5 rounded shrink-0">
+                        {c.score}
+                      </span>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

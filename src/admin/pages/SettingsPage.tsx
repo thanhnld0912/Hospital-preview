@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { SiteSettingsDto } from '../../services/api';
+import { FacilityItemDto, QualityItemDto, SiteSettingsDto } from '../../services/api';
 import { useAuth } from '../auth';
 import {
   AdminButton,
@@ -25,7 +25,50 @@ interface SettingsForm {
   staffSectionLabel: string;
   staffSectionTitle: string;
   staffSectionDescription: string;
+  facilitySectionLabel: string;
+  facilitySectionTitle: string;
+  facilitySectionDescription: string;
+  /** Mỗi dòng một thiết bị: "Tên | Mô tả" */
+  facilityItems: string;
+  qualitySectionLabel: string;
+  qualitySectionTitle: string;
+  qualitySectionDescription: string;
+  /** Mỗi dòng một tiêu chí: "Tiêu chí | Kết quả" */
+  qualityItems: string;
   appointmentSlotCapacity: string;
+}
+
+/** Giới hạn khớp với validation ở backend */
+const MAX_SECTION_ITEMS = 30;
+const ITEM_SEPARATOR = ' | ';
+
+/** Danh sách mục <-> textarea: mỗi dòng "tên | nội dung phụ" (nội dung phụ có thể bỏ trống) */
+function itemsToText(lines: { title: string; rest: string }[]): string {
+  return lines.map(({ title, rest }) => (rest ? `${title}${ITEM_SEPARATOR}${rest}` : title)).join('\n');
+}
+
+function parseLines(text: string): { title: string; rest: string }[] {
+  return text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const separator = line.indexOf('|');
+      return separator === -1
+        ? { title: line, rest: '' }
+        : { title: line.slice(0, separator).trim(), rest: line.slice(separator + 1).trim() };
+    });
+}
+
+/** Lỗi nhập liệu của danh sách (trả về null nếu hợp lệ) */
+function validateLines(lines: { title: string; rest: string }[], titleMax: number, restMax: number, restLabel: string): string | null {
+  if (lines.length > MAX_SECTION_ITEMS) return `Tối đa ${MAX_SECTION_ITEMS} dòng`;
+  for (const [index, line] of lines.entries()) {
+    if (!line.title) return `Dòng ${index + 1}: thiếu tên trước dấu "|"`;
+    if (line.title.length > titleMax) return `Dòng ${index + 1}: tên tối đa ${titleMax} ký tự`;
+    if (line.rest.length > restMax) return `Dòng ${index + 1}: ${restLabel} tối đa ${restMax} ký tự`;
+  }
+  return null;
 }
 
 function toForm(settings: SiteSettingsDto): SettingsForm {
@@ -40,6 +83,14 @@ function toForm(settings: SiteSettingsDto): SettingsForm {
     staffSectionLabel: settings.staffSectionLabel,
     staffSectionTitle: settings.staffSectionTitle,
     staffSectionDescription: settings.staffSectionDescription ?? '',
+    facilitySectionLabel: settings.facilitySectionLabel,
+    facilitySectionTitle: settings.facilitySectionTitle,
+    facilitySectionDescription: settings.facilitySectionDescription ?? '',
+    facilityItems: itemsToText(settings.facilityItems.map((item) => ({ title: item.title, rest: item.description }))),
+    qualitySectionLabel: settings.qualitySectionLabel,
+    qualitySectionTitle: settings.qualitySectionTitle,
+    qualitySectionDescription: settings.qualitySectionDescription ?? '',
+    qualityItems: itemsToText(settings.qualityItems.map((item) => ({ title: item.title, rest: item.score }))),
     appointmentSlotCapacity: String(settings.appointmentSlotCapacity),
   };
 }
@@ -81,6 +132,16 @@ export const SettingsPage: React.FC = () => {
       setErrors({ appointmentSlotCapacity: 'Phải là số nguyên từ 1 đến 500' });
       return;
     }
+    const facilityLines = parseLines(form.facilityItems);
+    const qualityLines = parseLines(form.qualityItems);
+    const facilityError = validateLines(facilityLines, 200, 500, 'mô tả');
+    const qualityError = validateLines(qualityLines, 200, 20, 'kết quả');
+    if (facilityError || qualityError) {
+      setErrors({ ...(facilityError && { facilityItems: facilityError }), ...(qualityError && { qualityItems: qualityError }) });
+      return;
+    }
+    const facilityItems: FacilityItemDto[] = facilityLines.map(({ title, rest }) => ({ title, description: rest }));
+    const qualityItems: QualityItemDto[] = qualityLines.map(({ title, rest }) => ({ title, score: rest }));
     setSaving(true);
     setErrors({});
     setNotice(null);
@@ -98,6 +159,14 @@ export const SettingsPage: React.FC = () => {
           staffSectionLabel: form.staffSectionLabel.trim(),
           staffSectionTitle: form.staffSectionTitle.trim(),
           staffSectionDescription: emptyToNull(form.staffSectionDescription),
+          facilitySectionLabel: form.facilitySectionLabel.trim(),
+          facilitySectionTitle: form.facilitySectionTitle.trim(),
+          facilitySectionDescription: emptyToNull(form.facilitySectionDescription),
+          facilityItems,
+          qualitySectionLabel: form.qualitySectionLabel.trim(),
+          qualitySectionTitle: form.qualitySectionTitle.trim(),
+          qualitySectionDescription: emptyToNull(form.qualitySectionDescription),
+          qualityItems,
           appointmentSlotCapacity,
         },
       });
@@ -220,6 +289,86 @@ export const SettingsPage: React.FC = () => {
                 onChange={update('staffSectionDescription')}
                 error={errors.staffSectionDescription}
                 hint="Để trống nếu không muốn hiển thị dòng mô tả."
+              />
+            </fieldset>
+            <fieldset className="space-y-4 border-t border-gray-100 pt-5">
+              <legend className="sr-only">Giới thiệu cơ sở vật chất</legend>
+              <div>
+                <h2 className="text-sm font-bold text-[#121c2a]">Giới thiệu cơ sở vật chất</h2>
+                <p className="text-xs text-gray-500">Section "Cơ sở vật chất" trên trang Giới thiệu.</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <AdminInput
+                  label="Tiêu đề nhỏ"
+                  required
+                  value={form.facilitySectionLabel}
+                  onChange={update('facilitySectionLabel')}
+                  error={errors.facilitySectionLabel}
+                  hint="Hiển thị chữ in hoa phía trên tiêu đề chính."
+                />
+                <AdminInput
+                  label="Tiêu đề chính"
+                  required
+                  value={form.facilitySectionTitle}
+                  onChange={update('facilitySectionTitle')}
+                  error={errors.facilitySectionTitle}
+                />
+              </div>
+              <AdminTextarea
+                label="Mô tả"
+                rows={3}
+                value={form.facilitySectionDescription}
+                onChange={update('facilitySectionDescription')}
+                error={errors.facilitySectionDescription}
+                hint="Đoạn giới thiệu dưới tiêu đề. Để trống nếu không muốn hiển thị."
+              />
+              <AdminTextarea
+                label="Danh sách trang thiết bị"
+                rows={6}
+                value={form.facilityItems}
+                onChange={update('facilityItems')}
+                error={errors.facilityItems}
+                hint={`Mỗi dòng một thiết bị, dạng "Tên thiết bị | Mô tả" (mô tả có thể bỏ trống). Tối đa ${MAX_SECTION_ITEMS} dòng; để trống để ẩn danh sách.`}
+              />
+            </fieldset>
+            <fieldset className="space-y-4 border-t border-gray-100 pt-5">
+              <legend className="sr-only">Đánh giá chất lượng</legend>
+              <div>
+                <h2 className="text-sm font-bold text-[#121c2a]">Đánh giá chất lượng</h2>
+                <p className="text-xs text-gray-500">Section "Đánh giá chất lượng" trên trang Giới thiệu.</p>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <AdminInput
+                  label="Tiêu đề nhỏ"
+                  required
+                  value={form.qualitySectionLabel}
+                  onChange={update('qualitySectionLabel')}
+                  error={errors.qualitySectionLabel}
+                  hint="Hiển thị chữ in hoa phía trên tiêu đề chính."
+                />
+                <AdminInput
+                  label="Tiêu đề chính"
+                  required
+                  value={form.qualitySectionTitle}
+                  onChange={update('qualitySectionTitle')}
+                  error={errors.qualitySectionTitle}
+                />
+              </div>
+              <AdminTextarea
+                label="Mô tả"
+                rows={2}
+                value={form.qualitySectionDescription}
+                onChange={update('qualitySectionDescription')}
+                error={errors.qualitySectionDescription}
+                hint="Để trống nếu không muốn hiển thị dòng mô tả."
+              />
+              <AdminTextarea
+                label="Danh sách tiêu chí"
+                rows={8}
+                value={form.qualityItems}
+                onChange={update('qualityItems')}
+                error={errors.qualityItems}
+                hint={`Mỗi dòng một tiêu chí, dạng "Tên tiêu chí | Kết quả" (ví dụ: "Nhân lực y tế | 100%"; kết quả có thể bỏ trống). Số thứ tự tự đánh. Tối đa ${MAX_SECTION_ITEMS} dòng.`}
               />
             </fieldset>
             <fieldset className="space-y-4 border-t border-gray-100 pt-5">

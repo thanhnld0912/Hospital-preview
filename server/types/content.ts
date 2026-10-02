@@ -7,6 +7,18 @@ export type PostType = (typeof POST_TYPES)[number];
 export const POST_STATUSES = ['DRAFT', 'PUBLISHED'] as const;
 export type PostStatus = (typeof POST_STATUSES)[number];
 
+/** Một thiết bị / hạng mục trong section "Cơ sở vật chất" (trang Giới thiệu) */
+export interface FacilityItem {
+  title: string;
+  description: string;
+}
+
+/** Một tiêu chí trong section "Đánh giá chất lượng" (trang Giới thiệu) */
+export interface QualityItem {
+  title: string;
+  score: string;
+}
+
 export interface SiteSettingsDto {
   siteName: string;
   organizationName: string;
@@ -18,6 +30,14 @@ export interface SiteSettingsDto {
   staffSectionLabel: string;
   staffSectionTitle: string;
   staffSectionDescription: string | null;
+  facilitySectionLabel: string;
+  facilitySectionTitle: string;
+  facilitySectionDescription: string | null;
+  facilityItems: FacilityItem[];
+  qualitySectionLabel: string;
+  qualitySectionTitle: string;
+  qualitySectionDescription: string | null;
+  qualityItems: QualityItem[];
   dutyScheduleEnabled: boolean;
   appointmentSlotCapacity: number;
   updatedAt: string;

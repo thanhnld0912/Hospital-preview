@@ -134,13 +134,6 @@ export const ArticleModal: React.FC<ArticleModalProps> = ({ isOpen, onClose, dat
           <span>Cổng thông tin Trạm Y tế phường An Hải</span>
           <div className="flex gap-2">
             <button
-              onClick={() => window.print()}
-              className="px-3 py-1.5 bg-white border border-gray-300 hover:bg-gray-100 rounded-lg text-xs font-semibold text-gray-700 flex items-center gap-1"
-            >
-              <span className="material-symbols-outlined text-sm">print</span>
-              <span>In trang</span>
-            </button>
-            <button
               onClick={onClose}
               className="px-4 py-1.5 bg-[#1c7a42] hover:bg-[#155f33] text-white rounded-lg text-xs font-semibold"
             >

@@ -1,10 +1,28 @@
 import { useEffect, useState } from 'react';
 import { ANNOUNCEMENTS, MEDICAL_SERVICES, NEWS_ARTICLES, STAFF_PROFILES, STATION_INFO } from '../data/healthStationData';
 import { Announcement, MedicalService, NewsArticle, StaffProfile, StationLocation } from '../types';
-import { API_BASE_URL, apiGet, LocationDto, PostDto, PublicStaffDto, ServiceDto, SiteSettingsDto } from './api';
+import {
+  API_BASE_URL,
+  apiGet,
+  FacilityItemDto,
+  LocationDto,
+  PostDto,
+  PublicStaffDto,
+  QualityItemDto,
+  ServiceDto,
+  SiteSettingsDto,
+} from './api';
 import { buildGoogleMapsSearchUrl } from './maps';
 
 export type StationInfo = typeof STATION_INFO;
+
+/** Section nội dung trên trang Giới thiệu do quản trị chỉnh sửa (Thông tin website) */
+export interface AboutSection<Item> {
+  label: string;
+  title: string;
+  description: string | null;
+  items: Item[];
+}
 
 export interface SiteContent {
   stationInfo: StationInfo;
@@ -13,6 +31,9 @@ export interface SiteContent {
   announcements: Announcement[];
   news: NewsArticle[];
   staff: StaffProfile[];
+  /** null khi không tải được cấu hình từ API: section được ẩn (không hiển thị nội dung tĩnh) */
+  facilitySection: AboutSection<FacilityItemDto> | null;
+  qualitySection: AboutSection<QualityItemDto> | null;
 }
 
 // ---------------------------------------------------------------------------
@@ -35,6 +56,8 @@ const FALLBACK_CONTENT: SiteContent = {
   announcements: ANNOUNCEMENTS,
   news: NEWS_ARTICLES,
   staff: STAFF_PROFILES,
+  facilitySection: null,
+  qualitySection: null,
 };
 
 // ---------------------------------------------------------------------------
@@ -164,6 +187,18 @@ async function loadSiteContent(): Promise<SiteContent> {
     announcements: posts ? posts.filter((post) => post.type === 'ANNOUNCEMENT').map(mapAnnouncement) : ANNOUNCEMENTS,
     news: posts ? posts.filter((post) => post.type === 'NEWS').map(mapNews) : NEWS_ARTICLES,
     staff,
+    facilitySection: settings && {
+      label: settings.facilitySectionLabel,
+      title: settings.facilitySectionTitle,
+      description: settings.facilitySectionDescription,
+      items: settings.facilityItems,
+    },
+    qualitySection: settings && {
+      label: settings.qualitySectionLabel,
+      title: settings.qualitySectionTitle,
+      description: settings.qualitySectionDescription,
+      items: settings.qualityItems,
+    },
   };
 }
 
