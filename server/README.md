@@ -56,6 +56,7 @@ Sao chép `.env.example` → `.env` ở thư mục gốc (file `.env*` đã nằ
 | `NODE_ENV` | | `development` / `production` |
 | `PORT` | | Port dev server local, mặc định `3001` |
 | `ADMIN_EMAIL`, `ADMIN_PASSWORD`, `ADMIN_FULL_NAME` | seed | Chỉ dùng khi chạy `npm run db:seed` |
+| `DATA_ENCRYPTION_KEY` | đặt lịch | 32 byte base64 — khóa mã hóa SĐT/CCCD lịch hẹn (AES-256-GCM). Chỉ phía server, **không** dùng tiền tố `VITE_`. Thiếu khóa ⇒ API đặt lịch trả 503 `FEATURE_NOT_CONFIGURED`, các chức năng khác vẫn chạy. Dùng cùng một khóa cho mọi môi trường dùng chung database |
 | `VITE_API_BASE_URL` | frontend | `http://localhost:3001/api` khi dev; `/api` khi deploy cùng domain trên Vercel |
 
 Tạo `JWT_SECRET`:
@@ -187,11 +188,12 @@ Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang
 | 400 | `VALIDATION_ERROR`, `INVALID_JSON` |
 | 401 | `UNAUTHORIZED`, `INVALID_TOKEN`, `TOKEN_EXPIRED`, `INVALID_CREDENTIALS` |
 | 403 | `FORBIDDEN`, `ACCOUNT_DISABLED` |
+| 429 | `RATE_LIMITED` (kèm header `Retry-After`) |
 | 404 | `NOT_FOUND` |
 | 409 | `CONFLICT` (trùng slug/email) |
 | 413 | `PAYLOAD_TOO_LARGE` |
 | 500 | `DATABASE_ERROR`, `INTERNAL_ERROR` (production không trả chi tiết lỗi/stack trace) |
-| 503 | `DATABASE_UNAVAILABLE` |
+| 503 | `DATABASE_UNAVAILABLE`, `FEATURE_NOT_CONFIGURED` (thiếu `DATA_ENCRYPTION_KEY`) |
 
 ### Trường mở rộng so với schema MVP
 
@@ -225,7 +227,7 @@ Giao diện quản trị nằm trong frontend hiện tại (`src/admin/`), tải
 ## Deploy lên Vercel
 
 1. Import repository vào Vercel (Framework Preset: **Vite**; Build Command `npm run build`; Output `dist`).
-2. Khai báo Environment Variables (Production/Preview): `DATABASE_URL` (Transaction pooler, port 6543), `DATABASE_SSL=true`, `JWT_SECRET`, `FRONTEND_URL=https://<domain>`, `NODE_ENV=production`, `VITE_API_BASE_URL=/api`.
+2. Khai báo Environment Variables (Production/Preview): `DATABASE_URL` (Transaction pooler, port 6543), `DATABASE_SSL=true`, `JWT_SECRET`, `DATA_ENCRYPTION_KEY`, `FRONTEND_URL=https://<domain>`, `NODE_ENV=production`, `VITE_API_BASE_URL=/api`.
 3. `api/index.ts` được Vercel build thành Serverless Function; `vercel.json` rewrite `/api/*` → function này và `/admin/*` → `index.html` (để mở trực tiếp/tải lại các trang quản trị). Frontend vẫn được phục vụ tĩnh từ `dist`.
 4. Chạy migration/seed từ máy local (trỏ `DATABASE_URL` tới database production) hoặc qua Supabase SQL Editor.
 5. Kiểm tra `https://<domain>/api/health`.

@@ -6,10 +6,12 @@ import * as serviceController from '../controllers/serviceController.js';
 import * as siteSettingsController from '../controllers/siteSettingsController.js';
 import * as staffController from '../controllers/staffController.js';
 import { authenticate, requireAdmin } from '../middleware/auth.js';
+import { noStore } from '../middleware/rateLimit.js';
 
 export const adminRouter = Router();
 
-adminRouter.use(authenticate, requireAdmin);
+// Phản hồi quản trị (có dữ liệu cá nhân) không được cache
+adminRouter.use(noStore, authenticate, requireAdmin);
 
 adminRouter.put('/site-settings', siteSettingsController.updateSiteSettings);
 

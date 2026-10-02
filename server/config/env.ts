@@ -42,6 +42,21 @@ export interface AppConfig {
   frontendOrigins: string[];
 }
 
+/**
+ * Khóa mã hóa dữ liệu nhạy cảm (SĐT, CCCD trong lịch hẹn). CHỈ phía server — không bao giờ dùng tiền tố VITE_.
+ * DATA_ENCRYPTION_KEY = 32 byte ngẫu nhiên, mã hóa base64. Trả null nếu chưa cấu hình / sai định dạng
+ * (chức năng đặt lịch sẽ báo "chưa cấu hình" thay vì làm hỏng toàn bộ API).
+ */
+let dataEncryptionKey: Buffer | null | undefined;
+export function getDataEncryptionKey(): Buffer | null {
+  if (dataEncryptionKey === undefined) {
+    const raw = process.env.DATA_ENCRYPTION_KEY?.trim() ?? '';
+    const decoded = /^[A-Za-z0-9+/]+={0,2}$/.test(raw) ? Buffer.from(raw, 'base64') : Buffer.alloc(0);
+    dataEncryptionKey = decoded.length === 32 ? decoded : null;
+  }
+  return dataEncryptionKey;
+}
+
 let databaseConfig: DatabaseConfig | undefined;
 let appConfig: AppConfig | undefined;
 
