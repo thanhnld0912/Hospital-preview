@@ -13,6 +13,7 @@ export const siteSettingsUpdateSchema = z
     staffSectionLabel: requiredText(100).optional(),
     staffSectionTitle: requiredText(200).optional(),
     staffSectionDescription: optionalText(500),
+    dutyScheduleEnabled: z.boolean().optional(),
   })
   .refine(hasAtLeastOneField, AT_LEAST_ONE_FIELD_MESSAGE);
 

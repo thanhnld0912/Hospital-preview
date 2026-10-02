@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import * as authController from '../controllers/authController.js';
+import * as dutyScheduleController from '../controllers/dutyScheduleController.js';
 import { health } from '../controllers/healthController.js';
 import * as locationController from '../controllers/locationController.js';
 import * as postController from '../controllers/postController.js';
@@ -26,6 +27,7 @@ apiRouter.get('/posts/:slug', postController.getPostBySlug);
 apiRouter.get('/services', serviceController.listServices);
 apiRouter.get('/services/:id', serviceController.getService);
 apiRouter.get('/staff', staffController.listStaff);
+apiRouter.get('/duty-schedules', dutyScheduleController.getPublicDutySchedules);
 
 // Quản trị (JWT + ADMIN)
 apiRouter.use('/admin', adminRouter);

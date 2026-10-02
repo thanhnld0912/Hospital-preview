@@ -3,6 +3,7 @@ import { AuthProvider, useAuth } from './auth';
 import { AdminLayout } from './components/AdminLayout';
 import { AdminButton, EmptyState, ErrorState, LoadingState } from './components/ui';
 import { DashboardPage } from './pages/DashboardPage';
+import { DutySchedulesPage } from './pages/DutySchedulesPage';
 import { LocationsPage } from './pages/LocationsPage';
 import { LoginPage } from './pages/LoginPage';
 import { PostsPage } from './pages/PostsPage';
@@ -18,6 +19,7 @@ const ROUTES: Record<string, React.FC> = {
   '/admin/posts': PostsPage,
   '/admin/services': ServicesPage,
   '/admin/staff': StaffPage,
+  '/admin/duty-schedules': DutySchedulesPage,
 };
 
 const FullScreen: React.FC<{ children: React.ReactNode }> = ({ children }) => (

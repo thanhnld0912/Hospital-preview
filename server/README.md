@@ -78,7 +78,7 @@ node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
    ```bash
    npm run db:seed
    ```
-   Tạo: 1 admin, `site_settings`, 5 địa điểm, 6 dịch vụ, 3 thông báo + 3 tin tức, 5 nhân sự chuyên môn. Seed an toàn khi chạy lại (không ghi đè dữ liệu đã có, không đổi mật khẩu admin đã tồn tại).
+   Tạo: 1 admin, `site_settings`, 5 địa điểm, 6 dịch vụ, 3 thông báo + 3 tin tức, 5 nhân sự chuyên môn, lịch trực tuần (tham chiếu nhân sự). Seed an toàn khi chạy lại (không ghi đè dữ liệu đã có, không đổi mật khẩu admin đã tồn tại).
 5. **Cấu hình biến môi trường** (local: `.env`; production: Vercel → Project Settings → Environment Variables).
 
 > Migration bật **Row Level Security** cho mọi bảng và không tạo policy, để Data API (anon key) của Supabase không đọc/ghi được dữ liệu (đặc biệt `users.password_hash`). Backend kết nối bằng role owner nên không bị ảnh hưởng.
@@ -153,7 +153,11 @@ Prefix: `/api`
 | GET | `/staff` | Public | Nhân sự chuyên môn đang hiển thị (theo `sort_order`), chỉ các trường hiển thị |
 | POST | `/admin/staff` | ADMIN | Thêm nhân sự |
 | PUT | `/admin/staff/:id` | ADMIN | Cập nhật một phần |
-| DELETE | `/admin/staff/:id` | ADMIN | Xóa |
+| DELETE | `/admin/staff/:id` | ADMIN | Xóa (409 nếu nhân sự còn trong lịch trực — hãy ẩn thay vì xóa) |
+| GET | `/duty-schedules` | Public | `{ enabled, schedules }` — lịch trực đang bật trong 7 ngày từ hôm nay (giờ VN); `enabled=false` ⇒ không trả lịch. `Cache-Control: no-store` (website thăm dò mỗi 20 giây) |
+| POST | `/admin/duty-schedules` | ADMIN | Thêm lịch trực (nhân sự chọn từ `professional_staff`) |
+| PUT | `/admin/duty-schedules/:id` | ADMIN | Cập nhật một phần (ngày, nhân sự, trạng thái, ghi chú, ẩn/hiện, thứ tự) |
+| DELETE | `/admin/duty-schedules/:id` | ADMIN | Xóa |
 
 Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang tắt và bài nháp, khác với GET public:
 
@@ -163,6 +167,7 @@ Danh sách dành cho trang quản trị (JWT + ADMIN) — trả cả mục đang
 | GET | `/admin/posts?type=&status=&category=&limit=&offset=` | Mọi bài viết (DRAFT/PUBLISHED/hẹn giờ), mới tạo lên đầu |
 | GET | `/admin/services` | Mọi dịch vụ (kể cả đang tắt) |
 | GET | `/admin/staff` | Mọi nhân sự (kể cả đang ẩn) |
+| GET | `/admin/duty-schedules?from=&to=` | Mọi lịch trực (kể cả đang ẩn), lọc theo khoảng ngày |
 
 `mapUrl` của địa điểm được tạo theo thứ tự ưu tiên: **tọa độ đã xác minh → `map_url` admin nhập → tìm theo địa chỉ của chính địa điểm**.
 
@@ -210,6 +215,7 @@ Giao diện quản trị nằm trong frontend hiện tại (`src/admin/`), tải
 | `/admin/posts` | Tin tức & thông báo: tạo, sửa, lưu nháp, xuất bản/gỡ xuống, xóa |
 | `/admin/services` | Thêm/sửa/xóa/bật-tắt/sắp xếp dịch vụ |
 | `/admin/staff` | Nhân sự chuyên môn: thêm/sửa/xóa/ẩn-hiện/sắp xếp |
+| `/admin/duty-schedules` | Lịch trực: thêm/sửa/xóa, đổi nhân sự/trạng thái/ngày/thứ tự, ẩn-hiện từng lịch, bật/tắt cả section trên website |
 
 - JWT lưu trong `sessionStorage` của tab (tự xóa khi đóng tab), tự gắn `Authorization: Bearer <token>`; nhận 401 ⇒ tự đăng xuất và về `/admin/login`.
 - Không có đăng ký / quên mật khẩu / quản lý người dùng: tài khoản admin quản lý qua seed hoặc database. Website công khai chỉ có liên kết nhỏ "Đăng nhập quản trị" ở chân trang dẫn tới `/admin/login`.

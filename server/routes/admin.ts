@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import * as dutyScheduleController from '../controllers/dutyScheduleController.js';
 import * as locationController from '../controllers/locationController.js';
 import * as postController from '../controllers/postController.js';
 import * as serviceController from '../controllers/serviceController.js';
@@ -17,6 +18,7 @@ adminRouter.get('/locations', locationController.listAllLocations);
 adminRouter.get('/posts', postController.listAllPosts);
 adminRouter.get('/services', serviceController.listAllServices);
 adminRouter.get('/staff', staffController.listAllStaff);
+adminRouter.get('/duty-schedules', dutyScheduleController.listDutySchedules);
 
 adminRouter.post('/locations', locationController.createLocation);
 adminRouter.put('/locations/:id', locationController.updateLocation);
@@ -33,3 +35,7 @@ adminRouter.delete('/services/:id', serviceController.deleteService);
 adminRouter.post('/staff', staffController.createStaff);
 adminRouter.put('/staff/:id', staffController.updateStaff);
 adminRouter.delete('/staff/:id', staffController.deleteStaff);
+
+adminRouter.post('/duty-schedules', dutyScheduleController.createDutySchedule);
+adminRouter.put('/duty-schedules/:id', dutyScheduleController.updateDutySchedule);
+adminRouter.delete('/duty-schedules/:id', dutyScheduleController.deleteDutySchedule);

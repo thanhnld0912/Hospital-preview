@@ -9,6 +9,7 @@ export const ADMIN_NAV_ITEMS = [
   { to: '/admin/posts', label: 'Tin tức', icon: 'newspaper' },
   { to: '/admin/services', label: 'Dịch vụ', icon: 'medical_services' },
   { to: '/admin/staff', label: 'Nhân sự', icon: 'groups' },
+  { to: '/admin/duty-schedules', label: 'Lịch trực', icon: 'calendar_month' },
 ] as const;
 
 export const ADMIN_TITLE = 'Quản trị — Trạm Y Tế An Hải';
@@ -115,7 +116,7 @@ export const AdminLayout: React.FC<{ children: React.ReactNode }> = ({ children 
 
       <div className="flex">
         {/* Sidebar desktop */}
-        <aside className="hidden lg:block sticky top-16 h-[calc(100vh-4rem)] w-64 shrink-0 border-r border-gray-200 bg-white">
+        <aside className="hidden lg:block sticky top-16 h-[calc(100vh-4rem)] w-64 shrink-0 overflow-y-auto border-r border-gray-200 bg-white">
           <AdminSidebar pathname={pathname} onNavigate={() => undefined} />
         </aside>
 

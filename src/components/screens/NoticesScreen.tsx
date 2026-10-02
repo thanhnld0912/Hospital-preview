@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { WEEKLY_DUTY } from '../../data/healthStationData';
+import { useDutySchedules } from '../../services/dutySchedules';
 import { useSiteContent } from '../../services/siteContent';
+import { DUTY_STATUS_LABELS, formatIsoDate, personName, weekdayOf } from '../../services/statuses';
 import { NavTab, Announcement } from '../../types';
 
 interface NoticesScreenProps {
@@ -16,6 +17,9 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
 }) => {
   const { stationInfo, announcements } = useSiteContent();
   const [filterType, setFilterType] = useState<'all' | 'urgent' | 'vaccine' | 'general'>('all');
+  // Lịch trực lấy từ API, tự cập nhật định kỳ; quản trị tắt section => không hiển thị
+  const duty = useDutySchedules();
+  const showDutySection = duty.data?.enabled === true || duty.error;
 
   const filteredNotices = announcements.filter((item) => {
     if (filterType === 'urgent') return item.isUrgent;
@@ -46,7 +50,8 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
         </div>
 
         {/* 24/7 Duty Schedule Table Card */}
-        <div className="bg-white rounded-2xl p-6 shadow-xs border border-gray-200 space-y-4">
+        {showDutySection && (
+        <div className="bg-white rounded-2xl p-6 shadow-xs border border-gray-200 space-y-4" data-section="duty-schedule">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <div className="flex items-center gap-2">
@@ -76,24 +81,47 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {WEEKLY_DUTY.map((shift, idx) => (
-                  <tr key={idx} className={shift.status === 'Đang trực' ? 'bg-emerald-50/50 font-semibold' : 'hover:bg-gray-50'}>
-                    <td className="py-3 px-4 text-[#121c2a]">
-                      <span className="block font-bold">{shift.day}</span>
-                      <span className="text-[11px] text-gray-500">{shift.date}</span>
+                {duty.error && (
+                  <tr>
+                    <td colSpan={5} className="py-4 px-4 text-center text-[#414755]">
+                      Không tải được lịch trực. Vui lòng gọi đường dây nóng {stationInfo.hotline} để được hỗ trợ.
                     </td>
-                    <td className="py-3 px-4 text-[#1c7a42]">{shift.leaderOnDuty}</td>
-                    <td className="py-3 px-4 text-[#414755]">{shift.assistantOnDuty}</td>
-                    <td className="py-3 px-4 text-[#414755]">{shift.nurseOnDuty}</td>
+                  </tr>
+                )}
+                {duty.data?.enabled && duty.data.schedules.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="py-4 px-4 text-center text-[#414755]">
+                      Lịch trực đang được cập nhật. Vui lòng gọi đường dây nóng {stationInfo.hotline}.
+                    </td>
+                  </tr>
+                )}
+                {duty.data?.schedules.map((shift) => (
+                  <tr key={shift.id} className={shift.status === 'ACTIVE' ? 'bg-emerald-50/50 font-semibold' : 'hover:bg-gray-50'}>
+                    <td className="py-3 px-4 text-[#121c2a]">
+                      <span className="block font-bold">{weekdayOf(shift.dutyDate)}</span>
+                      <span className="text-[11px] text-gray-500">{formatIsoDate(shift.dutyDate)}</span>
+                      {shift.note && <span className="block text-[11px] font-semibold text-[#006c4e]">{shift.note}</span>}
+                    </td>
+                    <td className="py-3 px-4 text-[#1c7a42]">{personName(shift.doctor)}</td>
+                    <td className="py-3 px-4 text-[#414755]">{personName(shift.responsible) || '—'}</td>
+                    <td className="py-3 px-4 text-[#414755]">{personName(shift.nurse) || '—'}</td>
                     <td className="py-3 px-4">
-                      {shift.status === 'Đang trực' ? (
+                      {shift.status === 'ACTIVE' ? (
                         <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#77fac7] text-[#00513a]">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#006c4e] animate-ping"></span>
-                          Đang trực ca
+                          {DUTY_STATUS_LABELS.ACTIVE}
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded text-[11px] text-gray-500 bg-gray-100">
-                          Theo kế hoạch
+                        <span
+                          className={`px-2 py-0.5 rounded text-[11px] whitespace-nowrap ${
+                            shift.status === 'SUSPENDED'
+                              ? 'text-[#bb0112] bg-red-50'
+                              : shift.status === 'SHIFT_CHANGED'
+                                ? 'text-amber-800 bg-amber-50'
+                                : 'text-gray-500 bg-gray-100'
+                          }`}
+                        >
+                          {DUTY_STATUS_LABELS[shift.status]}
                         </span>
                       )}
                     </td>
@@ -103,6 +131,7 @@ export const NoticesScreen: React.FC<NoticesScreenProps> = ({
             </table>
           </div>
         </div>
+        )}
 
         {/* Notices Filter & List */}
         <div className="space-y-4">

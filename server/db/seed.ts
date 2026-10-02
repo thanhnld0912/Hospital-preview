@@ -3,7 +3,14 @@ import bcrypt from 'bcryptjs';
 import type pg from 'pg';
 import { z } from 'zod';
 // Dữ liệu ban đầu lấy từ nguồn dữ liệu tĩnh hiện tại của frontend (một nguồn duy nhất, không copy tay)
-import { ANNOUNCEMENTS, MEDICAL_SERVICES, NEWS_ARTICLES, STAFF_PROFILES, STATION_INFO } from '../../src/data/healthStationData.js';
+import {
+  ANNOUNCEMENTS,
+  MEDICAL_SERVICES,
+  NEWS_ARTICLES,
+  STAFF_PROFILES,
+  STATION_INFO,
+  WEEKLY_DUTY,
+} from '../../src/data/healthStationData.js';
 import { closePool, getPool } from './pool.js';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -159,6 +166,59 @@ async function seedStaff(client: pg.PoolClient): Promise<void> {
   console.log(`✓ Tạo ${STAFF_PROFILES.length} nhân sự chuyên môn`);
 }
 
+/**
+ * Lịch trực tuần đang hiển thị trên website -> duty_schedules (tham chiếu professional_staff, không lưu trùng tên).
+ * Ghi chú trong dữ liệu cũ như "(Trực 24/24)" hoặc "Kíp cấp cứu trực ban 24/7" (không phải nhân sự) -> cột note.
+ */
+async function seedDutySchedules(client: pg.PoolClient): Promise<void> {
+  const { rows } = await client.query<{ total: number }>('SELECT count(*)::int AS total FROM duty_schedules');
+  if ((rows[0]?.total ?? 0) > 0) {
+    console.log('- duty_schedules đã có dữ liệu (giữ nguyên)');
+    return;
+  }
+  const staff = await client.query<{ id: string; display_name: string }>(
+    `SELECT id, btrim(concat_ws(' ', title, full_name)) AS display_name FROM professional_staff`,
+  );
+  const staffIdByName = new Map(staff.rows.map((row) => [row.display_name, row.id]));
+  const ANNOTATION = /\s*\(([^)]+)\)\s*$/;
+
+  let created = 0;
+  for (const [index, shift] of WEEKLY_DUTY.entries()) {
+    const notes: string[] = [];
+    const resolve = (raw: string): string | null => {
+      const annotation = ANNOTATION.exec(raw);
+      if (annotation) notes.push(annotation[1]);
+      const name = raw.replace(ANNOTATION, '').trim();
+      const id = staffIdByName.get(name) ?? null;
+      if (!id) notes.push(name);
+      return id;
+    };
+    const doctorId = resolve(shift.leaderOnDuty);
+    const responsibleId = resolve(shift.assistantOnDuty);
+    const nurseId = resolve(shift.nurseOnDuty);
+    if (!doctorId) {
+      console.log(`- Bỏ qua lịch ${shift.date}: không tìm thấy bác sĩ trực trong professional_staff`);
+      continue;
+    }
+    const [day, month, year] = shift.date.split('/');
+    await client.query(
+      `INSERT INTO duty_schedules (duty_date, doctor_staff_id, responsible_staff_id, nurse_staff_id, note, status, sort_order)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+      [
+        `${year}-${month}-${day}`,
+        doctorId,
+        responsibleId,
+        nurseId,
+        notes.length ? notes.join(' · ') : null,
+        shift.status === 'Đang trực' ? 'ACTIVE' : 'PLANNED',
+        index + 1,
+      ],
+    );
+    created++;
+  }
+  console.log(`✓ Tạo ${created}/${WEEKLY_DUTY.length} lịch trực`);
+}
+
 async function seed(): Promise<void> {
   const client = await getPool().connect();
   try {
@@ -169,6 +229,7 @@ async function seed(): Promise<void> {
     await seedServices(client);
     await seedPosts(client);
     await seedStaff(client);
+    await seedDutySchedules(client);
     await client.query('COMMIT');
   } catch (error) {
     await client.query('ROLLBACK');

@@ -57,7 +57,54 @@ export interface SiteSettingsDto {
   staffSectionLabel: string;
   staffSectionTitle: string;
   staffSectionDescription: string | null;
+  dutyScheduleEnabled: boolean;
   updatedAt: string;
+}
+
+// ---------------------------------------------------------------------------
+// Lịch trực cấp cứu
+// ---------------------------------------------------------------------------
+export type DutyStatus = 'PLANNED' | 'ACTIVE' | 'COMPLETED' | 'SHIFT_CHANGED' | 'SUSPENDED';
+
+export interface DutyStaffRef {
+  id: string;
+  fullName: string;
+  title: string | null;
+  isActive: boolean;
+}
+
+export interface DutyScheduleDto {
+  id: string;
+  dutyDate: string;
+  doctor: DutyStaffRef;
+  responsible: DutyStaffRef | null;
+  nurse: DutyStaffRef | null;
+  note: string | null;
+  status: DutyStatus;
+  isActive: boolean;
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface PublicDutyPerson {
+  fullName: string;
+  title: string | null;
+}
+
+export interface PublicDutyScheduleDto {
+  id: string;
+  dutyDate: string;
+  doctor: PublicDutyPerson;
+  responsible: PublicDutyPerson | null;
+  nurse: PublicDutyPerson | null;
+  note: string | null;
+  status: DutyStatus;
+}
+
+export interface PublicDutySchedulesResponse {
+  enabled: boolean;
+  schedules: PublicDutyScheduleDto[];
 }
 
 /** Nhân sự chuyên môn (bản đầy đủ — trang quản trị /admin/staff) */

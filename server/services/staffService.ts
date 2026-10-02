@@ -1,8 +1,9 @@
+import pg from 'pg';
 import { query } from '../db/pool.js';
 import { buildUpdateSet } from '../db/sql.js';
 import type { StaffCreateInput, StaffUpdateInput } from '../schemas/staff.js';
 import type { PublicStaffDto, StaffDto } from '../types/content.js';
-import { notFound } from '../utils/errors.js';
+import { AppError, notFound } from '../utils/errors.js';
 
 interface StaffRow {
   id: string;
@@ -108,6 +109,14 @@ export async function updateStaff(id: string, input: StaffUpdateInput): Promise<
 }
 
 export async function deleteStaff(id: string): Promise<void> {
-  const { rowCount } = await query('DELETE FROM professional_staff WHERE id = $1', [id]);
-  if (!rowCount) throw notFound(NOT_FOUND_MESSAGE);
+  try {
+    const { rowCount } = await query('DELETE FROM professional_staff WHERE id = $1', [id]);
+    if (!rowCount) throw notFound(NOT_FOUND_MESSAGE);
+  } catch (error) {
+    // Lịch trực tham chiếu nhân sự (ON DELETE RESTRICT) — giữ lịch sử, đề nghị ẩn thay vì xóa
+    if (error instanceof pg.DatabaseError && error.code === '23503') {
+      throw new AppError(409, 'CONFLICT', 'Nhân sự đang có trong lịch trực. Hãy ẩn nhân sự thay vì xóa để giữ lịch sử.');
+    }
+    throw error;
+  }
 }
